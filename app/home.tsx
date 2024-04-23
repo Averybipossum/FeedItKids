@@ -1,14 +1,16 @@
 import { Button, Pressable, StyleSheet,Text,View } from "react-native";
 import React from "react";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 
 const Home = () =>{
     return(
         <View>
             <Text>Home</Text>
-            <Pressable onPress={()=>router.replace("/")}>
-                <Text>Go to Main Page</Text>
-            </Pressable>
+            <Button
+                title="Ir para Profile"
+                onPress={()=>router.replace("/profile")}
+                color="#841584"
+            />
         </View>
     )
 }

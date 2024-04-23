@@ -7,8 +7,8 @@ const Profile = () =>{
         <View>
             <Text>Profile</Text>
             <Button
-                title="Voltar para Main"
-                onPress={()=>router.replace("/")}
+                title="ir para Home"
+                onPress={()=>router.replace("/home")}
                 color="#841584"
             />
         </View>
