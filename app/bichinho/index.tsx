@@ -1,12 +1,13 @@
 
 import * as React from 'react';
 import { StyleSheet,Button, View, Text,Image} from 'react-native';
-import {router } from "expo-router";
-
+import {router} from "expo-router";
+import MagmaSlime from "../../assets/MagmaSlime.jpg";
 function Teste() {
     return (
       <View style={styles.container}>
         <Text>Bichinho</Text>
+        <Image style={styles.image} source={MagmaSlime}/>
         <Button
           title="ir para Home"
           onPress={()=>router.replace("/home")}
@@ -24,8 +25,8 @@ const styles = StyleSheet.create({
     },
     image: {
       flex: 1,
-      width: '100%',
-      backgroundColor: '#0553',
+      width: '75%',
+      objectFit: 'contain',
     },
   });
 
