@@ -1,26 +1,14 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Button, View, Text } from 'react-native';
 
-const Stack = createNativeStackNavigator();
 
-import Home from './screens/login'
-import Cadastro from './screens/cadastro';
+
 const App  = () => {
 
   return (
-    <NavigationContainer>
-    <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-        />
-        <Stack.Screen name="Profile" component={Cadastro} />
-      </Stack.Navigator>
-
-  </NavigationContainer>
-
-  );
-};
-
+    <View>
+      <Text>App</Text>      
+    </View>
+  )
+}
 export default App;
