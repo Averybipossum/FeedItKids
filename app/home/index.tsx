@@ -3,21 +3,25 @@ import React, { useState } from "react";
 import {router } from "expo-router";
 
 const Home = () =>{
-    const [emailtext, setText] = useState('');
+    const [nometext, setNomeText] = useState('');
+    const [senhatext, setSenhaText] = useState('');
     return(
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder="Digite seu Email"
-                onChangeText={newText => setText(newText)}
-                defaultValue={emailtext}
+                placeholder="Nome de Usuário"
+                onChangeText={newText => setNomeText(newText)}
+                defaultValue={nometext}
             />
+            <View>
             <TextInput
+                secureTextEntry={true}
                 style={styles.input}
-                placeholder="Digite sua Senha"
-                onChangeText={newText => setText(newText)}
-                defaultValue={emailtext}
+                placeholder="Senha"
+                onChangeText={newText => setSenhaText(newText)}
+                defaultValue={senhatext}
             />
+            </View>
             <Pressable 
                 onPress={()=>router.replace("/login")}
                 style={({pressed}) => [
