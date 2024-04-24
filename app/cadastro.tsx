@@ -1,8 +1,8 @@
-import { StyleSheet,Text,View,Pressable,TextInput } from "react-native";
+import { StyleSheet,Text,View,Pressable } from "react-native";
 import React from "react";
 import { router } from "expo-router";
 
-const Profile = () =>{
+const Cadastro = () =>{
     return(    
         <Pressable
             onPress={()=>router.replace("/home")}
@@ -20,7 +20,7 @@ const Profile = () =>{
     )
 }
 
-export default Profile
+export default Cadastro
 
 const styles = StyleSheet.create({
     button:{

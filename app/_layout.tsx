@@ -1,18 +1,18 @@
 import { Stack } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function Layout() {
-    return (
-        <Stack screenOptions={{
-            headerStyle: {
-                backgroundColor: "orange"
-            },
-            headerTintColor: "white",
-            headerTitleStyle: {
-                fontWeight: "bold"
-            },
-            headerTitleAlign: "center"
 
-        }} />
-
-    )
+  return (
+    <SafeAreaProvider>
+       <Stack
+            screenOptions={{
+              // Hide the header for all other routes.
+              headerShown: false,
+            }}
+          >
+            
+          </Stack>
+    </SafeAreaProvider>
+  );
 }

@@ -3,26 +3,47 @@ import React, { useState } from "react";
 import {router } from "expo-router";
 
 const Home = () =>{
-    const [text, setText] = useState('');
+    const [emailtext, setText] = useState('');
     return(
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder="Type here to translate!"
+                placeholder="Digite seu Email"
                 onChangeText={newText => setText(newText)}
-                defaultValue={text}
+                defaultValue={emailtext}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Digite sua Senha"
+                onChangeText={newText => setText(newText)}
+                defaultValue={emailtext}
             />
             <Pressable 
                 onPress={()=>router.replace("/login")}
-                style={styles.button} 
+                style={({pressed}) => [
+                    pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
+                    styles.button
+                ]}
             >
-                <Text style={styles.buttontext}>Ir para Login</Text>
+                <Text style={styles.buttontext}>Fazer Login</Text>
             </Pressable>
             <Pressable 
-                onPress={()=>router.replace("/profile")}
-                style={styles.button} 
+                onPress={()=>router.replace("/cadastro")}
+                style={({pressed}) => [
+                    pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
+                    styles.button
+                ]} 
             >
-                <Text style={styles.buttontext}>Ir para Profile</Text>
+                <Text style={styles.buttontext}>Fazer Cadastro</Text>
+            </Pressable>
+            <Pressable 
+                onPress={()=>router.replace("/bichinho")}
+                style={({pressed}) => [
+                    pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
+                    styles.button
+                ]} 
+            >
+                <Text style={styles.buttontext}>Teste</Text>
             </Pressable>
         </View>
     )
@@ -32,24 +53,25 @@ export default Home
 
 const styles = StyleSheet.create({
     input: {
-        height: 40,
+        height: 50,
         margin: 12,
         borderWidth: 1,
         padding: 10,
-        color:'black',
-      },
+        minWidth:300,
+    },
     container: {
         alignItems: 'center',
+        justifyContent: 'center',
+        flex:1,
     },
     button:{
         alignItems: 'center',
         justifyContent: 'center',
         marginTop:10,
-        paddingVertical: 12,
+        paddingVertical: 8,
         paddingHorizontal: 32,
         borderRadius: 4,
         elevation: 3,
-        backgroundColor: 'turquoise',
         minWidth:300,
     },
     buttontext: {
