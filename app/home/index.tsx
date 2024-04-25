@@ -1,15 +1,22 @@
-import {Pressable, StyleSheet,Text,View,TextInput} from "react-native";
+import { ImageBackground, Pressable, StyleSheet,Text,View,TextInput} from "react-native";
 import React, { useState } from "react";
 import {router } from "expo-router";
+
+import BGimage from "../../assets/BGimage.png"
 
 const Home = () =>{
     const [nometext, setNomeText] = useState('');
     const [senhatext, setSenhaText] = useState('');
     return(
         <View style={styles.container}>
+            <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
+            <View style={styles.containerconfig}>
+            <Text style={styles.titulotexto}>
+                Feed It!
+            </Text>
             <TextInput
                 style={styles.input}
-                placeholder="Nome de Usuário"
+                placeholder="Email"
                 onChangeText={newText => setNomeText(newText)}
                 defaultValue={nometext}
             />
@@ -29,9 +36,9 @@ const Home = () =>{
                     styles.button
                 ]}
             >
-                <Text style={styles.buttontext}>Fazer Login</Text>
+                <Text style={styles.buttontext}>Entrar</Text>
             </Pressable>
-            <Pressable 
+            {/* <Pressable 
                 onPress={()=>router.replace("/cadastro")}
                 style={({pressed}) => [
                     pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
@@ -39,7 +46,7 @@ const Home = () =>{
                 ]} 
             >
                 <Text style={styles.buttontext}>Fazer Cadastro</Text>
-            </Pressable>
+            </Pressable> */}
             <Pressable 
                 onPress={()=>router.replace("/bichinho")}
                 style={({pressed}) => [
@@ -49,6 +56,11 @@ const Home = () =>{
             >
                 <Text style={styles.buttontext}>Teste</Text>
             </Pressable>
+            <Text style={styles.texto} onPress={()=>router.replace("/cadastro")}>
+                Fazer Cadastro
+            </Text>
+            </View>
+            </ImageBackground>
         </View>
     )
 }
@@ -56,6 +68,28 @@ const Home = () =>{
 export default Home
 
 const styles = StyleSheet.create({
+
+    titulotexto:{
+        fontFamily: "monospace",
+        //depois tentar fazer a fonte
+        fontSize: 50,
+        color: 'green',
+        marginBottom: 40
+    },
+
+    texto:{
+        marginTop:50,
+        color: 'blue'
+    },
+    containerconfig:{
+        backgroundColor:"aliceblue",
+        alignSelf: 'center',
+        height: 500,
+        width: 370,
+        alignItems: 'center',
+        justifyContent: 'center',
+        
+    },
     input: {
         height: 50,
         margin: 12,
@@ -84,5 +118,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 0.25,
         color: 'white',
-      },
+    },
+    imagem: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        resizeMode: "cover",
+        justifyContent: 'center',
+    },
 })
