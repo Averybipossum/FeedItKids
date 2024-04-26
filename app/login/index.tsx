@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Button,StyleSheet, View, Text, Pressable } from 'react-native';
 import { Link, router } from "expo-router";
-import { Camera, CameraType } from 'expo-camera';
 
 function LoginScreen() {
     return (

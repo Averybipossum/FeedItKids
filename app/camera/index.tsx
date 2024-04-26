@@ -1,66 +1,168 @@
-import { Camera, CameraType } from 'expo-camera';
-import React from 'react';
-import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {StyleSheet, View, Text, Dimensions, Platform, Pressable } from 'react-native';
+import { Camera } from 'expo-camera';
+import { router } from 'expo-router';
 
 export default function App() {
-  const [type, setType] = useState(CameraType.back);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  //  camera permissions
+  const [hasCameraPermission, setHasCameraPermission] = useState(false);
+  const [camera, setCamera] = useState(null);
 
-  if (!permission) {
-    // Camera permissions are still loading
-    return <View />;
-  }
+  // Screen Ratio and image padding
+  const [imagePadding, setImagePadding] = useState(0);
+  const [ratio, setRatio] = useState('4:3');  // default is 4:3
+  const { height, width } = Dimensions.get('window');
+  const screenRatio = height / width;
+  const [isRatioSet, setIsRatioSet] =  useState(false);
 
-  if (!permission.granted) {
-    // Camera permissions are not granted yet
+  // on screen  load, ask for permission to use the camera
+  useEffect(() => {
+    async function getCameraStatus() {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasCameraPermission(status == 'granted');
+    }
+    getCameraStatus();
+  }, []);
+
+  // set the camera ratio and padding.
+  // this code assumes a portrait mode screen
+  const prepareRatio = async () => {
+    let desiredRatio = '4:3';  // Start with the system default
+    // This issue only affects Android
+    if (Platform.OS === 'android') {
+      const ratios = await camera.getSupportedRatiosAsync();
+
+      // Calculate the width/height of each of the supported camera ratios
+      // These width/height are measured in landscape mode
+      // find the ratio that is closest to the screen ratio without going over
+      let distances = [];
+      let realRatios = [];
+      let minDistance = null;
+      for (const ratio of ratios) {
+        const parts = ratio.split(':');
+        const realRatio = parseInt(parts[0]) / parseInt(parts[1]);
+        realRatios[ratio] = realRatio;
+        // ratio can't be taller than screen, so we don't want an abs()
+        const distance = screenRatio - realRatio; 
+        distances[ratio] = distance;
+        if (minDistance == null) {
+          minDistance = ratio;
+        } else {
+          if (distance >= 0 && distance < distances[minDistance]) {
+            minDistance = ratio;
+          }
+        }
+      }
+      // set the best match
+      desiredRatio = minDistance;
+      //  calculate the difference between the camera width and the screen height
+      const remainder = Math.floor(
+        (height - realRatios[desiredRatio] * width) / 2
+      );
+      // set the preview padding and preview ratio
+      setImagePadding(remainder);
+      setRatio(desiredRatio);
+      // Set a flag so we don't do this 
+      // calculation each time the screen refreshes
+      setIsRatioSet(true);
+    }
+  };
+
+  // the camera must be loaded in order to access the supported ratios
+  const setCameraReady = async() => {
+    if (!isRatioSet) {
+      await prepareRatio();
+    }
+  };
+
+
+  if (hasCameraPermission === null) {
+    return (
+      <View style={styles.information}>
+        <Text>Waiting for camera permissions</Text>
+      </View>
+    );
+  } else if (hasCameraPermission === false) {
+    return (
+      <View style={styles.information}>
+        <Text>No access to camera</Text>
+        <Pressable 
+                onPress={()=>router.replace("/home")}
+                style={({pressed}) => [
+                    pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
+                    styles.button
+                ]}
+            >
+                <Text style={styles.buttontext}>Home</Text>
+          </Pressable>
+      </View>
+    );
+  } else {
     return (
       <View style={styles.container}>
-        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        {/* 
+        We created a Camera height by adding margins to the top and bottom, 
+        but we could set the width/height instead 
+        since we know the screen dimensions
+        */}
+        <Camera
+          style={[styles.cameraPreview, {marginTop: imagePadding, marginBottom: imagePadding}]}
+          onCameraReady={setCameraReady}
+          ratio={ratio}
+          ref={(ref) => {
+            setCamera(ref);
+          }}>
+            <View>
+            <Pressable 
+                onPress={()=>router.replace("/login")}
+                style={styles.buttonX}>
+                <Text style={styles.buttontext}>x</Text>
+            </Pressable>
+            </View>
+        </Camera>
       </View>
     );
   }
-
-  function toggleCameraType() {
-    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-  }
-
-  return (
-    <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
-        </View>
-      </Camera>
-    </View>
-  );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  buttonX:{
+    top: 20,
+    right:20,
+    width:40,
+    height:40,
+    position: 'absolute',
+    
+  },
+  information: { 
     flex: 1,
     justifyContent: 'center',
-  },
-  camera: {
-    flex: 1,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
+    alignContent: 'center',
     alignItems: 'center',
   },
-  text: {
-    fontSize: 24,
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+    justifyContent: 'center'
+  },
+  cameraPreview: {
+    flex: 1,
+  },
+  buttontext: {
+    fontSize: 16,
+    lineHeight: 21,
     fontWeight: 'bold',
+    letterSpacing: 0.25,
     color: 'white',
+  },
+  button:{
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop:10,
+  paddingVertical: 8,
+  paddingHorizontal: 32,
+  borderRadius: 4,
+  elevation: 3,
+  minWidth:240,
   },
 });
