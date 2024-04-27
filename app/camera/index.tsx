@@ -1,40 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import {StyleSheet, View, Text, Dimensions, Platform, Pressable } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, Image, Platform, Dimensions, Pressable } from 'react-native';
+import { useEffect, useState } from 'react';
 import { Camera } from 'expo-camera';
+import { shareAsync } from 'expo-sharing';
+import * as MediaLibrary from 'expo-media-library';
+import React from 'react';
 import { router } from 'expo-router';
 
 export default function App() {
-  //  camera permissions
+  //permissões da camera
   const [hasCameraPermission, setHasCameraPermission] = useState(false);
-  const [camera, setCamera] = useState(null);
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState(false);
+  const [camera, setCamera] = useState();
+  const [photo, setPhoto] = useState();
 
-  // Screen Ratio and image padding
+  // Escala da tela e imagem padding
   const [imagePadding, setImagePadding] = useState(0);
   const [ratio, setRatio] = useState('4:3');  // default is 4:3
   const { height, width } = Dimensions.get('window');
   const screenRatio = height / width;
   const [isRatioSet, setIsRatioSet] =  useState(false);
 
-  // on screen  load, ask for permission to use the camera
+
   useEffect(() => {
-    async function getCameraStatus() {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasCameraPermission(status == 'granted');
-    }
-    getCameraStatus();
+    (async () => {
+      const cameraPermission = await Camera.requestCameraPermissionsAsync();
+      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
+      setHasCameraPermission(cameraPermission.status === "granted");
+      setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
+    })();
   }, []);
 
-  // set the camera ratio and padding.
-  // this code assumes a portrait mode screen
-  const prepareRatio = async () => {
-    let desiredRatio = '4:3';  // Start with the system default
-    // This issue only affects Android
+  const prepareRatio = async() =>{
+    let desiredRatio = '4:3';
     if (Platform.OS === 'android') {
       const ratios = await camera.getSupportedRatiosAsync();
 
-      // Calculate the width/height of each of the supported camera ratios
-      // These width/height are measured in landscape mode
-      // find the ratio that is closest to the screen ratio without going over
       let distances = [];
       let realRatios = [];
       let minDistance = null;
@@ -44,7 +44,7 @@ export default function App() {
         realRatios[ratio] = realRatio;
         // ratio can't be taller than screen, so we don't want an abs()
         const distance = screenRatio - realRatio; 
-        distances[ratio] = distance;
+        distances[ratio] = realRatio;
         if (minDistance == null) {
           minDistance = ratio;
         } else {
@@ -52,101 +52,107 @@ export default function App() {
             minDistance = ratio;
           }
         }
-      }
-      // set the best match
-      desiredRatio = minDistance;
-      //  calculate the difference between the camera width and the screen height
-      const remainder = Math.floor(
-        (height - realRatios[desiredRatio] * width) / 2
-      );
-      // set the preview padding and preview ratio
-      setImagePadding(remainder);
-      setRatio(desiredRatio);
-      // Set a flag so we don't do this 
-      // calculation each time the screen refreshes
-      setIsRatioSet(true);
     }
+
+    desiredRatio = minDistance;
+    const remainder = Math.floor(
+      (height - realRatios[desiredRatio] * width) / 2
+    );
+    // set the preview padding and preview ratio
+    setImagePadding(remainder);
+    setRatio(desiredRatio);
+    // Set a flag so we don't do this 
+    // calculation each time the screen refreshes
+    setIsRatioSet(true);
+
+  }
+};
+
+const setCameraReady = async() => {
+  if (!isRatioSet) {
+    await prepareRatio();
+  }
+};
+
+  if (hasCameraPermission === undefined) {
+    return <Text>Requesting permissions...</Text>
+  } else if (!hasCameraPermission) {
+    return <Text>Permission for camera not granted. Please change this in settings.</Text>
+  }
+
+  let takePic = async () => {
+    let options = {
+      quality: 1,
+      base64: true,
+      exif: false
+    };
+
+    let newPhoto = await camera.takePictureAsync(options);
+    setPhoto(newPhoto);
   };
 
-  // the camera must be loaded in order to access the supported ratios
-  const setCameraReady = async() => {
-    if (!isRatioSet) {
-      await prepareRatio();
-    }
-  };
+  if (photo) {
+    let sharePic = () => {
+      shareAsync(photo.uri).then(() => {
+        setPhoto(undefined);
+      });
+    };
 
+    let savePhoto = () => {
+      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
+        setPhoto(undefined);
+      });
+    };
 
-  if (hasCameraPermission === null) {
     return (
-      <View style={styles.information}>
-        <Text>Waiting for camera permissions</Text>
-      </View>
-    );
-  } else if (hasCameraPermission === false) {
-    return (
-      <View style={styles.information}>
-        <Text>No access to camera</Text>
-        <Pressable 
-                onPress={()=>router.replace("/home")}
-                style={({pressed}) => [
-                    pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
-                    styles.button
-                ]}
-            >
-                <Text style={styles.buttontext}>Home</Text>
-          </Pressable>
-      </View>
-    );
-  } else {
-    return (
-      <View style={styles.container}>
-        {/* 
-        We created a Camera height by adding margins to the top and bottom, 
-        but we could set the width/height instead 
-        since we know the screen dimensions
-        */}
-        <Camera
-          style={[styles.cameraPreview, {marginTop: imagePadding, marginBottom: imagePadding}]}
-          onCameraReady={setCameraReady}
-          ratio={ratio}
-          ref={(ref) => {
-            setCamera(ref);
-          }}>
-            <View>
-            <Pressable 
-                onPress={()=>router.replace("/login")}
-                style={styles.buttonX}>
-                <Text style={styles.buttontext}>x</Text>
-            </Pressable>
-            </View>
-        </Camera>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+        <Button title="Share" onPress={sharePic} />
+        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
+        <Button title="Discard" onPress={() => setPhoto(undefined)} />
+      </SafeAreaView>
     );
   }
+
+  return (
+    <Camera style={[styles.container, {marginTop: imagePadding, marginBottom: imagePadding}]} onCameraReady={setCameraReady} ratio={ratio}
+    ref={(ref) => {setCamera(ref);}} >
+      <View style={styles.buttonContainer}>
+        <Button title="Take Pic" onPress={takePic} />
+      </View>
+      <View>
+          <Pressable 
+              onPress={()=>router.replace("/login")}
+              style={styles.buttonX}>
+              <Text style={styles.buttontext}>x</Text>
+          </Pressable>
+          </View>
+    </Camera>
+  );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'black',
+    flex: 1,
+  },
+  buttonContainer: {
+    backgroundColor: '#000',
+    bottom: "-99%",
+    right: 0
+
+  },
+  preview: {
+    alignSelf: 'stretch',
+    flex: 1
+  },
   buttonX:{
-    top: 20,
-    right:20,
+    top: 0,
+    right:0,
     width:40,
     height:40,
     position: 'absolute',
     
-  },
-  information: { 
-    flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    justifyContent: 'center'
-  },
-  cameraPreview: {
-    flex: 1,
   },
   buttontext: {
     fontSize: 16,
@@ -155,14 +161,5 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: 'white',
   },
-  button:{
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginTop:10,
-  paddingVertical: 8,
-  paddingHorizontal: 32,
-  borderRadius: 4,
-  elevation: 3,
-  minWidth:240,
-  },
+
 });
