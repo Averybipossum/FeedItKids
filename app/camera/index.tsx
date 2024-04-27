@@ -117,16 +117,16 @@ const setCameraReady = async() => {
   return (
     <Camera style={[styles.container, {marginTop: imagePadding, marginBottom: imagePadding}]} onCameraReady={setCameraReady} ratio={ratio}
     ref={(ref) => {setCamera(ref);}} >
-      <View style={styles.buttonContainer}>
+      <View>
+        <Pressable 
+            onPress={()=>router.replace("/login")}
+            style={styles.buttonX}>
+            <Text style={styles.buttontext}>x</Text>
+        </Pressable>
+      </View>
+      <View style={styles.buttonCamera}>
         <Button title="Take Pic" onPress={takePic} />
       </View>
-      <View>
-          <Pressable 
-              onPress={()=>router.replace("/login")}
-              style={styles.buttonX}>
-              <Text style={styles.buttontext}>x</Text>
-          </Pressable>
-          </View>
     </Camera>
   );
 }
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     bottom: "-99%",
     right: 0
-
   },
   preview: {
     alignSelf: 'stretch',
@@ -161,5 +160,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: 'white',
   },
-
+  buttonCamera:{
+    flex: 1,
+    justifyContent: 'flex-end',
+  }
 });
