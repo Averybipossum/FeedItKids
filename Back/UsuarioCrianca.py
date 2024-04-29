@@ -12,6 +12,8 @@ class Usuario:
         self.animal_estimacao = animal
         print(f"Animal de estimação escolhido: {animal.getNome()}")
 
+    def getId(self):
+        return self.id
 
     #criar def para fazer o envio de alimentos e seus valores de status
 
@@ -27,6 +29,8 @@ class Usuario:
 status_do_animal = Status(10, 50, 80, 70, 60)
 animal1 = Animal(1, "Rex", status_do_animal)
 
-usuario1 = Usuario(1)
+
+usuario1 = Usuario(3)
 usuario1.chooseAnimalEstimacao(animal1)
-usuario1.sendAlimento()
+#usuario1.sendAlimento()
+print(f"o usuário tem o id {usuario1.getId()}")
