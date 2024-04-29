@@ -5,6 +5,8 @@ import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 import React from 'react';
 import { router } from 'expo-router';
+import { AntDesign } from '@expo/vector-icons';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function App() {
   //permissões da camera
@@ -120,8 +122,11 @@ const setCameraReady = async() => {
       <View>
         <Pressable 
             onPress={()=>router.replace("/login")}
-            style={styles.buttonX}>
-            <Text style={styles.buttontext}>x</Text>
+            style={({pressed})=>[
+              pressed?{backgroundColor:'rgba(0,0,0,0.5)'}:{backgroundColor:'rgba(128,128,128,0.5)'},
+              styles.buttonX]}
+            >
+            <AntDesign name="closecircleo" size={30} color={'white'}/>
         </Pressable>
       </View>
       <View style={styles.buttonCamera}>
@@ -146,10 +151,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   buttonX:{
-    top: 0,
+    margin:10,
+    top:10,
     right:0,
-    width:40,
-    height:40,
+    width:30,
+    height:30,
+    borderRadius:90,
     position: 'absolute',
     
   },

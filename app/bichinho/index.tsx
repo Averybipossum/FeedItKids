@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { StyleSheet,Button, View, Text,Image, ImageBackground, Modal, Pressable,} from 'react-native';
 import {router} from "expo-router";
@@ -52,75 +51,77 @@ function Bichinho() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
-        <View style={styles.container}>
+    <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
+      <View style={styles.container}>
+        <View style={styles.containerB}>
           <Image style={styles.imagemBichinho} source={baseImageIndex}/>
         </View>
-        <View>
-          <Modal
-              animationType='slide'
-              transparent={true}
-              visible={seletorVisivel || baseImageIndex === Empty}
-              onRequestClose={fecharSeletor}>
-                <View style={styles.containerSeletor}>
-                  <View style={styles.conteudoSeletor}>
-                    <View style={styles.row}>
-                      <Pressable
-                        onPress={()=>escolherBichinho(MagmaSlime)}
-                        style={({pressed})=>[
-                          pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
-                          styles.pressableSeletor
-                        ]}
-                      >
-                        <Image style={styles.imagemSeletor} source={MagmaSlime}></Image>
-                      </Pressable>
-                      <Pressable
-                        onPress={()=>escolherBichinho(IceSlime)}
-                        style={({pressed})=>[
-                          pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
-                          styles.pressableSeletor
-                        ]}
-                      >
-                        <Image style={styles.imagemSeletor} source={IceSlime}></Image>
-                      </Pressable>
-                    </View>
+      </View>
+      <View style={styles.containerBottom}>
+        
+      </View>
+      <View>
+        <Modal
+            animationType='slide'
+            transparent={true}
+            visible={seletorVisivel || baseImageIndex === Empty}
+            onRequestClose={fecharSeletor}>
+              <View style={styles.containerSeletor}>
+                <View style={styles.conteudoSeletor}>
+                  <View style={styles.row}>
+                    <Pressable
+                      onPress={()=>escolherBichinho(MagmaSlime)}
+                      style={({pressed})=>[
+                        pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
+                        styles.pressableSeletor
+                      ]}
+                    >
+                      <Image style={styles.imagemSeletor} source={MagmaSlime}></Image>
+                    </Pressable>
+                    <Pressable
+                      onPress={()=>escolherBichinho(IceSlime)}
+                      style={({pressed})=>[
+                        pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
+                        styles.pressableSeletor
+                      ]}
+                    >
+                      <Image style={styles.imagemSeletor} source={IceSlime}></Image>
+                    </Pressable>
                   </View>
                 </View>
-          </Modal>
-        </View>
-        <View>
-        <Button
-            title="ir para Home"
-            onPress={()=>router.replace("/home")}
-            color="#841584"
-          />
-        <Button
-            title="Mudar Imagem"
-            onPress={abrirSeletor}
-            color="#841584"
-          />
-        <Button
-            title="Reset Imagem"
-            onPress={()=>escolherBichinho(Empty)}
-            color="#841584"
-          />
-        </View>
-      </ImageBackground>
-    </View>
+              </View>
+        </Modal>
+      </View>
+    </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent:'flex-end',
+    },
+    containerB: {
+      height:350,
+      width:350,
+      alignItems: 'center',
+      justifyContent:'center',
+      marginBottom:12,
+    },
+    containerBottom: {
+      flex: 1,
+      justifyContent:'flex-end',
+      backgroundColor:'lightblue',
+      maxWidth:'auto',
+      maxHeight:275,
     },
     containerSeletor:{
       flex:1,
       justifyContent:'center',
       alignItems:'center',
       backgroundColor:'rgba(0,0,0,0.5)',
+      maxWidth:'auto',
+      maxHeight:'auto',
     },
     conteudoSeletor:{
       padding:20,
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     },
     imagemBichinho: {
       flex: 1,
-      width: '75%',
+      width: '90%',
       objectFit: 'contain',
     },
     imagem: {
