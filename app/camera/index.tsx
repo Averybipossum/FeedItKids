@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View, SafeAreaView, Button, Image, Platform, Dimensions, Pressable } from 'react-native';
+import {Text, View, SafeAreaView, Button, Image, Platform, Dimensions, Pressable } from 'react-native';
+import {styles} from './styles';
 import { useEffect, useState } from 'react';
 import { Camera } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
@@ -6,7 +7,6 @@ import * as MediaLibrary from 'expo-media-library';
 import React from 'react';
 import { router } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function App() {
   //permissões da camera
@@ -121,7 +121,7 @@ const setCameraReady = async() => {
     ref={(ref) => {setCamera(ref);}} >
       <View>
         <Pressable 
-            onPress={()=>router.replace("/login")}
+            onPress={()=>router.replace("/bichinho")}
             style={({pressed})=>[
               pressed?{backgroundColor:'rgba(0,0,0,0.5)'}:{backgroundColor:'rgba(128,128,128,0.5)'},
               styles.buttonX]}
@@ -136,39 +136,3 @@ const setCameraReady = async() => {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'black',
-    flex: 1,
-  },
-  buttonContainer: {
-    backgroundColor: '#000',
-    bottom: "-99%",
-    right: 0
-  },
-  preview: {
-    alignSelf: 'stretch',
-    flex: 1
-  },
-  buttonX:{
-    margin:10,
-    top:10,
-    right:0,
-    width:30,
-    height:30,
-    borderRadius:90,
-    position: 'absolute',
-    
-  },
-  buttontext: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'white',
-  },
-  buttonCamera:{
-    flex: 1,
-    justifyContent: 'flex-end',
-  }
-});
