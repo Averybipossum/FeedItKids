@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
       maxHeight:100,
     },
     containerIcon: {
-      alignItems:'flex-end',
       marginTop:5,
     },
     wrapTop:{
@@ -56,11 +55,13 @@ export const styles = StyleSheet.create({
       height:250,
     },
     pressableCamera:{
+      width:120,
+      height:120,
       borderRadius:90,
       alignItems:'center',
       justifyContent:'center',
-      height:100,
-      width:100,
+      borderColor:'#053C5E',
+      borderWidth:3,
     },
     containerSeletor:{
       flex:1,
@@ -114,6 +115,7 @@ export const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     pressableIcon:{
+      marginTop:20,
       marginRight:10,
       width:60,
       height:60,
@@ -123,6 +125,7 @@ export const styles = StyleSheet.create({
       borderColor:'#053C5E',
       borderWidth:3,
     },
+
     iconImage:{
       flex: 1,
       width:'100%',

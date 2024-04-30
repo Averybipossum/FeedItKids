@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styles } from './styles';
-import { StyleSheet,Button, View, Text,Image, ImageBackground, Modal, Pressable,} from 'react-native';
+import {View, Text,Image, ImageBackground, Modal, Pressable,} from 'react-native';
 import {router} from "expo-router";
 import { useState,useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,6 +11,8 @@ import BGimage from "../../assets/BGimage.png"
 import BGSeletor from "../../assets/BGSeletor.jpg"
 import slimeIcon from "../../assets/SlimeLogo.png"
 import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import SideDrawer from 'react-native-side-drawer';
 
 function Bichinho() {
   const [seletorVisivel,setSeletorVisivel] = useState(false);
@@ -54,11 +56,19 @@ function Bichinho() {
   return (
     <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
       <View style={styles.wrapTop}>
-        <View style={styles.containerTop}>
-            
-        </View>
         <View style={styles.containerIcon}>
           <View style={styles.row}>
+            <Pressable
+              onPress={abrirSeletor}
+              style={({pressed})=>[
+                pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
+                {marginLeft:10,marginRight:0},
+                styles.pressableIcon
+              ]}
+            >
+            <Feather name="sidebar" size={32} color="white" />
+            </Pressable>
+
             <Pressable
               onPress={abrirSeletor}
               style={({pressed})=>[
@@ -86,7 +96,7 @@ function Bichinho() {
                   <Pressable
                     onPress={()=>router.replace("/camera")}
                     style={({pressed})=>[
-                      pressed?{}:{},
+                      pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
                       styles.pressableCamera
                     ]}
                   >
@@ -98,7 +108,7 @@ function Bichinho() {
       </View>
       <View>
         <Modal
-            animationType='slide'
+            animationType='fade'
             transparent={true}
             visible={seletorVisivel || baseImageIndex === Empty}
             onRequestClose={fecharSeletor}>
