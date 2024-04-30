@@ -7,6 +7,7 @@ import * as MediaLibrary from 'expo-media-library';
 import React from 'react';
 import { router } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 export default function App() {
   //permissões da camera
@@ -79,7 +80,7 @@ const setCameraReady = async() => {
   if (hasCameraPermission === undefined) {
     return <Text>Requesting permissions...</Text>
   } else if (!hasCameraPermission) {
-    return <Text>Permission for camera not granted. Please change this in settings.</Text>
+    return <Text style={[{}]}>Permission for camera not granted. Please change this in settings.</Text>
   }
 
   let takePic = async () => {
@@ -130,7 +131,7 @@ const setCameraReady = async() => {
         </Pressable>
       </View>
       <View style={styles.buttonCamera}>
-        <Button title="Take Pic" onPress={takePic} />
+        <Entypo name="circle" size={80} color="white" onPress={takePic}/>
       </View>
     </Camera>
   );
