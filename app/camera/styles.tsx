@@ -6,15 +6,15 @@ export const styles = StyleSheet.create({
     },
     buttonContainer: {
       backgroundColor: '#000',
-      bottom: "-99%",
-      right: 0
+      alignItems:'center',
+      justifyContent:'flex-end',
     },
     preview: {
       alignSelf: 'stretch',
       flex: 1
     },
     buttonX:{
-        alignItems:'center',
+      alignItems:'center',
       margin:10,
       top:10,
       right:0,
@@ -22,6 +22,13 @@ export const styles = StyleSheet.create({
       height:30,
       borderRadius:90,
       position: 'absolute',
+      
+    },
+    pressableCamera:{
+      alignItems:'center',
+      minWidth:30,
+      minHeight:30,
+      borderRadius:90,
       
     },
     buttontext: {

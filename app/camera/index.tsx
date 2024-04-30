@@ -131,7 +131,15 @@ const setCameraReady = async() => {
         </Pressable>
       </View>
       <View style={styles.buttonCamera}>
-        <Entypo name="circle" size={80} color="white" onPress={takePic}/>
+        <Pressable
+         onPress={takePic}
+        style={({pressed})=>[
+          pressed?{backgroundColor:'rgba(0,0,0,0.5)'}:{backgroundColor:'rgba(128,128,128,0.5)'},
+          styles.pressableCamera
+        ]}
+        >
+          <Entypo name="circle" size={80} color="white"/>
+        </Pressable>
       </View>
     </Camera>
   );
