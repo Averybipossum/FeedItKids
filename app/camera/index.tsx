@@ -23,7 +23,6 @@ export default function App() {
   const screenRatio = height / width;
   const [isRatioSet, setIsRatioSet] =  useState(false);
 
-
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
@@ -33,8 +32,20 @@ export default function App() {
     })();
   }, []);
 
+  if (hasCameraPermission === undefined) {
+    return <Text>Requesting permissions...</Text>
+  } else if (!hasCameraPermission) {
+    return <Text>Permissão para a camera negada. Por favor, mudar nas configurações do dispositivo.</Text>
+  }
+
+  const setCameraReady = async() => {
+    if (!isRatioSet) {
+      await prepareRatio();
+    }
+  };
+
   const prepareRatio = async() =>{
-    let desiredRatio = '4:3';
+    let desiredRatio = '4/3';
     if (Platform.OS === 'android') {
       const ratios = await camera.getSupportedRatiosAsync();
 
@@ -55,34 +66,22 @@ export default function App() {
             minDistance = ratio;
           }
         }
+      }
+
+      desiredRatio = minDistance;
+      const remainder = Math.floor(
+        (height - realRatios[desiredRatio] * width) / 2
+      );
+      // set the preview padding and preview ratio
+      setImagePadding(remainder);
+      setRatio(desiredRatio);
+      // Set a flag so we don't do this 
+      // calculation each time the screen refreshes
+      setIsRatioSet(true);
+
     }
-
-    desiredRatio = minDistance;
-    const remainder = Math.floor(
-      (height - realRatios[desiredRatio] * width) / 2
-    );
-    // set the preview padding and preview ratio
-    setImagePadding(remainder);
-    setRatio(desiredRatio);
-    // Set a flag so we don't do this 
-    // calculation each time the screen refreshes
-    setIsRatioSet(true);
-
-  }
-};
-
-const setCameraReady = async() => {
-  if (!isRatioSet) {
-    await prepareRatio();
-  }
-};
-
-  if (hasCameraPermission === undefined) {
-    return <Text>Requesting permissions...</Text>
-  } else if (!hasCameraPermission) {
-    return <Text style={[{}]}>Permission for camera not granted. Please change this in settings.</Text>
-  }
-
+  };
+  
   let takePic = async () => {
     let options = {
       quality: 1,
@@ -110,9 +109,9 @@ const setCameraReady = async() => {
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
-        <Button title="Share" onPress={sharePic} />
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
+        <Button title="Compartilhar" onPress={sharePic} />
+        {hasMediaLibraryPermission ? <Button title="Salvar" onPress={savePhoto} /> : undefined}
+        <Button title="Descartar" onPress={() => setPhoto(undefined)} />
       </SafeAreaView>
     );
   }
