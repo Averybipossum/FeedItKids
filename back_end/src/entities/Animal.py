@@ -43,7 +43,7 @@ class Animal:
 # Teste de uso
 status_cenoura = Status(10, 10, -5, 5, 5)
 status_animal = Status(50, 50, 50, 50, 50)
-bicho1 = Animal(1, "Nome", status_animal)
+bicho1 = Animal(1, "baat", status_animal)
 print(f"O animal, {bicho1.getNome()} tem os seguintes status: {bicho1.getStatus()}")
 
 status_animal.atualizarStatus(status_cenoura)
