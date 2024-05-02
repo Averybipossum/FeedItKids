@@ -7,8 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Empty from "../../assets/Empty.png"
 import MagmaSlime from "../../assets/MagmaSlime.png";
 import IceSlime from "../../assets/IceSlime.png"
-import BGimage from "../../assets/BGimage.png"
-import BGSeletor from "../../assets/BGSeletor.jpg"
+import BGimage from "../../assets/teste.png"
 import slimeIcon from "../../assets/SlimeLogo.png"
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -54,7 +53,7 @@ function Bichinho() {
   }, []);
 
   return (
-    <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
+    <ImageBackground source={BGimage} resizeMode='cover' style={styles.imagem}>
       <View style={styles.wrapTop}>
         <View style={styles.containerIcon}>
           <View style={styles.row}>
@@ -112,7 +111,6 @@ function Bichinho() {
             transparent={true}
             visible={seletorVisivel || baseImageIndex === Empty}
             onRequestClose={fecharSeletor}>
-              <ImageBackground source={BGSeletor} resizeMode="cover" style={styles.imagem}>
                 <View style={styles.containerSeletor}>
                   <View style={styles.conteudoSeletor}>
                     <View style={styles.containerTituloSeletor}>
@@ -143,7 +141,7 @@ function Bichinho() {
                     </View>
                   </View>
                 </View>
-              </ImageBackground>
+
         </Modal>
       </View>
     </ImageBackground>

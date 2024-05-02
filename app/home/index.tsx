@@ -2,7 +2,7 @@ import { ImageBackground, Pressable, StyleSheet,Text,View,TextInput} from "react
 import React, { useState } from "react";
 import {router } from "expo-router";
 
-import BGimage from "../../assets/BGimage.png"
+import BGimage from "../../assets/FundoHome.png"
 
 const Home = () =>{
     const [nometext, setNomeText] = useState('');
