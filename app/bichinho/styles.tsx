@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
       flex: 1,
       alignItems:'center',
       justifyContent:'center',
-      backgroundColor:'#5AA9E6',
+      backgroundColor:'#053C5E',
       maxWidth:'auto',
       maxHeight:270,
       borderColor:'#053C5E',
@@ -121,8 +121,6 @@ export const styles = StyleSheet.create({
       borderRadius:90,
       alignItems:'center',
       justifyContent:'center',
-      borderColor:'#053C5E',
-      borderWidth:3,
     },
 
     iconImage:{

@@ -10,7 +10,6 @@ import IceSlime from "../../assets/IceSlime.png"
 import BGimage from "../../assets/teste.png"
 import slimeIcon from "../../assets/SlimeLogo.png"
 import { Entypo } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 import SideDrawer from 'react-native-side-drawer';
 
 function Bichinho() {
@@ -60,12 +59,12 @@ function Bichinho() {
             <Pressable
               onPress={abrirSeletor}
               style={({pressed})=>[
-                pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
+                pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'white'},
                 {marginLeft:10,marginRight:0},
                 styles.pressableIcon
               ]}
             >
-            <Feather name="sidebar" size={32} color="white" />
+            <Entypo name="menu" size={44} color="gray" />
             </Pressable>
 
             <Pressable
