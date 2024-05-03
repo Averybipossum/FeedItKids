@@ -10,7 +10,7 @@ import IceSlime from "../../assets/IceSlime.png"
 import BGimage from "../../assets/teste.png"
 import slimeIcon from "../../assets/SlimeLogo.png"
 import { Entypo } from '@expo/vector-icons';
-import SideDrawer from 'react-native-side-drawer';
+// import SideDrawer from 'react-native-side-drawer';
 
 function Bichinho() {
   const [seletorVisivel,setSeletorVisivel] = useState(false);
@@ -25,7 +25,7 @@ function Bichinho() {
 
   const escolherBichinho = (index: any)=>{
     setBaseImageIndex(index);
-    saveBaseImageIndex(index)
+    saveBaseImageIndex(index);
     fecharSeletor()
   }
 

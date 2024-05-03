@@ -11,14 +11,15 @@ import { Entypo } from '@expo/vector-icons';
 
 export default function App() {
   //permissões da camera
-  const [hasCameraPermission, setHasCameraPermission] = useState(false);
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState(false);
+  const [hasCameraPermission, setHasCameraPermission] = useState();
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
+  //ao colocar false nos useState acima, as mensagens de permissão funcionarão de jeito errado
   const [camera, setCamera] = useState();
   const [photo, setPhoto] = useState();
 
-  // Escala da tela e imagem padding
+  //Escala da tela e imagem padding
   const [imagePadding, setImagePadding] = useState(0);
-  const [ratio, setRatio] = useState('4:3');  // default is 4:3
+  const [ratio, setRatio] = useState('4:3');  // default é 4:3
   const { height, width } = Dimensions.get('window');
   const screenRatio = height / width;
   const [isRatioSet, setIsRatioSet] =  useState(false);
@@ -33,9 +34,10 @@ export default function App() {
   }, []);
 
   if (hasCameraPermission === undefined) {
-    return <Text>Requesting permissions...</Text>
+    return <Text style={({ alignSelf: 'center', paddingTop: '70%'})}>Esperando permissão...</Text>
   } else if (!hasCameraPermission) {
-    return <Text>Permissão para a camera negada. Por favor, mudar nas configurações do dispositivo.</Text>
+    return <Text style={({ alignSelf: 'center', paddingTop: '70%'})}>Permissão para a camera negada. Por favor,
+    mudar nas configurações do dispositivo.</Text>
   }
 
   const setCameraReady = async() => {
@@ -72,11 +74,8 @@ export default function App() {
       const remainder = Math.floor(
         (height - realRatios[desiredRatio] * width) / 2
       );
-      // set the preview padding and preview ratio
       setImagePadding(remainder);
       setRatio(desiredRatio);
-      // Set a flag so we don't do this 
-      // calculation each time the screen refreshes
       setIsRatioSet(true);
 
     }
