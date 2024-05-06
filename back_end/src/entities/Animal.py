@@ -40,6 +40,15 @@ class Animal:
     def getNome(self):
         return self.nome
 
+#Fazer conexão com bd para coletar o status dos alimentos
+
+
+#Fazer conexão para mandar o status Animal atualizado para bd
+
+
+#garantir que o status do alimento obtido pela conexão interage corretamente com def atualizarStatus
+
+
 # Teste de uso
 status_cenoura = Status(10, 10, -5, 5, 5)
 status_animal = Status(50, 50, 50, 50, 50)

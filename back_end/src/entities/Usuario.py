@@ -14,8 +14,8 @@ class Usuario:
 
     # criar sendalimento quando tiver a conexao com o banco
         
-    def getObjetivos(self):
-        return self.objetivos
     
-    # criar completeobjetivos quando tiver a conexao com o banco
+    # chamar classe de objetivos para criar e completar objetivos
+
+    
 
