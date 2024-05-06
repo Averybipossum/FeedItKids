@@ -13,8 +13,15 @@ export const styles = StyleSheet.create({
       maxWidth:'auto',
       maxHeight:100,
     },
+    containerXP: {
+      minHeight:100,
+      minWidth:'auto',
+      alignItems:'center',
+      justifyContent:'center',
+      backgroundColor:'#053C5E',
+    },
     containerIcon: {
-      marginTop:5,
+      marginTop:3,
     },
     wrapTop:{
       flex:1,
@@ -25,8 +32,8 @@ export const styles = StyleSheet.create({
       justifyContent:'flex-end',
     },
     containerBixo: {
-      height:350,
-      width:350,
+      height:275,
+      width:275,
       alignItems: 'center',
       justifyContent:'center',
     },

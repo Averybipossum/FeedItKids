@@ -13,6 +13,7 @@ import { Entypo } from '@expo/vector-icons';
 // import SideDrawer from 'react-native-side-drawer';
 
 function Bichinho() {
+  const [isDesabled1, setisDesabled1] = useState(false);
   const [seletorVisivel,setSeletorVisivel] = useState(false);
   const [baseImageIndex, setBaseImageIndex] = useState(Empty);
 
@@ -51,22 +52,28 @@ function Bichinho() {
     loadBaseImage();
   }, []);
 
+  const togglePressable1 = () => {
+    setisDesabled1(previousState => !previousState);
+  };
   return (
     <ImageBackground source={BGimage} resizeMode='cover' style={styles.imagem}>
       <View style={styles.wrapTop}>
+        <View style={styles.containerXP}>
+
+        </View>
         <View style={styles.containerIcon}>
           <View style={styles.row}>
             <Pressable
               onPress={abrirSeletor}
               style={({pressed})=>[
-                pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'white'},
+                pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
                 {marginLeft:10,marginRight:0},
                 styles.pressableIcon
               ]}
             >
-            <Entypo name="menu" size={44} color="gray" />
+            <Entypo name="menu" size={44} color="white" />
             </Pressable>
-
+              
             <Pressable
               onPress={abrirSeletor}
               style={({pressed})=>[
@@ -122,10 +129,12 @@ function Bichinho() {
                         onPress={()=>escolherBichinho(MagmaSlime)}
                         style={({pressed})=>[
                           pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
+                          isDesabled1&&{backgroundColor:'darkgrey',borderColor:'red'},
                           styles.pressableSeletor
                         ]}
+                        disabled={isDesabled1}
                       >
-                        <Image style={styles.imagemSeletor} source={MagmaSlime}></Image>
+                        <Image style={styles.imagemSeletor} source={isDesabled1?slimeIcon:MagmaSlime}></Image>
                       </Pressable>
                       <Pressable
                         onPress={()=>escolherBichinho(IceSlime)}
@@ -134,10 +143,10 @@ function Bichinho() {
                           styles.pressableSeletor
                         ]}
                       >
-                      
                         <Image style={styles.imagemSeletor} source={IceSlime}></Image>
                       </Pressable>
                     </View>
+
                   </View>
                 </View>
 

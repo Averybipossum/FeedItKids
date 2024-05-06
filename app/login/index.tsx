@@ -30,7 +30,7 @@ const Home = () =>{
             />
             </View>
             <Pressable 
-                onPress={()=>router.replace("/bichinho")}
+                onPress={()=>router.replace("/home")}
                 style={({pressed}) => [
                     pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
                     styles.button

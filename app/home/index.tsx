@@ -25,7 +25,7 @@ const Home = () =>{
                 Feed It!
             </Text>
             <Pressable 
-                onPress={()=>router.replace("/login")}
+                onPress={()=>router.replace("/bichinho")}
                 style={({pressed}) => [
                     pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
                     styles.button
