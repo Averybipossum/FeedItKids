@@ -13,7 +13,7 @@ import { Entypo } from '@expo/vector-icons';
 // import SideDrawer from 'react-native-side-drawer';
 
 function Bichinho() {
-  const [isDesabled1, setisDesabled1] = useState(false);
+  const [isDesabled1, setisDesabled1] = useState(true);
   const [seletorVisivel,setSeletorVisivel] = useState(false);
   const [baseImageIndex, setBaseImageIndex] = useState(Empty);
 
