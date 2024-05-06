@@ -21,3 +21,5 @@ class Status(Base):
     grupo_alimento = Column(String(32), ForeignKey("alimentos.grupo_alimento"))
 
     grupoAlimento = relationship("Alimento", back_populates="status")
+
+    
