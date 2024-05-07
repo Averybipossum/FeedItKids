@@ -1,13 +1,22 @@
-import { StyleSheet,Text,View } from "react-native";
+
 import React from "react";
-import { Link, Redirect } from "expo-router";
+import {Redirect } from "expo-router";
+import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';
 
 const Index = () =>{
+
+    let [fontsLoaded] = useFonts({
+        Pacifico_400Regular,
+      });
+      
+    if (!fontsLoaded) {
+    return null;
+    }
+    
+
     return(
         <Redirect href="/login"/>
     )
 }
 
 export default Index
-
-const styles = StyleSheet.create({})

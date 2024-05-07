@@ -52,8 +52,7 @@ export default Home
 const styles = StyleSheet.create({
 
     titulotexto:{
-        fontFamily: "monospace",
-        //depois tentar fazer a fonte
+        fontFamily: "Pacifico_400Regular",
         fontSize: 50,
         color: 'green',
         marginBottom: 40

@@ -4,8 +4,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
 
     titulotexto:{
-        fontFamily: "monospace",
-        //depois tentar fazer a fonte
+        fontFamily:'Pacifico_400Regular',
         fontSize: 41,
         color: 'green',
         marginBottom: 30
