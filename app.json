@@ -29,9 +29,7 @@
     },
     "plugins": [
       "expo-router",
-      ["expo-font",{
-        
-      }],
+      "expo-font",
       ["expo-media-library",
       {
         "photosPermission":"Allow $(PRODUCT_NAME) to access your photos.",

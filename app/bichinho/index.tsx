@@ -7,21 +7,31 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Empty from "../../assets/Empty.png"
 import MagmaSlime from "../../assets/MagmaSlime.png";
 import IceSlime from "../../assets/IceSlime.png"
-import BGimage from "../../assets/teste.png"
+import BGimage from "../../assets/BGbichinho.png"
 import slimeIcon from "../../assets/SlimeLogo.png"
 import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 // import SideDrawer from 'react-native-side-drawer';
 
 function Bichinho() {
   const [isDesabled1, setisDesabled1] = useState(true);
   const [seletorVisivel,setSeletorVisivel] = useState(false);
   const [baseImageIndex, setBaseImageIndex] = useState(Empty);
+  //método de abrir o tutorial
+  const [infoVisivel, setInfoVisivel] = useState(false);
 
   const abrirSeletor = ()=>{
     setSeletorVisivel(true);
   }
   const fecharSeletor = ()=>{
     setSeletorVisivel(false);
+  }
+
+  const abrirInfo = ()=> {
+    setInfoVisivel(true);
+  }
+  const fecharInfo = () =>{
+    setInfoVisivel(false);
   }
 
   const escolherBichinho = (index: any)=>{
@@ -81,6 +91,15 @@ function Bichinho() {
                 styles.pressableIcon]}
             >
               <Image style={styles.iconImage} source={slimeIcon}/>
+            </Pressable>
+            <Pressable 
+                onPress={abrirInfo}
+                style={({pressed}) => [
+                    pressed ? {backgroundColor:'#053C5E'}:{backgroundColor: '#5AA9E6',},
+                    styles.pressableIcon
+                ]}
+            >
+                <Feather name="info" size={44} color="white" />
             </Pressable>
           </View>
       </View>
@@ -152,6 +171,24 @@ function Bichinho() {
 
         </Modal>
       </View>
+      <View>
+        <Modal animationType='fade'
+        visible={infoVisivel}
+        transparent={true}>
+            <View style={({flex:1, backgroundColor:'rgba(5, 60, 94, .7)',marginTop:160, marginHorizontal:30, marginBottom:300, alignItems: 'center', borderRadius: 20})}>
+                <Text style={({color: 'white', textAlign: 'center', padding: 20})}>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
+                quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt
+                mollitia animi, id est laborum et dolorum fuga.</Text>
+                <Text style={({color: 'white',})} onPress={fecharInfo}>
+                Fechar
+                </Text>
+            </View>
+        </Modal>
+            </View>
     </ImageBackground>
   );
 }

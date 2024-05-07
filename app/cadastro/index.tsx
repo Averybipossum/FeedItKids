@@ -3,7 +3,7 @@ import { styles } from './styles';
 import React, { useState } from "react";
 import {router } from "expo-router";
 
-import BGimage from "../../assets/FundoHome.png"
+import BGimage from "../../assets/BGlogin.png"
 
 const Home = () =>{
     const [nometext, setNomeText] = useState('');
@@ -39,7 +39,7 @@ const Home = () =>{
             />
 
             <Pressable 
-                onPress={()=>router.replace("/login")}
+                onPress={()=>router.replace("/bichinho")}
                 style={({pressed}) => [
                     pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
                     styles.button

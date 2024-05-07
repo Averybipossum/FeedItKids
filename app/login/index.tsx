@@ -2,7 +2,7 @@ import { ImageBackground, Pressable, StyleSheet,Text,View,TextInput} from "react
 import React, { useState } from "react";
 import {router } from "expo-router";
 
-import BGimage from "../../assets/FundoHome.png"
+import BGimage from "../../assets/BGlogin.png"
 
 const Home = () =>{
     const [nometext, setNomeText] = useState('');
@@ -12,7 +12,7 @@ const Home = () =>{
             <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
             <View style={styles.containerconfig}>
             <Text style={styles.titulotexto}>
-                Login
+                Feed it!
             </Text>
             <TextInput
                 style={styles.input}
@@ -30,7 +30,7 @@ const Home = () =>{
             />
             </View>
             <Pressable 
-                onPress={()=>router.replace("/home")}
+                onPress={()=>router.replace("/bichinho")}
                 style={({pressed}) => [
                     pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
                     styles.button
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
     titulotexto:{
         fontFamily: "Pacifico_400Regular",
-        fontSize: 50,
+        fontSize: 60,
         color: 'green',
         marginBottom: 40
     },
