@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { styles } from './styles';
+import * as ImagePicker from 'expo-image-picker';
 import {View, Text,Image, ImageBackground, Modal, Pressable,} from 'react-native';
 import {router} from "expo-router";
 import { useState,useEffect } from 'react';
@@ -65,6 +66,11 @@ function Bichinho() {
   const togglePressable1 = () => {
     setisDesabled1(previousState => !previousState);
   };
+
+  const tirarFoto = () => {
+    ImagePicker.launchCameraAsync();
+  }
+
   return (
     <ImageBackground source={BGimage} resizeMode='cover' style={styles.imagem}>
       <View style={styles.wrapTop}>
@@ -118,7 +124,7 @@ function Bichinho() {
               </View>
               <View style={styles.conteudoBottomCamera}>
                   <Pressable
-                    onPress={()=>router.replace("/camera")}
+                    onPress={tirarFoto}
                     style={({pressed})=>[
                       pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
                       styles.pressableCamera
@@ -165,7 +171,6 @@ function Bichinho() {
                         <Image style={styles.imagemSeletor} source={IceSlime}></Image>
                       </Pressable>
                     </View>
-
                   </View>
                 </View>
 

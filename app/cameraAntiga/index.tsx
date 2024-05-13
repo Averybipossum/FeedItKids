@@ -11,8 +11,8 @@ import { Entypo } from '@expo/vector-icons';
 
 export default function App() {
   //permissões da camera
-  const [hasCameraPermission, setHasCameraPermission] = useState();
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean>();
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>();
   //ao colocar false nos useState acima, as mensagens de permissão funcionarão de jeito errado
   const [camera, setCamera] = useState();
   const [photo, setPhoto] = useState();
