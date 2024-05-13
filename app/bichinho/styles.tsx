@@ -22,17 +22,11 @@ export const styles = StyleSheet.create({
       maxWidth:'auto',
       maxHeight:100,
     },
-    containerXP: {
-      minHeight:100,
-      minWidth:'auto',
-      alignItems:'center',
-      justifyContent:'center',
-      backgroundColor:'#053C5E',
-    },
     containerIcon: {
       marginTop:3,
     },
     wrapTop:{
+      marginTop:10,
       flex:1,
       justifyContent:'flex-start',
     },

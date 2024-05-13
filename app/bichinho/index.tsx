@@ -15,7 +15,7 @@ import { Feather } from '@expo/vector-icons';
 // import SideDrawer from 'react-native-side-drawer';
 
 function Bichinho() {
-  const [isDesabled1, setisDesabled1] = useState(false);
+  let pontos = 200;
   const [seletorVisivel,setSeletorVisivel] = useState(false);
   const [baseImageIndex, setBaseImageIndex] = useState(Empty);
   //método de abrir o tutorial
@@ -62,10 +62,6 @@ function Bichinho() {
     };
     loadBaseImage();
   }, []);
-
-  const togglePressable1 = () => {
-    setisDesabled1(previousState => !previousState);
-  };
 
   const tirarFoto = () => {
     ImagePicker.launchCameraAsync();
@@ -151,14 +147,15 @@ function Bichinho() {
                     <View style={styles.row}>
                       <Pressable
                         onPress={()=>escolherBichinho(MagmaSlime)}
+                        disabled={pontos<200}
                         style={({pressed})=>[
                           pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
-                          isDesabled1&&{backgroundColor:'darkgrey',borderColor:'red'},
+                          (pontos<200?{backgroundColor: 'darkgrey',borderColor: 'red' }:{}),
                           styles.pressableSeletor
                         ]}
-                        disabled={isDesabled1}
+                        
                       >
-                        <Image style={styles.imagemSeletor} source={isDesabled1?slimeIcon:MagmaSlime}></Image>
+                        <Image style={styles.imagemSeletor} source={pontos<200?slimeIcon:MagmaSlime}></Image>
                       </Pressable>
                       <Pressable
                         onPress={()=>escolherBichinho(IceSlime)}
@@ -183,10 +180,7 @@ function Bichinho() {
                 <Text style={({color: 'white', textAlign: 'center', padding: 20})}>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                 laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-                laborum. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
-                quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt
-                mollitia animi, id est laborum et dolorum fuga.</Text>
+                </Text>
                 <Text style={({color: 'white',})} onPress={fecharInfo}>
                 Fechar
                 </Text>
