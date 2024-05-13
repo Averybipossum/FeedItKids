@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { styles } from './styles';
 import * as ImagePicker from 'expo-image-picker';
-import {View, Text,Image, ImageBackground, Modal, Pressable,} from 'react-native';
+import {View, Text,Image, ImageBackground, Modal, Pressable, Animated,} from 'react-native';
 import {router} from "expo-router";
 import { useState,useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -117,7 +117,9 @@ function Bichinho() {
         <View style={styles.containerBottom}>
           <View style={styles.row}>
               <View style={styles.conteudoBottomStatus}>
-
+              <View style={styles.progressBar}>
+                {/* <Animated.View style={[StyleSheet.absoluteFill], {backgroundColor: "#8BED4F", width: “50%”}}/> */}
+              </View>
               </View>
               <View style={styles.conteudoBottomCamera}>
                   <Pressable

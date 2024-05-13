@@ -6,6 +6,15 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent:'flex-end',
     },
+    progressBar: {
+      height: 20,
+      flexDirection: "row",
+      width: '100%',
+      backgroundColor: 'white',
+      borderColor: '#000',
+      borderWidth: 2,
+      borderRadius: 5
+    },
     containerTop: {
       flex: 1,
       alignItems: 'flex-start',
