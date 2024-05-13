@@ -15,7 +15,7 @@ import { Feather } from '@expo/vector-icons';
 // import SideDrawer from 'react-native-side-drawer';
 
 function Bichinho() {
-  const [isDesabled1, setisDesabled1] = useState(true);
+  const [isDesabled1, setisDesabled1] = useState(false);
   const [seletorVisivel,setSeletorVisivel] = useState(false);
   const [baseImageIndex, setBaseImageIndex] = useState(Empty);
   //método de abrir o tutorial
@@ -74,9 +74,6 @@ function Bichinho() {
   return (
     <ImageBackground source={BGimage} resizeMode='cover' style={styles.imagem}>
       <View style={styles.wrapTop}>
-        <View style={styles.containerXP}>
-
-        </View>
         <View style={styles.containerIcon}>
           <View style={styles.row}>
             <Pressable
