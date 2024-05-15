@@ -1,14 +1,10 @@
-import { useFonts } from 'expo-font';
 import { StyleSheet } from 'react-native';
 
-
 export const styles = StyleSheet.create({
-
     
     titulotexto:{
-        fontFamily: 'Pulang',
-        //depois tentar fazer a fonte
-        fontSize: 50,
+        fontFamily: "Pacifico_400Regular",
+        fontSize: 60,
         color: 'green',
         marginBottom: 40
     },

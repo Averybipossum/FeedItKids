@@ -6,15 +6,6 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent:'flex-end',
     },
-    progressBar: {
-      height: 20,
-      flexDirection: "row",
-      width: '100%',
-      backgroundColor: 'white',
-      borderColor: '#000',
-      borderWidth: 2,
-      borderRadius: 5
-    },
     containerTop: {
       flex: 1,
       alignItems: 'flex-start',
@@ -149,5 +140,13 @@ export const styles = StyleSheet.create({
       flex:1,
       justifyContent:'flex-start',
       alignItems:'flex-end',
-    }
-  });
+    },
+    textBarra:{
+      alignSelf: "flex-start",
+      color: "white",
+      fontSize: 15,
+      paddingBottom: 4,
+      paddingTop: 10,
+    },
+  }
+);

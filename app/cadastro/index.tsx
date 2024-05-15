@@ -6,15 +6,20 @@ import {router } from "expo-router";
 import BGimage from "../../assets/BGlogin.png"
 
 const Home = () =>{
+    //constantes
     const [nometext, setNomeText] = useState('');
     const [senhatext, setSenhaText] = useState('');
+
+    //página
     return(
         <View style={styles.container}>
             <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
             <View style={styles.containerconfig}>
+
             <Text style={styles.titulotexto}>
                 Cadastro
             </Text>
+            
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -42,11 +47,10 @@ const Home = () =>{
                 onPress={()=>router.replace("/bichinho")}
                 style={({pressed}) => [
                     pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
-                    styles.button
-                ]}
-            >
+                    styles.button]}>
                 <Text style={styles.buttontext}>Entrar</Text>
             </Pressable>
+
             </View>
             </ImageBackground>
         </View>

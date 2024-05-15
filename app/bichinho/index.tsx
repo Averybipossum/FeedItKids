@@ -2,9 +2,12 @@ import * as React from 'react';
 import { styles } from './styles';
 import * as ImagePicker from 'expo-image-picker';
 import {View, Text,Image, ImageBackground, Modal, Pressable, Animated,} from 'react-native';
-import {router} from "expo-router";
+import * as Progress from 'react-native-progress';
 import { useState,useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {router} from "expo-router";
+
+//assets
 import Empty from "../../assets/Empty.png"
 import MagmaSlime from "../../assets/MagmaSlime.png";
 import IceSlime from "../../assets/IceSlime.png"
@@ -13,11 +16,17 @@ import slimeIcon from "../../assets/SlimeLogo.png"
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-// import SideDrawer from 'react-native-side-drawer';
+
 
 function Bichinho() {
+  //variáveis
   let pontos = 200;
-  
+  let varAlimentacao = 0.5;
+  let varEnergia = 0.6;
+  let varFelicidade = 0.1;
+  let varResistencia = 0.9;
+
+  //CÓDIGO SIDEBAR
   const [sidebarAnimation] = useState(new Animated.Value(-300));
 
   useEffect(() => {
@@ -36,13 +45,20 @@ function Bichinho() {
     }
   },);
 
+  //métodos
+  const abrirSide=()=>{
+    setSideVisivel(true);
+  }
+  const fecharSide=()=>{
+    setSideVisivel(false);
+  }
+
+  //cCÓDIGO SELETOR
+  //constantes
   const [seletorVisivel,setSeletorVisivel] = useState(false);
   const [baseImageIndex, setBaseImageIndex] = useState(Empty);
-  //método de abrir o tutorial
-  const [infoVisivel, setInfoVisivel] = useState(false);
 
-  const [sideVisivel, setSideVisivel] = useState(false);
-
+  //métodos
   const abrirSeletor = ()=>{
     setSeletorVisivel(true);
   }
@@ -50,6 +66,12 @@ function Bichinho() {
     setSeletorVisivel(false);
   }
 
+  //CODIGO INFO
+  //constantes
+  const [infoVisivel, setInfoVisivel] = useState(false);
+  const [sideVisivel, setSideVisivel] = useState(false);
+
+  //métodos
   const abrirInfo = ()=> {
     setInfoVisivel(true);
   }
@@ -57,12 +79,7 @@ function Bichinho() {
     setInfoVisivel(false);
   }
 
-  const abrirSide=()=>{
-    setSideVisivel(true);
-  }
-  const fecharSide=()=>{
-    setSideVisivel(false);
-  }
+  //CODIGO MASCOTE E IMAGEM
   const escolherBichinho = (index: any)=>{
     setBaseImageIndex(index);
     saveBaseImageIndex(index);
@@ -91,42 +108,48 @@ function Bichinho() {
     loadBaseImage();
   }, []);
 
-  const tirarFoto = () => {
-    ImagePicker.launchCameraAsync();
+
+  //CÓDIGO CAMERA
+  //constantes
+  const [imagemURI, setImagemURI] = useState();
+  //método
+  const tirarFoto = async() => {
+    const foto = await ImagePicker.launchCameraAsync();
+      //segundo um pessoal do github, esse é um problema do VScode
+      //https://github.com/expo/expo/issues/6407
+    setImagemURI(foto.base64);
   }
 
+  //PÁGINA
   return (
     <ImageBackground source={BGimage} resizeMode='cover' style={styles.imagem}>
       <View style={styles.wrapTop}>
         <View style={styles.containerIcon}>
           <View style={styles.row}>
+            {/* MENU */}
             <Pressable
               onPress={abrirSide}
               style={({pressed})=>[
                 pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
                 {marginLeft:10,marginRight:0},
-                styles.pressableIcon
-              ]}
-            >
-            <Entypo name="menu" size={44} color="white" />
+                styles.pressableIcon]}>
+              <Entypo name="menu" size={44} color="white" />
             </Pressable>
-              
+            {/* SELETOR */}
             <Pressable
               onPress={abrirSeletor}
               style={({pressed})=>[
                 pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
-                styles.pressableIcon]}
-            >
+                styles.pressableIcon]}>
               <Image style={styles.iconImage} source={slimeIcon}/>
             </Pressable>
+            {/* INFO */}
             <Pressable 
-                onPress={abrirInfo}
-                style={({pressed}) => [
-                    pressed ? {backgroundColor:'#053C5E'}:{backgroundColor: '#5AA9E6',},
-                    styles.pressableIcon
-                ]}
-            >
-                <Feather name="info" size={44} color="white" />
+              onPress={abrirInfo}
+              style={({pressed}) => [
+                  pressed ? {backgroundColor:'#053C5E'}:{backgroundColor: '#5AA9E6',},
+                  styles.pressableIcon]}>
+              <Feather name="info" size={44} color="white" />
             </Pressable>
           </View>
       </View>
@@ -140,29 +163,34 @@ function Bichinho() {
       <View style={styles.wrapBottom}>
         <View style={styles.containerBottom}>
           <View style={styles.row}>
+              {/* BARRA DE STATUS */}
               <View style={styles.conteudoBottomStatus}>
-              <View style={styles.progressBar}>
-                
+                <Text style={styles.textBarra}> Alimentação Saudável</Text>
+                  <Progress.Bar progress={varAlimentacao} color='red' width={250} unfilledColor='green' borderColor='#053C5E' height={15}/>
+                <Text style={styles.textBarra}> Energia</Text>
+                  <Progress.Bar progress={varEnergia} color='red' width={250} unfilledColor='green' borderColor='#053C5E' height={15}/>
+                <Text style={styles.textBarra}> Felicidade</Text>
+                  <Progress.Bar progress={varFelicidade} color='red' width={250} unfilledColor='green' borderColor='#053C5E' height={15}/>
+                <Text style={styles.textBarra}> Resistência</Text>
+                  <Progress.Bar progress={varResistencia} color='red' width={250} unfilledColor='green' borderColor='#053C5E' height={15}/>
               </View>
-              </View>
+              {/* CÂMERA */}
               <View style={styles.conteudoBottomCamera}>
                   <Pressable
                     onPress={tirarFoto}
                     style={({pressed})=>[
                       pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
-                      styles.pressableCamera
-                    ]}
-                  >
+                      styles.pressableCamera]}>
                     <Entypo name="camera" size={72} color="white" />
                   </Pressable>
               </View>
           </View>
         </View>
       </View>
+
+      {/* MODAL DO SELETOR */}
       <View>
-        <Modal
-            animationType='fade'
-            transparent={true}
+        <Modal animationType='fade' transparent={true}
             visible={seletorVisivel || baseImageIndex === Empty}
             onRequestClose={fecharSeletor}>
                 <View style={styles.containerSeletor}>
@@ -179,27 +207,22 @@ function Bichinho() {
                         style={({pressed})=>[
                           pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
                           (pontos<200?{backgroundColor: 'darkgrey',borderColor: 'red' }:{}),
-                          styles.pressableSeletor
-                        ]}
-                        
-                      >
+                          styles.pressableSeletor]}>
                         <Image style={styles.imagemSeletor} source={pontos<200?slimeIcon:MagmaSlime}></Image>
                       </Pressable>
                       <Pressable
                         onPress={()=>escolherBichinho(IceSlime)}
                         style={({pressed})=>[
                           pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
-                          styles.pressableSeletor
-                        ]}
-                      >
+                          styles.pressableSeletor]}>
                         <Image style={styles.imagemSeletor} source={IceSlime}></Image>
                       </Pressable>
                     </View>
                   </View>
                 </View>
-
         </Modal>
       </View>
+      {/* MODAL DA INFO */}
       <View>
         <Modal animationType='fade'
         visible={infoVisivel}
@@ -215,22 +238,19 @@ function Bichinho() {
             </View>
         </Modal>
       </View>
+      {/* MODAL SIDEBAR */}
       <View>
         <Modal
           visible={sideVisivel}
           onRequestClose={()=>setSideVisivel(false)}
-          transparent={true}
-        >
+          transparent={true}>
           <Animated.View style={[styles.sidebar, { transform: [{ translateX: sidebarAnimation }] }]}>
             <View style={styles.sidebarTop}>
               <Pressable
                 onPress={fecharSide}
                 style={({pressed})=>[
                   pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
-                  ,
-                  styles.pressableIcon
-                ]}
-              >
+                  styles.pressableIcon]}>
                 <AntDesign name="caretleft" size={24} color="white" />
               </Pressable>
             </View>
