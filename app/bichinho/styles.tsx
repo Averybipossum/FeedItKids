@@ -138,4 +138,16 @@ export const styles = StyleSheet.create({
       width:'100%',
       objectFit: 'contain',
     },
+    sidebar: {
+      backgroundColor: 'white',
+      width: 300, // Largura da barra lateral
+      height: '100%', // Altura igual à altura da tela
+      paddingTop: 50, // Espaçamento para acomodar a barra de status
+      paddingHorizontal: 20,
+    },
+    sidebarTop:{
+      flex:1,
+      justifyContent:'flex-start',
+      alignItems:'flex-end',
+    }
   });

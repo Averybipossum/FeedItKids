@@ -12,14 +12,36 @@ import BGimage from "../../assets/BGbichinho.png"
 import slimeIcon from "../../assets/SlimeLogo.png"
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 // import SideDrawer from 'react-native-side-drawer';
 
 function Bichinho() {
   let pontos = 200;
+  
+  const [sidebarAnimation] = useState(new Animated.Value(-300));
+
+  useEffect(() => {
+    if (sideVisivel) {
+      Animated.timing(sidebarAnimation, {
+        toValue: 0,
+        duration: 300, // Duração da animação
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(sidebarAnimation, {
+        toValue: -300,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  },);
+
   const [seletorVisivel,setSeletorVisivel] = useState(false);
   const [baseImageIndex, setBaseImageIndex] = useState(Empty);
   //método de abrir o tutorial
   const [infoVisivel, setInfoVisivel] = useState(false);
+
+  const [sideVisivel, setSideVisivel] = useState(false);
 
   const abrirSeletor = ()=>{
     setSeletorVisivel(true);
@@ -35,6 +57,12 @@ function Bichinho() {
     setInfoVisivel(false);
   }
 
+  const abrirSide=()=>{
+    setSideVisivel(true);
+  }
+  const fecharSide=()=>{
+    setSideVisivel(false);
+  }
   const escolherBichinho = (index: any)=>{
     setBaseImageIndex(index);
     saveBaseImageIndex(index);
@@ -73,7 +101,7 @@ function Bichinho() {
         <View style={styles.containerIcon}>
           <View style={styles.row}>
             <Pressable
-              onPress={abrirSeletor}
+              onPress={abrirSide}
               style={({pressed})=>[
                 pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
                 {marginLeft:10,marginRight:0},
@@ -114,7 +142,7 @@ function Bichinho() {
           <View style={styles.row}>
               <View style={styles.conteudoBottomStatus}>
               <View style={styles.progressBar}>
-                {/* <Animated.View style={[StyleSheet.absoluteFill], {backgroundColor: "#8BED4F", width: “50%”}}/> */}
+                
               </View>
               </View>
               <View style={styles.conteudoBottomCamera}>
@@ -186,7 +214,29 @@ function Bichinho() {
                 </Text>
             </View>
         </Modal>
+      </View>
+      <View>
+        <Modal
+          visible={sideVisivel}
+          onRequestClose={()=>setSideVisivel(false)}
+          transparent={true}
+        >
+          <Animated.View style={[styles.sidebar, { transform: [{ translateX: sidebarAnimation }] }]}>
+            <View style={styles.sidebarTop}>
+              <Pressable
+                onPress={fecharSide}
+                style={({pressed})=>[
+                  pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
+                  ,
+                  styles.pressableIcon
+                ]}
+              >
+                <AntDesign name="caretleft" size={24} color="white" />
+              </Pressable>
             </View>
+          </Animated.View>
+        </Modal>
+      </View>
     </ImageBackground>
   );
 }
