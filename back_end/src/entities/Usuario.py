@@ -12,7 +12,7 @@ class Usuario:
         self.animal_estimacao = animal
         print(f"Animal de estimação escolhido: {animal.getNome()}")
 
-    # criar sendalimento quando tiver a conexao com o banco
+    # criar send alimento quando tiver a conexao com o banco
         
     def getObjetivos(self):
         return self.objetivos
