@@ -14,44 +14,44 @@ const Home = () =>{
     return(
         <View style={styles.container}>
             <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
-            <View style={styles.containerconfig}>
+                <View style={styles.containerconfig}>
 
-            <Text style={styles.titulotexto}>
-                Cadastro
-            </Text>
-            
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                onChangeText={newText => setNomeText(newText)}
-                defaultValue={nometext}
-            />
-            
-            <TextInput
-                secureTextEntry={true}
-                style={styles.input}
-                placeholder="Senha"
-                onChangeText={newText => setSenhaText(newText)}
-                defaultValue={senhatext}
-            />
-            
-            <TextInput
-                secureTextEntry={true}
-                style={styles.input}
-                placeholder="Confirme a senha"
-                onChangeText={newText => setSenhaText(newText)}
-                defaultValue={senhatext}
-            />
+                <Text style={styles.titulotexto}>
+                    Cadastro
+                </Text>
+                
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    onChangeText={newText => setNomeText(newText)}
+                    defaultValue={nometext}
+                />
+                
+                <TextInput
+                    secureTextEntry={true}
+                    style={styles.input}
+                    placeholder="Senha"
+                    onChangeText={newText => setSenhaText(newText)}
+                    defaultValue={senhatext}
+                />
+                
+                <TextInput
+                    secureTextEntry={true}
+                    style={styles.input}
+                    placeholder="Confirme a senha"
+                    onChangeText={newText => setSenhaText(newText)}
+                    defaultValue={senhatext}
+                />
 
-            <Pressable 
-                onPress={()=>router.replace("/bichinho")}
-                style={({pressed}) => [
-                    pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
-                    styles.button]}>
-                <Text style={styles.buttontext}>Entrar</Text>
-            </Pressable>
+                <Pressable 
+                    onPress={()=>router.replace("/bichinho")}
+                    style={({pressed}) => [
+                        pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
+                        styles.button]}>
+                    <Text style={styles.buttontext}>Entrar</Text>
+                </Pressable>
 
-            </View>
+                </View>
             </ImageBackground>
         </View>
     )
