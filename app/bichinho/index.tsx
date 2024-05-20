@@ -11,6 +11,8 @@ import {router} from "expo-router";
 import Empty from "../../assets/Empty.png"
 import MagmaSlime from "../../assets/MagmaSlime.png";
 import IceSlime from "../../assets/IceSlime.png"
+import ElectricSlime from "../../assets/EletricSlime.png"
+import PlantSlime from "../../assets/PlantSlime.png"
 import BGimage from "../../assets/BGbichinho.png"
 import slimeIcon from "../../assets/SlimeLogo.png"
 import { Entypo } from '@expo/vector-icons';
@@ -20,7 +22,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 function Bichinho() {
   //variáveis
-  let pontos = 200;
+  let pontos = 2000;
   let varAlimentacao = 0.5;
   let varEnergia = 0.6;
   let varFelicidade = 1;
@@ -215,12 +217,10 @@ function Bichinho() {
                     <View style={styles.row}>
                       <Pressable
                         onPress={()=>escolherBichinho(MagmaSlime)}
-                        disabled={pontos<200}
                         style={({pressed})=>[
                           pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
-                          (pontos<200?{backgroundColor: 'darkgrey',borderColor: 'red' }:{}),
                           styles.pressableSeletor]}>
-                        <Image style={styles.imagemSeletor} source={pontos<200?slimeIcon:MagmaSlime}></Image>
+                        <Image style={styles.imagemSeletor} source={MagmaSlime}></Image>
                       </Pressable>
                       <Pressable
                         onPress={()=>escolherBichinho(IceSlime)}
@@ -228,6 +228,26 @@ function Bichinho() {
                           pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
                           styles.pressableSeletor]}>
                         <Image style={styles.imagemSeletor} source={IceSlime}></Image>
+                      </Pressable>
+                    </View>
+                    <View style={styles.row}>
+                      <Pressable
+                        onPress={()=>escolherBichinho(PlantSlime)}
+                        disabled={pontos<400}
+                        style={({pressed})=>[
+                          pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
+                          (pontos<400?{backgroundColor: 'darkgrey',borderColor: 'red' }:{}),
+                          styles.pressableSeletor]}>
+                        <Image style={styles.imagemSeletor} source={pontos<400?slimeIcon:PlantSlime}></Image>
+                      </Pressable>
+                      <Pressable
+                        onPress={()=>escolherBichinho(ElectricSlime)}
+                        disabled={pontos<600}
+                        style={({pressed})=>[
+                          pressed?{backgroundColor:'green',borderColor:'lightgreen'}:{backgroundColor:'white',borderColor:'lightgreen'},
+                          (pontos<600?{backgroundColor: 'darkgrey',borderColor: 'red' }:{}),
+                          styles.pressableSeletor]}>
+                        <Image style={styles.imagemSeletor} source={pontos<600?slimeIcon:ElectricSlime}></Image>
                       </Pressable>
                     </View>
                   </View>
