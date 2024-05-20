@@ -16,6 +16,17 @@ export const styles = StyleSheet.create({
     containerIcon: {
       marginTop:3,
     },
+    containerInfo:{
+      flex:1, 
+      backgroundColor:'rgba(5, 60, 94, .7)',
+      marginTop:160, 
+      marginHorizontal:30, 
+      marginBottom:300, 
+      alignItems: 'center', 
+      borderRadius: 20,
+      justifyContent:'center',
+      alignContent:'center'
+    },
     wrapTop:{
       marginTop:10,
       flex:1,
@@ -130,11 +141,18 @@ export const styles = StyleSheet.create({
       objectFit: 'contain',
     },
     sidebar: {
+      position: 'absolute',
+      zIndex: 1,
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right:0,
       backgroundColor: 'white',
       width: 300, // Largura da barra lateral
       height: '100%', // Altura igual à altura da tela
       paddingTop: 50, // Espaçamento para acomodar a barra de status
       paddingHorizontal: 20,
+      
     },
     sidebarTop:{
       flex:1,

@@ -23,11 +23,12 @@ function Bichinho() {
   let pontos = 200;
   let varAlimentacao = 0.5;
   let varEnergia = 0.6;
-  let varFelicidade = 0.1;
+  let varFelicidade = 1;
   let varResistencia = 0.9;
 
   //CÓDIGO SIDEBAR
   const [sidebarAnimation] = useState(new Animated.Value(-300));
+  const [sideVisivel, setSideVisivel] = useState(false);
 
   useEffect(() => {
     if (sideVisivel) {
@@ -69,7 +70,6 @@ function Bichinho() {
   //CODIGO INFO
   //constantes
   const [infoVisivel, setInfoVisivel] = useState(false);
-  const [sideVisivel, setSideVisivel] = useState(false);
 
   //métodos
   const abrirInfo = ()=> {
@@ -123,6 +123,18 @@ function Bichinho() {
   //PÁGINA
   return (
     <ImageBackground source={BGimage} resizeMode='cover' style={styles.imagem}>
+      {/* SideBar*/}
+      <Animated.View style={[styles.sidebar, { transform: [{ translateX: sidebarAnimation }] }]}>
+            <View style={styles.sidebarTop}>
+              <Pressable
+                onPress={fecharSide}
+                style={({pressed})=>[
+                  pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
+                  styles.pressableIcon]}>
+                <AntDesign name="caretleft" size={24} color="white" />
+              </Pressable>
+            </View>
+      </Animated.View>
       <View style={styles.wrapTop}>
         <View style={styles.containerIcon}>
           <View style={styles.row}>
@@ -153,8 +165,8 @@ function Bichinho() {
             </Pressable>
           </View>
       </View>
-      </View>
 
+      </View>
       <View style={styles.container}>
         <View style={styles.containerBixo}>
           <Image style={styles.imagemBichinho} source={baseImageIndex}/>
@@ -166,13 +178,13 @@ function Bichinho() {
               {/* BARRA DE STATUS */}
               <View style={styles.conteudoBottomStatus}>
                 <Text style={styles.textBarra}> Alimentação Saudável</Text>
-                  <Progress.Bar progress={varAlimentacao} color='red' width={250} unfilledColor='green' borderColor='#053C5E' height={15}/>
+                  <Progress.Bar progress={varAlimentacao} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
                 <Text style={styles.textBarra}> Energia</Text>
-                  <Progress.Bar progress={varEnergia} color='red' width={250} unfilledColor='green' borderColor='#053C5E' height={15}/>
+                  <Progress.Bar progress={varEnergia} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
                 <Text style={styles.textBarra}> Felicidade</Text>
-                  <Progress.Bar progress={varFelicidade} color='red' width={250} unfilledColor='green' borderColor='#053C5E' height={15}/>
+                  <Progress.Bar progress={varFelicidade} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
                 <Text style={styles.textBarra}> Resistência</Text>
-                  <Progress.Bar progress={varResistencia} color='red' width={250} unfilledColor='green' borderColor='#053C5E' height={15}/>
+                  <Progress.Bar progress={varResistencia} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
               </View>
               {/* CÂMERA */}
               <View style={styles.conteudoBottomCamera}>
@@ -227,34 +239,15 @@ function Bichinho() {
         <Modal animationType='fade'
         visible={infoVisivel}
         transparent={true}>
-            <View style={({flex:1, backgroundColor:'rgba(5, 60, 94, .7)',marginTop:160, marginHorizontal:30, marginBottom:300, alignItems: 'center', borderRadius: 20})}>
-                <Text style={({color: 'white', textAlign: 'center', padding: 20})}>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                </Text>
-                <Text style={({color: 'white',})} onPress={fecharInfo}>
-                Fechar
-                </Text>
+            <View style={styles.containerInfo}>
+                  <Text style={({color: 'white', textAlign: 'center', padding: 20})}>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                  </Text>
+                  <Text style={({color: 'white',})} onPress={fecharInfo}>
+                  Fechar
+                  </Text>
             </View>
-        </Modal>
-      </View>
-      {/* MODAL SIDEBAR */}
-      <View>
-        <Modal
-          visible={sideVisivel}
-          onRequestClose={()=>setSideVisivel(false)}
-          transparent={true}>
-          <Animated.View style={[styles.sidebar, { transform: [{ translateX: sidebarAnimation }] }]}>
-            <View style={styles.sidebarTop}>
-              <Pressable
-                onPress={fecharSide}
-                style={({pressed})=>[
-                  pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
-                  styles.pressableIcon]}>
-                <AntDesign name="caretleft" size={24} color="white" />
-              </Pressable>
-            </View>
-          </Animated.View>
         </Modal>
       </View>
     </ImageBackground>
