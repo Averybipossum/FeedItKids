@@ -37,8 +37,8 @@ export const styles = StyleSheet.create({
       justifyContent:'flex-end',
     },
     containerBixo: {
-      height:275,
-      width:275,
+      height:300,
+      width:300,
       alignItems: 'center',
       justifyContent:'center',
     },
