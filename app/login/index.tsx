@@ -22,7 +22,7 @@ const Home = () =>{
                         style={({pressed})=>[
                             pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
                             {marginLeft:10,marginRight:0},styles.pressableIcon]}>
-                            <FontAwesome6 name="user-doctor" size={24} color="black" />
+                            <FontAwesome6 name="user-doctor" size={24} color="#053C5E" />
                         </Pressable>
                     </View>
                 </View>

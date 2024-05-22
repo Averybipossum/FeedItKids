@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         fontFamily: "Pacifico_400Regular",
         fontSize: 35,
         color: '#053C5E',
-        marginBottom: 40
+        marginBottom: 20
     },
 
     texto:{
@@ -60,4 +60,13 @@ export const styles = StyleSheet.create({
         resizeMode: "cover",
         justifyContent: 'center',
     },
+    buttonRelatorio:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 8,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        minWidth:300,
+    }
   });

@@ -1,75 +1,81 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Pressable, ImageBackground, Alert } from "react-native";
+import { View, Text, TextInput, Pressable, ImageBackground, Alert, Button } from "react-native";
 import { WebView } from 'react-native-webview';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
-import BGimage from "../../assets/BGmedico.png"; // Atualize o caminho conforme necessário
-import { styles } from './styles'; // Atualize o caminho conforme necessário
+import BGimage from "../../assets/BGmedico.png"; 
+import { styles } from './styles';
+
+import { FontAwesome6 } from '@expo/vector-icons';
 
 const Home = () => {
     const [nometext, setNomeText] = useState('');
     const [senhatext, setSenhaText] = useState('');
     const [htmlContent, setHtmlContent] = useState<string | null>(null);
+    const [showWebView, setShowWebView] = useState(false); // Estado para controlar a visibilidade do WebView
 
     const abrirPagina = async () => {
         try {
-            const htmlFile = Asset.fromModule(require('../../assets/index.html')); // Certifique-se de que o caminho está correto
-            await htmlFile.downloadAsync();
+            const htmlFile = Asset.fromModule(require('../../assets/index.html')); //Função do Expo para carregar um arquivo local como um asset gerenciável.
+            await htmlFile.downloadAsync(); // Método do objeto Asset que baixa o arquivo para o diretório local do dispositivo.
             const htmlString = await FileSystem.readAsStringAsync(htmlFile.localUri!);
             setHtmlContent(htmlString);
+            setShowWebView(true); // Mostrar o WebView quando o conteúdo for carregado
         } catch (error) {
-            console.error('Failed to load HTML file', error);
-            Alert.alert('Error', 'Failed to load HTML file');
+            console.error('Falhou ao carregar o arquivo HTML', error);
+            Alert.alert('Error', 'Falhou ao carregar o arquivo HTML');
         }
     };
 
     return (
         <View style={styles.container}>
             <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
-                <View style={styles.containerconfig}>
-                    <Text style={styles.titulotexto}>Área do Médico</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Email"
-                        onChangeText={newText => setNomeText(newText)}
-                        defaultValue={nometext}
-                    />
-                    <TextInput
-                        secureTextEntry={true}
-                        style={styles.input}
-                        placeholder="Senha"
-                        onChangeText={newText => setSenhaText(newText)}
-                        defaultValue={senhatext}
-                    />
-                    <Pressable
-                        onPress={abrirPagina}
-                        style={({ pressed }) => [
-                            { backgroundColor: pressed ? '#0F118C' : '#2A2CDF' },
-                            styles.button
-                        ]}
-                    >
-                        <Text style={styles.buttontext}>Relatório</Text>
-                    </Pressable>
-                    {/* ta dando erro exatamente nesta posição
-                    talvez eu faça um redirecionamento onde o webview possa abrir sozinho :"D " */}
-                    {htmlContent && (
-                        <WebView
-                            originWhitelist={['*']}
-                            source={{ html: htmlContent }}
-                            style={{ flex: 1, width: 100, height: 100 }}
+                {showWebView ? (
+                    <View style={{ flex: 1, width: '100%', height: 'auto' }}>
+                        {htmlContent && (
+                            <WebView
+                                originWhitelist={['*']}
+                                source={{ html: htmlContent }}
+                                style={{ flex: 1 }}
+                            />
+                        )}
+                        <Pressable onPress={() => setShowWebView(false)} style={({ pressed }) => [
+                                { backgroundColor: pressed ? '#0F118C' : '#2A2CDF' },
+                                styles.buttonRelatorio
+                            ]}>
+                                <Text style={styles.buttontext}>Voltar</Text>
+                        </Pressable>
+                    </View>
+                ):(
+                    <View style={styles.containerconfig}>
+                        <FontAwesome6 name="user-doctor" size={90} color="#053C5E" />
+                        <Text style={styles.titulotexto}>Área do Médico</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Email"
+                            onChangeText={newText => setNomeText(newText)}
+                            defaultValue={nometext}
                         />
-                    )}
-                </View>
+                        <TextInput
+                            secureTextEntry={true}
+                            style={styles.input}
+                            placeholder="Senha"
+                            onChangeText={newText => setSenhaText(newText)}
+                            defaultValue={senhatext}
+                        />
+                        <Pressable
+                            onPress={abrirPagina}
+                            style={({ pressed }) => [
+                                { backgroundColor: pressed ? '#0F118C' : '#2A2CDF' },
+                                styles.button
+                            ]}>
+                            <Text style={styles.buttontext}>Relatório</Text>
+                        </Pressable>
+                    </View>
+                )}
             </ImageBackground>
         </View>
     );
 }
 
 export default Home;
-
-
-    // const [resultado, setResultado] = useState(null);
-    // const abrirPagina = async() =>{
-    //     let resultado = await WebBrowser.openBrowserAsync(HTML);
-    //     setResultado(resultado);
-    // };
