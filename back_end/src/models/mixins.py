@@ -8,5 +8,5 @@ utc_timezone = pytz.utc
 
 @declarative_mixin
 class Timestamp:
-    created_at = Column(DateTime, default =datetime.now(utc_timezone),nullable= False)
+    created_at = Column(DateTime, default=datetime.now(utc_timezone), nullable=False)
     updated_at = Column(DateTime, default=datetime.now(utc_timezone), nullable=False)

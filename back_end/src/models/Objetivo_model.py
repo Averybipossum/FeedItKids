@@ -1,7 +1,6 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy_utils import EmailType
-from db_setup import Base
+from ..database.database import Base
 
 class Objetivos(Base):
     __tablename__ = "objetivos"
@@ -11,10 +10,11 @@ class Objetivos(Base):
     pontuacao = Column(Integer, nullable=False)
 
 class ObjetivoCompleto(Base):
-    __tablename__ = "ObjetivoCompleto"
+    __tablename__ = "objetivo_completo"
 
-    id_usuario = Column(EmailType, ForeignKey("usuarios.id_usuario"), primary_key=True)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), primary_key=True)
     id_objetivo = Column(Integer, ForeignKey("objetivos.id_objetivo"), primary_key=True)
+    pontuacao = Column(Integer, nullable=False)
 
-    usuario = relationship("usuarios", back_populates="objetivo_completo")
-    objetivo = relationship("Objetivos")
+    usuario = relationship("Usuario", back_populates="objetivo_completo")
+    objetivo = relationship("Objetivos", back_populates="objetivo_completos")

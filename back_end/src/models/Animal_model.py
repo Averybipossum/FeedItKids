@@ -1,10 +1,8 @@
-import enum
-from sqlalchemy import Column, String, Integer, ForeignKey, Enum
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy_utils import EmailType
-from db_setup import Base
 
-from .mixins import Timestamp
+from ..database.database import Base
+from .mixins import Timestamp 
 
 class Animal(Base):
     __tablename__ = "animal"
@@ -12,32 +10,26 @@ class Animal(Base):
     id_animal = Column(Integer, primary_key=True)
     nome = Column(String(32), nullable=False)
 
-    usuario = relationship("usuarios", back_populates="Animal")
-    status_animal = relationship("StatusAnimal", back_populates="animal")
+    usuario = relationship("Usuario", back_populates="animal")
+    status_animais = relationship("StatusAnimal", back_populates="animal")
 
 class ConsumoAnimal(Timestamp, Base):
-    __tablename__ = "consumo_Animal"
+    __tablename__ = "consumo_animal"
 
     id_consumo = Column(Integer, primary_key=True)
-    id_usuario = Column(EmailType, ForeignKey("usuarios.id_usuario"))
-    grupo_alimento = Column(String(32), ForeignKey("alimento.grupo_alimento"))
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"))
+    id_status_alimento = Column(Integer, ForeignKey("alimento_status.id_status_alimento"))
     alimento = Column(String(64))
-    qtd_consumo = Column(Integer)
 
-    usuario = relationship("usuario", back_populates="ConsumoAnimal")
-    grupoAlimento = relationship("Alimento", back_populates="ConsumoAnimal")
+    usuario = relationship("Usuario", back_populates="consumos_animais")
+    status_alimento = relationship("StatusAlimento", back_populates="consumos_animais")
 
-
-class StatusAnimal(Timestamp,Base):
+class StatusAnimal(Timestamp, Base):
     __tablename__ = "status_animal"
 
-    id = Column(Integer, primary_key=True)
-    id_status = Column(Integer, ForeignKey("status.id_status"))
+    id_status_animal = Column(Integer, primary_key=True)
+    status = Column(Integer, ForeignKey("alimento_status.id_status_alimento"))
     id_animal = Column(Integer, ForeignKey("animal.id_animal"))
 
-    animal = relationship("Animal", back_populates="status_animal")
-    status = relationship("Satus")
-
-        
-
-
+    animal = relationship("Animal", back_populates="status_animais")
+    status_alimento = relationship("StatusAlimento", back_populates="status_animais")
