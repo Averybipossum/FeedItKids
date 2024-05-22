@@ -18,7 +18,7 @@ const Home = () =>{
                 <View style={styles.wrapMedico}>
                     <View style={styles.iconMedico}>
                         <Pressable
-                        onPress={()=>router.replace("/bichinho")}
+                        onPress={()=>router.replace("/loginMedico")}
                         style={({pressed})=>[
                             pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
                             {marginLeft:10,marginRight:0},styles.pressableIcon]}>

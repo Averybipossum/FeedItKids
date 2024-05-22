@@ -8,6 +8,7 @@ npx expo install expo-image-picker
 npm i react-native-progress
 npx expo install react-native-web
 
+
 //instalações para cameraAntiga
 npx expo install expo-camera
 npx expo install expo-sharing
