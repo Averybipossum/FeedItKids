@@ -5,9 +5,6 @@ class ObjetivoCompletoBase(BaseModel):
     id_usuario: int
     id_objetivo: int
 
-class ObjetivoCompletoCreate(ObjetivoCompletoBase):
-    pass
-
 class ObjetivoCompletoUpdate(ObjetivoCompletoBase):
     id_usuario: Optional[int] = None  # Optional for updates
     id_objetivo: Optional[int] = None  # Optional for updates

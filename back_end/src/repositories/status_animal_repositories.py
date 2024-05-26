@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from src.models import animal_model as models 
-from ..schemas import status_animal_schema as schemas
+from src.schemas import status_animal_schema as schemas
 
 # CRUD BANCO DE DADOS
 
@@ -14,11 +14,15 @@ def get_status_animals(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.StatusAnimal).offset(skip).limit(limit).all()
 
 
-def create_status_animal(db: Session, status_animal: schemas.StatusAnimalCreate):
+def create_status_animal(db: Session, status_animal: schemas.StatusAnimalBase):
 
     db_status_animal = models.StatusAnimal(
-        id_status=status_animal.id_status,
-        id_animal=status_animal.id_animal,
+        grupo_alimento=status_animal.grupo_alimento,
+        alimentacao_saudavel=status_animal.alimentacao_saudavel,
+        energia =status_animal.energia,
+        forca=status_animal.forca,
+        resistencia =status_animal.resistencia,
+        felicidade =status_animal.felicidade
     )
     db.add(db_status_animal)
     db.commit()
@@ -26,7 +30,7 @@ def create_status_animal(db: Session, status_animal: schemas.StatusAnimalCreate)
     return db_status_animal
 
 
-def update_status_animal(db: Session, status_animal_id: int, status_animal_update: schemas.StatusAnimalCreate):
+def update_status_animal(db: Session, status_animal_id: int, status_animal_update: schemas.StatusAnimalUpdate):
     db_status_animal = get_status_animal(db, status_animal_id)
     if not db_status_animal:
         return None
