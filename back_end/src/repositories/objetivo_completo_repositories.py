@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from src.models import objetivo_model as models 
-from ..schemas import objetivo_completo_schema as schemas
+from src.schemas import objetivo_completo_schema as schemas
 
 # CRUD objetivos completo
 
@@ -13,7 +13,7 @@ def get_objetivos_completo(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.ObjetivoCompleto).offset(skip).limit(limit).all()
 
 
-def create_objetivo_completo(db: Session, objetivo: schemas.ObjetivoCompletoCreate):
+def create_objetivo_completo(db: Session, objetivo: schemas.ObjetivoCompletoBase):
     db_objetivo_completo = models.ObjetivoCompleto(
         id_objetivo=objetivo.id_objetivo,
         id_usuario=objetivo.id_usuario,

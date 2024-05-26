@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from src.models import status_alimento_model as models
-from ..schemas import status_schema as schemas
+from src.schemas import status_schema as schemas
 
 # CRUD BANCO DE DADOS
 

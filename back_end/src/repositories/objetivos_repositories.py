@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from src.models import objetivo_model as models
-from ..schemas import objetivos_schema as schemas
+from src.schemas import objetivos_schema as schemas
 
 # CRUD Objetivos
 
@@ -10,7 +10,7 @@ def get_objetivo(db: Session, id_objetivo: int):
 def get_objetivos(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.Objetivos).offset(skip).limit(limit).all()
 
-def create_objetivos(db:Session, objetivos:schemas.ObjetivosCreate):
+def create_objetivos(db:Session, objetivos:schemas.ObjetivosBase):
     db_objetivos = models.Objetivos(
         descricao = objetivos.descricao,
         pontuacao = objetivos.pontuacao,

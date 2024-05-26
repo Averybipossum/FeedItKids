@@ -1,14 +1,14 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ..repositories import objetivos_repositories as crud
-from ..schemas import objetivos_schema as schemas
-from ..database.database import get_db
+from src.repositories import objetivos_repositories as crud
+from src.schemas import objetivos_schema as schemas
+from src.database.database import get_db
 
 router = APIRouter()
 
 @router.post("/objetivos/", response_model=schemas.Objetivos)
-def create_objetivos(objetivo: schemas.ObjetivosCreate, db: Session = Depends(get_db)):
+def create_objetivos(objetivo: schemas.ObjetivosBase, db: Session = Depends(get_db)):
     return crud.create_objetivos(db=db, objetivo=objetivo)
 
 @router.get("/objetivos/{id_objetivo}", response_model=schemas.Objetivos)

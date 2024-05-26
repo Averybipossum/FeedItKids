@@ -1,22 +1,19 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
-from ..database.database import Base
+from  src.database.database import Base
 from .mixins import Timestamp 
 
 class Animal(Base):
     __tablename__ = "animal"
-
-    id_animal = Column(Integer, primary_key=True)
-    nome = Column(String(32), nullable=False)
-
-    usuario = relationship("Usuario", back_populates="animal")
-    status_animais = relationship("StatusAnimal", back_populates="animal")
+    id_animal = Column(Integer, primary_key=True, autoincrement=True)
+    usuario = relationship("Usuario")
+    status_animais = relationship("StatusAnimal")
 
 class ConsumoAnimal(Timestamp, Base):
     __tablename__ = "consumo_animal"
 
-    id_consumo = Column(Integer, primary_key=True)
+    id_consumo = Column(Integer, primary_key=True, autoincrement=True)
     id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"))
     id_status_alimento = Column(Integer, ForeignKey("alimento_status.id_status_alimento"))
     alimento = Column(String(64))
@@ -27,7 +24,7 @@ class ConsumoAnimal(Timestamp, Base):
 class StatusAnimal(Timestamp, Base):
     __tablename__ = "status_animal"
 
-    id_status_animal = Column(Integer, primary_key=True)
+    id_status_animal = Column(Integer, primary_key=True, autoincrement=True)
     status = Column(Integer, ForeignKey("alimento_status.id_status_alimento"))
     id_animal = Column(Integer, ForeignKey("animal.id_animal"))
 
