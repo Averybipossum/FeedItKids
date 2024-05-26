@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from psycopg2 import DataError, IntegrityError, OperationalError
-from src.models import usuario_model as models
+from src.models import Usuario_model as models
 from src.schemas import usuario_schema as schemas
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
@@ -24,13 +24,13 @@ def get_usuario(db: Session, id_usuario: int):
 def get_usuarios(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.Usuario).offset(skip).limit(limit).all()
 
-def create_usuario(db: Session, usuario: schemas.UsuarioBase):
+def create_usuario(db: Session, usuario: schemas.UsuarioCreate):
     try:
         db_usuario = models.Usuario(
             email=usuario.email,
             hashed_password=bcrypt_context.hash(usuario.senha),
             id_animal=usuario.id_animal,
-            pontuacao=usuario.pontuacao
+            pontuacao_total=usuario.pontuacao_total
         )
         db.add(db_usuario)
         db.commit()
@@ -40,7 +40,6 @@ def create_usuario(db: Session, usuario: schemas.UsuarioBase):
         raise Exception(f"Error creating user: {str(e)}") from e
     except OperationalError as e:
         raise Exception(f"Database error: {str(e)}") from e
-
 def delete_usuario(db: Session, id_usuario: int):
     db_usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == id_usuario).first()
     if db_usuario:

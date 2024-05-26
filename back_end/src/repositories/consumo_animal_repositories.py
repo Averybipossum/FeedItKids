@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from src.models import animal_model as models
+from src.models import Animal_model as models
 from src.schemas import consumo_animal_schema as schemas
 
 

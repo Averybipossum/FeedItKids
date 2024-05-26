@@ -1,5 +1,6 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from src.models import objetivo_model as models
+from src.models import Objetivo_model as models
 from src.schemas import objetivos_schema as schemas
 
 # CRUD Objetivos
@@ -34,4 +35,6 @@ def delete_objetivos(db: Session, id_objetivo: int):
     if  db_objetivos:
         db.delete( db_objetivos)
         db.commit()
-    return None 
+        return {"message":"Objetivo deleted successfully"}
+    else:
+        raise HTTPException(status_code=404, detail="Objetivo  not found")

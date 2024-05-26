@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Boolean, Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from src.database.database  import Base
 from src.models.mixins import Timestamp
@@ -9,7 +9,7 @@ class Objetivos(Base):
     id_objetivo = Column(Integer, primary_key=True, autoincrement=True)
     descricao = Column(String(255), nullable=False)
     pontuacao = Column(Integer, nullable=False)
-    status = Column(String(64))
+    status = Column(Boolean,default=False)
 
     objetivo_completos =relationship("ObjetivoCompleto")
 

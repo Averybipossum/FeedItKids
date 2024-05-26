@@ -20,14 +20,14 @@ def get_status_list(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.StatusAlimento).offset(skip).limit(limit).all()
 
 
-def create_status(db: Session, status: schemas.StatusCreate):
+def create_status(db: Session, status: schemas.StatusBase):
     db_status = models.StatusAlimento(
+        grupo_alimento= status.grupoAlimento,
         alimentacao_saudavel=status.alimentacaoSaudavel,
         energia=status.energia,
         forca=status.forca,
         resistencia=status.resistencia,
         felicidade=status.felicidade,
-        grupo_alimento=status.grupoAlimento,
     )
     db.add(db_status)
     db.commit()
@@ -35,7 +35,7 @@ def create_status(db: Session, status: schemas.StatusCreate):
     return db_status
 
 
-def update_status(db: Session, id_status: str, status_update: schemas.StatusCreate):
+def update_status(db: Session, id_status: str, status_update: schemas.StatusBase):
     db_status = get_status(db, id_status)
     if not db_status:
         return None

@@ -11,22 +11,18 @@ class Token(BaseModel):
     class Config:
         orm = True
 
-
 class UsuarioBase(BaseModel):
     email: str
-    senha:str
-    id_animal: Optional[int] = None
-    pontuacao: int
+    id_animal: int
+    pontuacao_total: int
 
-class UsuarioUpdate(UsuarioBase):
-    pontuacao: Optional[int]
-
+class UsuarioCreate(UsuarioBase):
+    senha: str
 
 class UsuarioResponse(UsuarioBase):
     id_usuario: int
 
     class Config:
-        orm = True
-
+        orm_mode = True
 
 

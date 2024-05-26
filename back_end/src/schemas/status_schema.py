@@ -2,17 +2,15 @@ from pydantic import BaseModel
 from typing import Optional
 
 class StatusBase(BaseModel):
+    grupoAlimento: str
     alimentacaoSaudavel: float  
     energia: float
     forca: float
     resistencia: float
     felicidade: float
-    grupoAlimento: Optional[str]
 
-class StatusCreate(StatusBase):
-    pass
-
-class Status(StatusBase):
+class StatusResponse(StatusBase):
+    id_status_alimento: int
     grupo_alimento: str
 
     class Config:
