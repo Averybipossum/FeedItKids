@@ -1,16 +1,18 @@
+from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
 
 class StatusAnimalBase(BaseModel):
-    grupo_alimento: str
+    id_animal: int
     alimentacao_saudavel:float
     energia :float
     forca:float
     resistencia :float
     felicidade :float
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
     
 class StatusAnimalUpdate(StatusAnimalBase):
-    grupo_alimento: Optional[str]
     alimentacao_saudavel:Optional[float]
     energia :Optional[float]
     forca:Optional[float]
@@ -19,7 +21,7 @@ class StatusAnimalUpdate(StatusAnimalBase):
     
 
 class StatusAnimal(StatusAnimalBase):
-    id_status_alimento: int
+    id_status_animal: int
 
     class Config:
         orm= True

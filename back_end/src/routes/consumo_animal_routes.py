@@ -8,23 +8,23 @@ from src.database.database import get_db
 
 router = APIRouter()
 
-@router.post("/consumo/", response_model=schemas.ConsumoAnimalBase)
-def create_consumo(consumo: schemas.ConsumoAnimal, db: Session = Depends(get_db)):
+@router.post("/consumo/", response_model=schemas.ConsumoAnimal)
+def create_consumo(consumo: schemas.ConsumoAnimalBase, db: Session = Depends(get_db)):
     try:
-        return crud.create_consumo(db=db, consumo=consumo)
+        return crud.create_consumo(db=db, consumo_animal=consumo)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-
+    
 @router.get("/consumo/{id_consumo}", response_model=schemas.ConsumoAnimalBase)
 def read_consumo(id_consumo: int, db: Session = Depends(get_db)):
-    db_consumo = crud.get_consumos(db, id_consumo=id_consumo)
+    db_consumo = crud.get_consumo(db, id_consumo=id_consumo)
     if db_consumo is None:
         raise HTTPException(status_code=404, detail="consumo not found")
     return db_consumo
 
 @router.get("/consumo/", response_model=List[schemas.ConsumoAnimal])
 def read_consumo(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    consumo = crud.get_consumo(db, skip=skip, limit=limit)
+    consumo = crud.get_consumos(db, skip=skip, limit=limit)
     return consumo
 
 @router.put("/consumo/{id_consumo}", response_model=schemas.ConsumoAnimal)

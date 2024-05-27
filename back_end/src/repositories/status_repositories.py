@@ -20,20 +20,19 @@ def get_status_list(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.StatusAlimento).offset(skip).limit(limit).all()
 
 
-def create_status(db: Session, status: schemas.StatusBase):
-    db_status = models.StatusAlimento(
-        grupo_alimento= status.grupoAlimento,
-        alimentacao_saudavel=status.alimentacaoSaudavel,
-        energia=status.energia,
-        forca=status.forca,
-        resistencia=status.resistencia,
-        felicidade=status.felicidade,
+def create_status_alimento(db: Session, status_alimento: schemas.StatusBase):
+    db_status_alimento = models.StatusAlimento(
+        grupo_alimento=status_alimento.grupo_alimento,
+        alimentacao_saudavel=status_alimento.alimentacao_saudavel,
+        energia=status_alimento.energia,
+        forca=status_alimento.forca,
+        resistencia=status_alimento.resistencia,
+        felicidade=status_alimento.felicidade
     )
-    db.add(db_status)
+    db.add(db_status_alimento)
     db.commit()
-    db.refresh(db_status)
-    return db_status
-
+    db.refresh(db_status_alimento)
+    return db_status_alimento
 
 def update_status(db: Session, id_status: str, status_update: schemas.StatusBase):
     db_status = get_status(db, id_status)
