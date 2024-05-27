@@ -1,8 +1,9 @@
-import { ImageBackground, Pressable, StyleSheet,Text,View,TextInput} from "react-native";
+import { ImageBackground, Pressable, StyleSheet,Text,View,TextInput, Alert} from "react-native";
 import { styles } from './styles';
 import React, { useState } from "react";
 import {router } from "expo-router";
 import { FontAwesome6 } from '@expo/vector-icons';
+import login from './request_login';
 
 import BGimage from "../../assets/BGlogin.png"
 
@@ -10,6 +11,17 @@ const Home = () =>{
     //constantes
     const [nometext, setNomeText] = useState('');
     const [senhatext, setSenhaText] = useState('');
+
+
+    const handleLogin = async () => {
+        try {
+          const tokenData = await login(nometext, senhatext);
+          console.log('Token de acesso:', tokenData.access_token);
+          // Redirecione ou armazene o token conforme necessário
+        } catch (error) {
+          Alert.alert('Erro', 'Erro ao fazer login. Verifique suas credenciais.');
+        }
+      };
 
     //página
     return(
@@ -48,7 +60,7 @@ const Home = () =>{
                     />
 
                     <Pressable 
-                        onPress={()=>router.replace("/bichinho")}
+                        onPress={handleLogin}
                         style={({pressed}) => [
                             pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
                             styles.button]}>
