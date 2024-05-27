@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { objectives } from './objectives';
 
 export const styles = StyleSheet.create({
     container: {
@@ -41,6 +42,24 @@ export const styles = StyleSheet.create({
       width:300,
       alignItems: 'center',
       justifyContent:'center',
+    },
+    objectiveContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 10,
+    },
+    objectiveText: {
+      marginLeft: 10,
+      fontSize:25,
+    },
+    objectivesContainer: {
+      marginTop: 2,
+      flex:5,
+      justifyContent:'center',
+      alignItems:'center',
+    },
+    objectivesHeader:{
+      fontSize:30,
     },
     containerBottom: {
       flex: 1,

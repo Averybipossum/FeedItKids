@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { styles } from './styles';
 import * as ImagePicker from 'expo-image-picker';
-import {View, Text,Image, ImageBackground, Modal, Pressable, Animated,} from 'react-native';
+import {View, Text,Image, ImageBackground, Modal, Pressable, Animated, FlatList,} from 'react-native';
 import * as Progress from 'react-native-progress';
 import { useState,useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Checkbox from 'expo-checkbox';
+import { objectives, Objective } from './objectives';
 import {router} from "expo-router";
 
 //assets
@@ -110,7 +112,6 @@ function Bichinho() {
     loadBaseImage();
   }, []);
 
-
   //CÓDIGO CAMERA
   //constantes
   const [imagemURI, setImagemURI] = useState();
@@ -121,6 +122,37 @@ function Bichinho() {
       //https://github.com/expo/expo/issues/6407
     setImagemURI(foto.base64);
   }
+
+  const [activeObjectives, setActiveObjectives] = useState<Objective[]>([]);
+
+  useEffect(() => {
+    // Carrega os três primeiros objetivos ao iniciar
+    setActiveObjectives(objectives.slice(0, 3));
+  }, []);
+
+  const completeObjective = (id: number) => {
+    const newObjectives = activeObjectives.filter(obj => obj.id !== id);
+    const nextObjective = objectives.find(obj => 
+      !newObjectives.includes(obj) && 
+      !activeObjectives.includes(obj)
+    );
+    
+    if (nextObjective) {
+      newObjectives.push(nextObjective);
+    }
+
+    setActiveObjectives(newObjectives);
+  };
+
+    const renderObjective = ({ item }: { item: Objective }) => (
+    <View style={styles.objectiveContainer}>
+      <Checkbox
+        value={false}
+        onValueChange={() => completeObjective(item.id)}
+      />
+      <Text style={styles.objectiveText}>{item.name}</Text>
+    </View>
+  );
 
   //PÁGINA
   return (
@@ -136,6 +168,14 @@ function Bichinho() {
                 <AntDesign name="caretleft" size={24} color="white" />
               </Pressable>
             </View>
+            <View style={styles.objectivesContainer}>
+              <Text style={styles.objectivesHeader}>Meus Objetivos</Text>
+              <FlatList
+                data={activeObjectives}
+                renderItem={renderObjective}
+                keyExtractor={(item) => item.id.toString()}
+              />
+            </View>   
       </Animated.View>
       <View style={styles.wrapTop}>
         <View style={styles.containerIcon}>
@@ -258,20 +298,15 @@ function Bichinho() {
       <View>
         <Modal animationType='fade'
         visible={infoVisivel}
-        transparent={true} onRequestClose={fecharInfo}>
+        transparent={true}>
             <View style={styles.containerInfo}>
-                  <Text style={({color: 'white', textAlign: 'center', padding: 20})}>
-                  Como jogar?{"\n"}{"\n"}
-                  Alimente seu bichinho com a câmera. Clique no botão azul ao lado das barrinhas abaixo para abrir a câmera, escaneie uma comida que você tenha em casa e alimente o mascote de acordo com o valor nutricional da comida!{"\n"}{"\n"}
-                  Ganhe pontos fazendo missões toda semana. Clique no botão acima na esquerda para acessar a barra lateral e confira as missões, complete-as clicando no quadrado ao lado para checar e ganhar pontos!{"\n"}{"\n"}
-                  Desbloqueie novos bichinhos. Os bichinhos são desbloqueados ao atingir um número de pontos, clique no ícone bloqueado para ganhar o novo mascote e, caso não tenha pontos suficientes, conclua mais missões.
+                  <Text style={({color: 'white', textAlign: 'center', padding: 20})}>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
                   </Text>
-                  <Pressable 
-                        onPress={fecharInfo}
-                        style={({pressed}) => [
-                            pressed ? {backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'}]}>
-                        <Text style = {({color:'white'})}>Fechar</Text>
-                    </Pressable>
+                  <Text style={({color: 'white',})} onPress={fecharInfo}>
+                  Fechar
+                  </Text>
             </View>
         </Modal>
       </View>
