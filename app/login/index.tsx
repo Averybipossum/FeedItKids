@@ -3,9 +3,8 @@ import { styles } from './styles';
 import React, { useState } from "react";
 import {router } from "expo-router";
 import { FontAwesome6 } from '@expo/vector-icons';
-import login from './request_login';
+// import login from './request_login';
 import axios from 'axios';
-
 
 import BGimage from "../../assets/BGlogin.png"
 
@@ -14,22 +13,25 @@ const Home = () =>{
     const [nometext, setNomeText] = useState('');
     const [senhatext, setSenhaText] = useState('');
 
-
-    async function login(username: string, password: string) {
+    const handleLogin = async () => {
         try {
-            const response = await axios.post('/token', {
-                username: username,
-                password: password
+            const response = await axios.post('http://127.0.0.1:8000/auth/token', {
+                username: nometext,
+                password: senhatext
             });
-            
-            // Se a chamada for bem-sucedida, retorna o token de acesso
-            return response.data.access_token;
+
+            // Se a chamada for bem-sucedida, você pode lidar com a resposta aqui
+            console.log('Token de acesso:', response.data.access_token);
+
+            // Redirecionar para a próxima tela após o login bem-sucedido
+            // Por exemplo, router.replace("/dashboard");
         } catch (error) {
-            // Se houver um erro na chamada, lança uma exceção ou trata de outra forma
+            // Se houver um erro na chamada, exibir mensagem de erro
             console.error('Erro ao fazer login:', error);
-            throw error;
+            Alert.alert('Erro', 'Não foi possível fazer login. Verifique suas credenciais e tente novamente.');
         }
-    }
+    };
+
 
     //página
     return(
@@ -68,7 +70,7 @@ const Home = () =>{
                     />
 
                     <Pressable 
-                        onPress={login}
+                        onPress={handleLogin}
                         style={({pressed}) => [
                             pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
                             styles.button]}>
