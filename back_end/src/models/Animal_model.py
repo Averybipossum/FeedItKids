@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, Float, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
 from  src.database.database import Base
@@ -25,8 +25,11 @@ class StatusAnimal(Timestamp, Base):
     __tablename__ = "status_animal"
 
     id_status_animal = Column(Integer, primary_key=True, autoincrement=True)
-    status = Column(Integer, ForeignKey("alimento_status.id_status_alimento"))
     id_animal = Column(Integer, ForeignKey("animal.id_animal"))
+    alimentacao_saudavel = Column(Float, nullable=False)
+    energia = Column(Float, nullable=False)
+    forca = Column(Float, nullable=False)
+    resistencia = Column(Float, nullable=False)
+    felicidade = Column(Float, nullable=False)
 
     animal = relationship("Animal", back_populates="status_animais")
-    status_alimento = relationship("StatusAlimento", back_populates="status_animais")

@@ -12,11 +12,13 @@ def get_consumo(db: Session, id_consumo: int):
 def get_consumos(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.ConsumoAnimal).offset(skip).limit(limit).all()
 
+
 def create_consumo(db: Session, consumo_animal: schemas.ConsumoAnimalBase):
     db_consumo_animal = models.ConsumoAnimal(
-        id_usuario = consumo_animal.id_usuario,
-        id_status_alimento= consumo_animal.id_status_alimento,
-        alimento = consumo_animal.alimento)
+        id_usuario=consumo_animal.id_usuario,
+        id_status_alimento=consumo_animal.id_status_alimento,
+        alimento=consumo_animal.alimento
+    )
     db.add(db_consumo_animal)
     db.commit()
     db.refresh(db_consumo_animal)

@@ -1,4 +1,4 @@
-from typing import List
+from typing import Annotated, List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -7,6 +7,8 @@ from src.schemas import status_schema as schemas
 from src.database.database import get_db
 
 router = APIRouter()
+
+db_dependency = Annotated[Session, Depends(get_db)]
 
 @router.get("/status/", response_model=List[schemas.StatusResponse])
 def get_status_list(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
@@ -21,9 +23,14 @@ def get_status(id_status: int, db: Session = Depends(get_db)):
     return status
 
 @router.post("/status/", response_model=schemas.StatusResponse)
-def create_status(status: schemas.StatusBase, db: Session = Depends(get_db)):
-    created_status = crud.create_status(db=db, status=status)
-    return created_status
+async def create_status_alimento(status_alimento: schemas.StatusBase, db: Session = Depends(get_db)):
+    try:
+        db_status_alimento = crud.create_status_alimento(db=db, status_alimento=status_alimento)
+        return db_status_alimento
+    except Exception as e:
+        print(f"Error: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 @router.put("/status/{id_status}", response_model=schemas.StatusResponse)
 def update_status(id_status: int, status_update: schemas.StatusBase, db: Session = Depends(get_db)):

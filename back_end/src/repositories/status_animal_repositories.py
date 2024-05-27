@@ -17,7 +17,7 @@ def get_status_animals(db: Session, skip: int = 0, limit: int = 10):
 def create_status_animal(db: Session, status_animal: schemas.StatusAnimalBase):
 
     db_status_animal = models.StatusAnimal(
-        grupo_alimento=status_animal.grupo_alimento,
+        id_animal = status_animal.id_animal,
         alimentacao_saudavel=status_animal.alimentacao_saudavel,
         energia =status_animal.energia,
         forca=status_animal.forca,
