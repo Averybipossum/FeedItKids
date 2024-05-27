@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import {router } from "expo-router";
 import { FontAwesome6 } from '@expo/vector-icons';
 import login from './request_login';
+import axios from 'axios';
+
 
 import BGimage from "../../assets/BGlogin.png"
 
@@ -13,15 +15,21 @@ const Home = () =>{
     const [senhatext, setSenhaText] = useState('');
 
 
-    const handleLogin = async () => {
+    async function login(username: string, password: string) {
         try {
-          const tokenData = await login(nometext, senhatext);
-          console.log('Token de acesso:', tokenData.access_token);
-          // Redirecione ou armazene o token conforme necessário
+            const response = await axios.post('/token', {
+                username: username,
+                password: password
+            });
+            
+            // Se a chamada for bem-sucedida, retorna o token de acesso
+            return response.data.access_token;
         } catch (error) {
-          Alert.alert('Erro', 'Erro ao fazer login. Verifique suas credenciais.');
+            // Se houver um erro na chamada, lança uma exceção ou trata de outra forma
+            console.error('Erro ao fazer login:', error);
+            throw error;
         }
-      };
+    }
 
     //página
     return(
@@ -60,7 +68,7 @@ const Home = () =>{
                     />
 
                     <Pressable 
-                        onPress={handleLogin}
+                        onPress={login}
                         style={({pressed}) => [
                             pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
                             styles.button]}>
