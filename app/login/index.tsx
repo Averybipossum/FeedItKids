@@ -3,7 +3,8 @@ import { styles } from './styles';
 import React, { useState } from "react";
 import {router } from "expo-router";
 import { FontAwesome6 } from '@expo/vector-icons';
-import login from './request_login';
+// import login from './request_login';
+import axios from 'axios';
 
 import BGimage from "../../assets/BGlogin.png"
 
@@ -12,16 +13,25 @@ const Home = () =>{
     const [nometext, setNomeText] = useState('');
     const [senhatext, setSenhaText] = useState('');
 
-
     const handleLogin = async () => {
         try {
-          const tokenData = await login(nometext, senhatext);
-          console.log('Token de acesso:', tokenData.access_token);
-          // Redirecione ou armazene o token conforme necessário
+            const response = await axios.post('http://127.0.0.1:8000/auth/token', {
+                username: nometext,
+                password: senhatext
+            });
+
+            // Se a chamada for bem-sucedida, você pode lidar com a resposta aqui
+            console.log('Token de acesso:', response.data.access_token);
+
+            // Redirecionar para a próxima tela após o login bem-sucedido
+            // Por exemplo, router.replace("/dashboard");
         } catch (error) {
-          Alert.alert('Erro', 'Erro ao fazer login. Verifique suas credenciais.');
+            // Se houver um erro na chamada, exibir mensagem de erro
+            console.error('Erro ao fazer login:', error);
+            Alert.alert('Erro', 'Não foi possível fazer login. Verifique suas credenciais e tente novamente.');
         }
-      };
+    };
+
 
     //página
     return(
