@@ -5,8 +5,23 @@ from src.models.Animal_model import Animal, ConsumoAnimal, StatusAnimal
 from src.models.Usuario_model import Usuario
 from src.models.Objetivo_model import Objetivos, ObjetivoCompleto
 from src.routes import usuario_routes, objetivos_routes, objetivo_completo_routes,animal_routes,consumo_animal_routes,status_animal_routes,status_routes,auth_routes
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:8081/login",
+    "http://127.0.0.1:8000/auth/token",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.include_router(usuario_routes.router, prefix="/usuarios" ,tags=["usuarios"])
 app.include_router(auth_routes.router, prefix="/auth", tags=["auth"])

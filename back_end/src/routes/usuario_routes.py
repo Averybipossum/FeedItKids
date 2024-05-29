@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from src.schemas import usuario_schema as schemas
+from src.schemas import animal_schema
 from src.repositories import usuario_repositories as crud
 from typing import Annotated
 from src.database.database import get_db
@@ -24,3 +25,15 @@ async def read_user(id_usuario: int, db: db_dependency):
     if db_usuario is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_usuario
+
+
+# Rota CADASTRO
+
+# Rota para criar um novo usuário e animal
+@router.post("/usuario_e_animal/", response_model=schemas.UsuarioBase)
+def create_user_and_animal(user: schemas.UsuarioCreate, animal: animal_schema.AnimalBase, db: Session = Depends(get_db)):
+    try:
+        new_user = crud.create_user_and_animal(db, user, animal)
+        return new_user
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

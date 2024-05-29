@@ -15,13 +15,19 @@ const Home = () =>{
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/auth/token', {
-                username: nometext,
-                password: senhatext
-            });
+            const formData = new FormData();
+            formData.append('username', nometext);
+            formData.append('password', senhatext);
+
+            const response = await axios.post('http://localhost:8000/auth/token', formData, {
+                headers:{
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            }
+        );
 
             // Se a chamada for bem-sucedida, você pode lidar com a resposta aqui
-            console.log('Token de acesso:', response.data.access_token);
+            console.log('Token de acesso:', response.data.acess_token);
 
             // Redirecionar para a próxima tela após o login bem-sucedido
             // Por exemplo, router.replace("/dashboard");

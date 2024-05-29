@@ -1,6 +1,8 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from src.models import Animal_model as models 
 from src.schemas import status_animal_schema as schemas
+from src.models import status_alimento_model
 
 # CRUD BANCO DE DADOS
 
@@ -48,3 +50,44 @@ def delete_status_animal(db: Session, status_animal_id: int):
     db.delete(db_status_animal)
     db.commit()
     return {"message": "StatusAnimal deleted successfully"}
+
+
+
+def encontrar_animal_por_alimento(db: Session, alimento_id):
+    # Primeiro, vamos encontrar o id do animal através da tabela de consumo
+    consumo = db.query(models.ConsumoAnimal).filter(models.ConsumoAnimal.id_status_alimento == alimento_id).first()
+    
+    if consumo:
+        # Agora, podemos usar o id do animal encontrado para obter o animal correspondente
+        animal = db.query(models.StatusAnimal).filter(models.StatusAnimal.id_animal == consumo.id_status_alimento).first()
+        
+        return animal
+    
+    return None
+
+# Soma Status + Status Animal
+def soma_status_animal(db:Session):
+    # Consulta od dados da tabela alimentos_status
+    alimentos = db.query(status_alimento_model).all()
+
+    # Para cada linha na tabela linha status
+    for alimento in alimentos:
+
+        # Consulta a linha correspondente na tabela status_alimento
+        id_status_alimento = alimento.id_status_alimento
+        animal = encontrar_animal_por_alimento(db, alimento.id_status_alimento)
+
+        if animal:
+            # Somar os valores dos atributos da tabela alimento_status aos valores correspondentes na tabela status_animal
+            animal.alimentacao_saudavel = min(animal.alimentacao_saudavel + alimento.alimentacao_saudavel, 10)
+            animal.energia = min(animal.energia + alimento.energia, 10)
+            animal.forca = min(animal.forca + alimento.forca, 10)
+            animal.resistencia = min(animal.resistencia + alimento.resistencia, 10)
+            animal.felicidade = min(animal.felicidade + alimento.felicidade, 10)
+
+            # Atualizar os valores na tabela status_animal
+            db.commit()
+
+        
+
+
