@@ -27,9 +27,9 @@ def read_consumo(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     consumo = crud.get_consumos(db, skip=skip, limit=limit)
     return consumo
 
-@router.put("/consumo/{id_consumo}", response_model=schemas.ConsumoAnimal)
-def update_consumo(id_consumo: int, consumo: schemas.ConsumoAnimalBase, db: Session = Depends(get_db)):
-    return crud.update_consumo(db=db, id_consumo=id_consumo, consumo=consumo)
+# @router.put("/consumo/{id_consumo}", response_model=schemas.ConsumoAnimal)
+# def update_consumo(id_consumo: int, consumo: schemas.ConsumoAnimalBase, db: Session = Depends(get_db)):
+#     return crud.update_consumo(db=db, id_consumo=id_consumo, consumo=consumo)
 
 @router.delete("/consumo/{id_consumo}", response_model=schemas.ConsumoAnimal)
 def delete_consumo(id_consumo: int, db: Session = Depends(get_db)):

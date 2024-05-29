@@ -5,14 +5,12 @@ from src.schemas import status_animal_schema as schemas
 # CRUD BANCO DE DADOS
 
 
-def get_status_animal(db: Session, status_animal_id: int):
-    return db.query(models.StatusAnimal).filter(models.StatusAnimal.id == status_animal_id).first()
+def get_status_animal(db: Session, id_animal: int):
+    return db.query(models.StatusAnimal).filter(models.StatusAnimal.id_animal == id_animal).first()
 
 
 def get_status_animals(db: Session, skip: int = 0, limit: int = 10):
-
     return db.query(models.StatusAnimal).offset(skip).limit(limit).all()
-
 
 def create_status_animal(db: Session, status_animal: schemas.StatusAnimalBase):
 
@@ -46,7 +44,7 @@ def update_status_animal(db: Session, status_animal_id: int, status_animal_updat
 def delete_status_animal(db: Session, status_animal_id: int):
     db_status_animal = get_status_animal(db, status_animal_id)
     if not db_status_animal:
-        return None
+        return {"message": "StatusAnimal not found"}
     db.delete(db_status_animal)
     db.commit()
-    return db_status_animal
+    return {"message": "StatusAnimal deleted successfully"}
