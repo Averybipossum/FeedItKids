@@ -7,12 +7,38 @@ import BGimage from "../../assets/BGmedico.png";
 import { styles } from './styles';
 
 import { FontAwesome6 } from '@expo/vector-icons';
+import axios from "axios";
 
 const Home = () => {
     const [nometext, setNomeText] = useState('');
     const [senhatext, setSenhaText] = useState('');
     const [htmlContent, setHtmlContent] = useState<string | null>(null);
     const [showWebView, setShowWebView] = useState(false); // Estado para controlar a visibilidade do WebView
+
+    const handleLogin = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('username', nometext);
+            formData.append('password', senhatext);
+
+            const response = await axios.post('http://localhost:8000/auth/token', formData, {
+                headers:{
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            }
+        );
+
+            // Se a chamada for bem-sucedida, você pode lidar com a resposta aqui
+            console.log('Token de acesso:', response.data.acess_token);
+
+            // Redirecionar para a próxima tela após o login bem-sucedido
+            // Por exemplo, router.replace("/dashboard");
+        } catch (error) {
+            // Se houver um erro na chamada, exibir mensagem de erro
+            console.error('Erro ao fazer login:', error);
+            Alert.alert('Erro', 'Não foi possível fazer login. Verifique suas credenciais e tente novamente.');
+        }
+    };
 
     const abrirPagina = async () => {
         try {

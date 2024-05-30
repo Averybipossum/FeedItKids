@@ -28,9 +28,8 @@ const Home = () =>{
 
             // Se a chamada for bem-sucedida, você pode lidar com a resposta aqui
             console.log('Token de acesso:', response.data.acess_token);
+            router.replace("/bichinho");
 
-            // Redirecionar para a próxima tela após o login bem-sucedido
-            // Por exemplo, router.replace("/dashboard");
         } catch (error) {
             // Se houver um erro na chamada, exibir mensagem de erro
             console.error('Erro ao fazer login:', error);
