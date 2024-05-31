@@ -1,9 +1,7 @@
 from sqlalchemy.orm import Session
 from psycopg2 import DataError, IntegrityError, OperationalError
 from src.models import Usuario_model as models
-from src.models import Animal_model
 from src.schemas import usuario_schema as schemas
-from src.schemas import animal_schema
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
@@ -23,6 +21,9 @@ ALGORITHM = 'HS256'
 def get_usuario(db: Session, id_usuario: int):
     return db.query(models.Usuario).filter(models.Usuario.id_usuario == id_usuario).first()
 
+def get_usuario_por_email(db: Session, email: str):
+    return db.query(models.Usuario).filter(models.Usuario.email == email).first()
+
 def get_usuarios(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.Usuario).offset(skip).limit(limit).all()
 
@@ -31,7 +32,6 @@ def create_usuario(db: Session, usuario: schemas.UsuarioCreate):
         db_usuario = models.Usuario(
             email=usuario.email,
             hashed_password=bcrypt_context.hash(usuario.senha),
-            id_animal=usuario.id_animal,
             pontuacao_total=usuario.pontuacao_total
         )
         db.add(db_usuario)
@@ -76,31 +76,3 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='could not validate user')
 
 
-# função cadastro usuário + criar animal
-
-def create_user_and_animal(db: Session, user: schemas.UsuarioCreate, animal: animal_schema.AnimalBase):
-    try:
-        # Crie o animal
-        db_animal = Animal_model.Animal()
-        db.add(db_animal)
-        db.commit()
-        db.refresh(db_animal)
-        
-        # Use o ID do animal recém-criado para criar o usuário com a referência correta para o animal
-        db_user = models.Usuario(
-            email=user.email,
-            hashed_password=bcrypt_context.hash(user.senha),
-            id_animal=db_animal.id_animal,  # Use o ID do animal recém-criado
-            pontuacao_total=user.pontuacao_total
-        )
-        db.add(db_user)
-        db.commit()
-        db.refresh(db_user)
-        
-        return db_user
-    except IntegrityError as e:
-        db.rollback()
-        raise Exception(f"Error creating user and animal: {str(e)}") from e
-    except OperationalError as e:
-        db.rollback()
-        raise Exception(f"Database error: {str(e)}") from e

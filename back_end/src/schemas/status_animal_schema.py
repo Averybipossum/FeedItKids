@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 class StatusAnimalBase(BaseModel):
-    id_animal: int
+    id_usuario: int
     alimentacao_saudavel:float
     energia :float
     forca:float

@@ -4,7 +4,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from src.database.database import Base
 from src.models.Usuario_model import Usuario
-from src.models.Animal_model import Animal, StatusAnimal, ConsumoAnimal
+from src.models.Animal_model import  StatusAnimal, ConsumoAnimal
 from src.models.Objetivo_model import Objetivos, ObjetivoCompleto
 from src.models.status_alimento_model import StatusAlimento
 

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr
 
 class ConsumoAnimalBase(BaseModel):
-    id_usuario: int  
+    id_usuario: int 
     id_status_alimento: int
     alimento: str
 

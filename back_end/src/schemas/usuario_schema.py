@@ -13,7 +13,6 @@ class Token(BaseModel):
 
 class UsuarioBase(BaseModel):
     email: str
-    id_animal: int
     pontuacao_total: int
 
 class UsuarioCreate(UsuarioBase):

@@ -16,9 +16,9 @@ def create_status_animal(status_animal: schemas.StatusAnimalBase, db: Session = 
         raise HTTPException(status_code=400, detail=str(e))
     
 
-@router.get("/status_animal/{id_animal}", response_model=schemas.StatusAnimal)
-def get_status_by_id_animal(id_animal: int, db: Session = Depends(get_db)):
-    db_status_animal = crud.get_status_animal(db, id_animal=id_animal)
+@router.get("/status_animal/{id_usuario}", response_model=schemas.StatusAnimal)
+def get_status_by_id_animal(id_usuario: int, db: Session = Depends(get_db)):
+    db_status_animal = crud.get_status_animal(db, id_usuario=id_usuario)
     if db_status_animal is None:
         raise HTTPException(status_code=404, detail="StatusAnimal not found")
     return db_status_animal
@@ -27,23 +27,3 @@ def get_status_by_id_animal(id_animal: int, db: Session = Depends(get_db)):
 def read_status_animal(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     status_animal = crud.get_status_animals(db, skip=skip, limit=limit)
     return status_animal
-
-# @router.put("/status_animal/{id}", response_model=schemas.StatusAnimal)
-# def update_status_animal(id: int, status_animal: schemas.StatusAnimalUpdate, db: Session = Depends(get_db)):
-#     return crud.update_status_animal(db=db, id=id, status_animal=status_animal)
-
-# @router.delete("/status_animal/{id}", response_model=schemas.StatusAnimal)
-# def delete_status_animal(id: int, db: Session = Depends(get_db)):
-#     deleted_status_animal = crud.delete_status_animal(db=db, status_animal_id=id)
-#     if deleted_status_animal:
-#         return deleted_status_animal
-#     else:
-#         return schemas.StatusAnimal(id_animal=id)
-
-@app.post("/transferir_valores/")
-def transferir_valores(grupo_alimento: str, db: Session = Depends(get_db)):
-    try:
-        animal_atualizado = crud.transferir_e_somar_valores(db, grupo_alimento)
-        return animal_atualizado
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
