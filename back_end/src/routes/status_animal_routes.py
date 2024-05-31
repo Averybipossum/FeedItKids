@@ -39,3 +39,11 @@ def read_status_animal(skip: int = 0, limit: int = 10, db: Session = Depends(get
 #         return deleted_status_animal
 #     else:
 #         return schemas.StatusAnimal(id_animal=id)
+
+@app.post("/transferir_valores/")
+def transferir_valores(grupo_alimento: str, db: Session = Depends(get_db)):
+    try:
+        animal_atualizado = crud.transferir_e_somar_valores(db, grupo_alimento)
+        return animal_atualizado
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

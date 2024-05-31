@@ -6,11 +6,10 @@ class StatusAlimento(Base):
     __tablename__ = "alimento_status"
 
     id_status_alimento = Column(Integer, primary_key=True, autoincrement=True)
-    grupo_alimento = Column(String(32), index = True)
+    grupo_alimento = Column(String(255), index = True)
     alimentacao_saudavel = Column(Float)
     energia = Column(Float, default=0)
     forca = Column(Float, default=0)
-    resistencia = Column(Float, default=0)
     felicidade = Column(Float, default=0)
 
     consumos_animais = relationship("ConsumoAnimal")

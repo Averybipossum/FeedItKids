@@ -26,7 +26,6 @@ def create_status_alimento(db: Session, status_alimento: schemas.StatusBase):
         alimentacao_saudavel=status_alimento.alimentacao_saudavel,
         energia=status_alimento.energia,
         forca=status_alimento.forca,
-        resistencia=status_alimento.resistencia,
         felicidade=status_alimento.felicidade
     )
     db.add(db_status_alimento)

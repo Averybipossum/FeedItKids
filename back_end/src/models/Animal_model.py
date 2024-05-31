@@ -16,7 +16,9 @@ class ConsumoAnimal(Timestamp, Base):
     id_consumo = Column(Integer, primary_key=True, autoincrement=True)
     id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"))
     id_status_alimento = Column(Integer, ForeignKey("alimento_status.id_status_alimento"))
-    alimento = Column(String(64))
+    alimento = Column(String(255))
+    qtd = Column(Float)
+
 
     usuario = relationship("Usuario", back_populates="consumos_animais")
     status_alimento = relationship("StatusAlimento", back_populates="consumos_animais")
@@ -29,7 +31,6 @@ class StatusAnimal(Timestamp, Base):
     alimentacao_saudavel = Column(Float, nullable=False)
     energia = Column(Float, nullable=False)
     forca = Column(Float, nullable=False)
-    resistencia = Column(Float, nullable=False)
     felicidade = Column(Float, nullable=False)
 
     animal = relationship("Animal", back_populates="status_animais")
