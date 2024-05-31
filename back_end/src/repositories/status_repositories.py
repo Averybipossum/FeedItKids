@@ -4,13 +4,10 @@ from src.schemas import status_schema as schemas
 
 # CRUD BANCO DE DADOS
 
+def get_status_by_grupo_alimento(db: Session, grupo_alimento: str):
+    return db.query(models.StatusAlimento).filter(models.StatusAlimento.grupo_alimento == grupo_alimento).first()
 
-def get_status_by_grupo_alimento(db:Session, grupo_alimento: str):
-    return db.query(models.StatusAlimento).filter_by(grupo_alimento = grupo_alimento)
-
-
-
-def get_status(db: Session, id_status_alimento: str):
+def get_status(db: Session, id_status_alimento: int):
 
     return db.query(models.StatusAlimento).filter(models.StatusAlimento.id_status_alimento == id_status_alimento).first()
 

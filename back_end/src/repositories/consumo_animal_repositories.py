@@ -45,3 +45,14 @@ def delete_consumo_animal(db: Session, id_consumo: int):
     db.delete(db_consumo_animal)
     db.commit()
     return db_consumo_animal
+
+def create_consumo_by_id_status(db: Session, consumo_animal: schemas.ConsumoRequest, id_status:int):
+    db_consumo_animal = models.ConsumoAnimal(
+        id_usuario=consumo_animal.id_usuario,
+        id_status_alimento=id_status,
+        alimento = consumo_animal.alimento
+    )
+    db.add(db_consumo_animal)
+    db.commit()
+    db.refresh(db_consumo_animal)
+    return db_consumo_animal

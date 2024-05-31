@@ -27,3 +27,12 @@ def get_status_by_id_animal(id_usuario: int, db: Session = Depends(get_db)):
 def read_status_animal(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     status_animal = crud.get_status_animals(db, skip=skip, limit=limit)
     return status_animal
+
+
+@router.post("/transferir_e_somar_valores/", response_model=schemas.StatusAnimal)
+async def transferir_e_somar_valores(grupo_alimento: str, id_usuario: int, db: Session = Depends(get_db)):
+    try:
+        animal = crud.transferir_e_somar_valores(db=db, grupo_alimento=grupo_alimento, id_usuario=id_usuario)
+        return animal
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

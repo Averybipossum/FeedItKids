@@ -1,7 +1,7 @@
 from typing import Annotated, List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-
+from src.models import status_alimento_model as models
 from src.repositories import status_repositories as crud
 from src.schemas import status_schema as schemas
 from src.database.database import get_db
@@ -22,14 +22,19 @@ def get_status(id_status: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Status not found")
     return status
 
-@router.post("/status/", response_model=schemas.StatusResponse)
-async def create_status_alimento(status_alimento: schemas.StatusBase, db: Session = Depends(get_db)):
-    try:
-        db_status_alimento = crud.create_status_alimento(db=db, status_alimento=status_alimento)
-        return db_status_alimento
-    except Exception as e:
-        print(f"Error: {e}")
-        raise HTTPException(status_code=400, detail=str(e))
+@router.get("/status/{grupo_alimento}", response_model=int)
+def get_status_by_group(grupo_alimento: str, db: Session = Depends(get_db)):
+    id_status = crud.get_status_by_grupo_alimento(db, grupo_alimento)
+    if id_status is None:
+        raise HTTPException(status_code=404, detail="Status not found")
+    return id_status
+
+@router.get("/status/{grupo_alimento}", response_model=schemas.StatusResponse)
+def get_status_by_group(grupo_alimento: str, db: Session = Depends(get_db)):
+    status_alimento = crud.get_status_by_grupo_alimento(db, grupo_alimento)
+    if status_alimento is None:
+        raise HTTPException(status_code=404, detail="Status not found")
+    return status_alimento
 
 
 @router.put("/status/{id_status}", response_model=schemas.StatusResponse)

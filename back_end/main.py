@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import IA
 from src.database.database import engine, Base
 from src.models.status_alimento_model import StatusAlimento
 from src.models.Animal_model import ConsumoAnimal, StatusAnimal
@@ -30,6 +31,7 @@ app.include_router(objetivo_completo_routes.router, prefix="/objetivoCompleto", 
 app.include_router(consumo_animal_routes.router, prefix="/consumo", tags=["consumo"])
 app.include_router(status_animal_routes.router, prefix="/status_animal", tags=["status_animal"])
 app.include_router(status_routes.router, prefix="/status", tags=["status"])
+app.include_router(IA.router , prefix='/process_image', tags=["process_image"])
 
 
 # Define database initialization and table creation as a separate function
@@ -43,3 +45,4 @@ initialize_database()
 @app.get("/")
 async def root():
     return {"message": "teste"}
+
