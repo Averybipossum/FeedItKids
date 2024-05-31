@@ -117,12 +117,19 @@ function Bichinho() {
   const [imagemURI, setImagemURI] = useState();
   //método
   const tirarFoto = async() => {
-    const foto = await ImagePicker.launchCameraAsync();
+    const foto = await ImagePicker.launchCameraAsync({
+      base64: true,
+      quality: 1, // Qualidade da imagem de 0 a 1
+    });
+    
+    if (!foto.canceled) {
       //segundo um pessoal do github, esse é um problema do VScode
       //https://github.com/expo/expo/issues/6407
-    setImagemURI(foto.base64);
+      setImagemURI(foto.base64);
+    }
   }
 
+  //CODIGO OBJETIVOS?
   const [activeObjectives, setActiveObjectives] = useState<Objective[]>([]);
 
   useEffect(() => {
@@ -298,15 +305,20 @@ function Bichinho() {
       <View>
         <Modal animationType='fade'
         visible={infoVisivel}
-        transparent={true}>
+        transparent={true} onRequestClose={fecharInfo}>
             <View style={styles.containerInfo}>
-                  <Text style={({color: 'white', textAlign: 'center', padding: 20})}>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-                  </Text>
-                  <Text style={({color: 'white',})} onPress={fecharInfo}>
-                  Fechar
-                  </Text>
+              <Text style={({color: 'white', textAlign: 'center', padding: 20})}>
+                  Como jogar?{"\n"}{"\n"}
+                  Alimente seu bichinho com a câmera. Clique no botão azul ao lado das barrinhas abaixo para abrir a câmera, escaneie uma comida que você tenha em casa e alimente o mascote de acordo com o valor nutricional da comida!{"\n"}{"\n"}
+                  Ganhe pontos fazendo missões toda semana. Clique no botão acima na esquerda para acessar a barra lateral e confira as missões, complete-as clicando no quadrado ao lado para checar e ganhar pontos!{"\n"}{"\n"}
+                  Desbloqueie novos bichinhos. Os bichinhos são desbloqueados ao atingir um número de pontos, clique no ícone bloqueado para ganhar o novo mascote e, caso não tenha pontos suficientes, conclua mais missões.
+              </Text>
+              <Pressable 
+                        onPress={fecharInfo}
+                        style={({pressed}) => [
+                            pressed ? {backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'}, styles.botaoInfo]}>
+                        <Text style = {({color:'white'})}>Fechar</Text>
+                    </Pressable>
             </View>
         </Modal>
       </View>

@@ -19,12 +19,11 @@ const Home = () =>{
             formData.append('username', nometext);
             formData.append('password', senhatext);
 
-            const response = await axios.post('http://localhost:8000/auth/token', formData, {
+            const response = await axios.post('http://127.0.0.1:8000/auth/token', formData, {
                 headers:{
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }
-            }
-        );
+            });
 
             // Se a chamada for bem-sucedida, você pode lidar com a resposta aqui
             console.log('Token de acesso:', response.data.acess_token);
@@ -84,6 +83,10 @@ const Home = () =>{
 
                     <Text style={styles.texto} onPress={()=>router.replace("/cadastro")}>
                         Fazer Cadastro
+                    </Text>
+                    {/* Botão provisório para acessar o bichinho pelo celular*/}
+                    <Text style={styles.texto} onPress={()=>router.replace("/bichinho")}>
+                        Bichinho
                     </Text>
                 
                 </View>

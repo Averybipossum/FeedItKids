@@ -184,5 +184,9 @@ export const styles = StyleSheet.create({
       paddingBottom: 4,
       paddingTop: 10,
     },
+    botaoInfo:{
+      borderRadius:20,
+      padding:10,
+    },
   }
 );

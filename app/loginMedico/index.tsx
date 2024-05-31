@@ -21,35 +21,31 @@ const Home = () => {
             formData.append('username', nometext);
             formData.append('password', senhatext);
 
-            const response = await axios.post('http://localhost:8000/auth/token', formData, {
+            const response = await axios.post('http://127.0.0.1:8000/auth/token', formData, {
                 headers:{
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }
-            }
-        );
+            });
 
+        
             // Se a chamada for bem-sucedida, você pode lidar com a resposta aqui
             console.log('Token de acesso:', response.data.acess_token);
 
-            // Redirecionar para a próxima tela após o login bem-sucedido
-            // Por exemplo, router.replace("/dashboard");
+            try {
+                const htmlFile = Asset.fromModule(require('../../assets/index.html')); //Função do Expo para carregar um arquivo local como um asset gerenciável.
+                await htmlFile.downloadAsync(); // Método do objeto Asset que baixa o arquivo para o diretório local do dispositivo.
+                const htmlString = await FileSystem.readAsStringAsync(htmlFile.localUri!);
+                setHtmlContent(htmlString);
+                setShowWebView(true); // Mostrar o WebView quando o conteúdo for carregado
+            } catch (error) {
+                console.error('Falhou ao carregar o arquivo HTML', error);
+                Alert.alert('Error', 'Falhou ao carregar o arquivo HTML');
+            }
+            
         } catch (error) {
             // Se houver um erro na chamada, exibir mensagem de erro
             console.error('Erro ao fazer login:', error);
             Alert.alert('Erro', 'Não foi possível fazer login. Verifique suas credenciais e tente novamente.');
-        }
-    };
-
-    const abrirPagina = async () => {
-        try {
-            const htmlFile = Asset.fromModule(require('../../assets/index.html')); //Função do Expo para carregar um arquivo local como um asset gerenciável.
-            await htmlFile.downloadAsync(); // Método do objeto Asset que baixa o arquivo para o diretório local do dispositivo.
-            const htmlString = await FileSystem.readAsStringAsync(htmlFile.localUri!);
-            setHtmlContent(htmlString);
-            setShowWebView(true); // Mostrar o WebView quando o conteúdo for carregado
-        } catch (error) {
-            console.error('Falhou ao carregar o arquivo HTML', error);
-            Alert.alert('Error', 'Falhou ao carregar o arquivo HTML');
         }
     };
 
@@ -90,7 +86,7 @@ const Home = () => {
                             defaultValue={senhatext}
                         />
                         <Pressable
-                            onPress={abrirPagina}
+                            onPress={handleLogin}
                             style={({ pressed }) => [
                                 { backgroundColor: pressed ? '#0F118C' : '#2A2CDF' },
                                 styles.button

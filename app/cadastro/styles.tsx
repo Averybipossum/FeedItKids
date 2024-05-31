@@ -60,4 +60,9 @@ export const styles = StyleSheet.create({
         resizeMode: "cover",
         justifyContent: 'center',
     },
+    errorText: {
+        color: 'red',
+        marginTop: 5,
+        textAlign: 'center'
+    },
 })
