@@ -11,6 +11,13 @@ class Token(BaseModel):
     class Config:
         orm = True
 
+class TokenData(BaseModel):
+    email: Optional[str] = None
+    id_usuario: Optional[int] = None
+
+    class Config:
+        orm: True
+
 class UsuarioBase(BaseModel):
     email: str
     pontuacao_total: int

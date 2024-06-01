@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from src.repositories import status_animal_repositories as crud
@@ -29,10 +29,10 @@ def read_status_animal(skip: int = 0, limit: int = 10, db: Session = Depends(get
     return status_animal
 
 
-@router.post("/transferir_e_somar_valores/", response_model=schemas.StatusAnimal)
-async def transferir_e_somar_valores(grupo_alimento: str, id_usuario: int, db: Session = Depends(get_db)):
-    try:
-        animal = crud.transferir_e_somar_valores(db=db, grupo_alimento=grupo_alimento, id_usuario=id_usuario)
-        return animal
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+@router.get("/iniciar_agendamento")
+async def iniciar_agendamento(background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    # Agendar a função de atualização
+    crud.agendar_atualizacao(db)
+    # Adicionar a função de execução de tarefas agendadas ao plano de fundo
+    background_tasks.add_task(crud.executar_tarefas_agendadas, db)
+    return {"message": "Agendamento iniciado com sucesso!"}

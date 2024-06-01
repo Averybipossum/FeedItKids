@@ -7,11 +7,13 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import axios from 'axios';
 
 import BGimage from "../../assets/BGlogin.png"
+import { saveTokenToStorage, saveUserDataToStorage } from "./auth_user_data";
 
 const Home = () =>{
     //constantes
     const [nometext, setNomeText] = useState('');
     const [senhatext, setSenhaText] = useState('');
+    const [userData, setUserData] = useState(null);
 
     const handleLogin = async () => {
         try {
@@ -27,6 +29,12 @@ const Home = () =>{
 
             // Se a chamada for bem-sucedida, você pode lidar com a resposta aqui
             console.log('Token de acesso:', response.data.acess_token);
+            const token = response.data.acess_token
+
+            await saveTokenToStorage(token);
+
+            fetchUserData(token);
+
             router.replace("/bichinho");
 
         } catch (error) {
@@ -36,6 +44,23 @@ const Home = () =>{
         }
     };
 
+
+    const fetchUserData = async (token:string) => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/auth/me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setUserData(response.data);
+            console.log('Dados do usuário:', response.data);
+            const user_data = response.data
+
+            await saveUserDataToStorage(user_data)
+        } catch (error) {
+            console.error('Erro ao buscar dados do usuário:', error);
+        }
+    };
 
     //página
     return(
