@@ -6,6 +6,7 @@ from src.models.Animal_model import ConsumoAnimal, StatusAnimal
 from src.models.Usuario_model import Usuario
 from src.models.Objetivo_model import Objetivos, ObjetivoCompleto
 from src.routes import usuario_routes, objetivos_routes, objetivo_completo_routes,consumo_animal_routes,status_animal_routes,status_routes,auth_routes
+import fila_objetivos
 from fastapi.middleware.cors import CORSMiddleware
 
 import schedule
@@ -36,7 +37,7 @@ app.include_router(consumo_animal_routes.router, prefix="/consumo", tags=["consu
 app.include_router(status_animal_routes.router, prefix="/status_animal", tags=["status_animal"])
 app.include_router(status_routes.router, prefix="/status", tags=["status"])
 app.include_router(IA.router , prefix='/process_image', tags=["process_image"])
-
+app.include_router(fila_objetivos.router, prefix='/fila_objetivos', tags=["fila_objetivos"])
 
 # Define database initialization and table creation as a separate function
 def initialize_database():

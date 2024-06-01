@@ -38,3 +38,11 @@ def delete_objetivos(db: Session, id_objetivo: int):
         return {"message":"Objetivo deleted successfully"}
     else:
         raise HTTPException(status_code=404, detail="Objetivo  not found")
+    
+def update_objetivo_status(db: Session, id_objetivo: int, status: bool):
+    db_objetivo = db.query(models.Objetivos).filter(models.Objetivos.id_objetivo == id_objetivo).first()
+    if db_objetivo:
+        db_objetivo.status = status
+        db.commit()
+        db.refresh(db_objetivo)
+    return db_objetivo
