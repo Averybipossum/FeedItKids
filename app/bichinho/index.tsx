@@ -9,6 +9,7 @@ import Checkbox from 'expo-checkbox';
 import { objectives, Objective } from './objectives';
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
+import { getUserIdFromStorage } from '../login/auth_user_data'
 
 //assets
 import Empty from "../../assets/Empty.png"
@@ -112,51 +113,110 @@ function Bichinho() {
     loadBaseImage();
   }, []);
 
-  //CÓDIGO CAMERA
-  //constantes
-  const [imagemURI, setImagemURI] = useState();
-  //método
-  const tirarFoto = async() => {
-    const foto = await ImagePicker.launchCameraAsync({
-      quality: 1, // Qualidade da imagem de 0 a 1
-    });
+  // //CÓDIGO CAMERA
+  // //constantes
+  // const [imagemURI, setImagemURI] = useState();
+  // //método
+  // const tirarFoto = async() => {
+  //   const foto = await ImagePicker.launchCameraAsync({
+  //     quality: 1, // Qualidade da imagem de 0 a 1
+  //   });
     
-    if (!foto.canceled) {
-      //segundo um pessoal do github, esse é um problema do VScode
-      //https://github.com/expo/expo/issues/6407
-      setImagemURI(foto.uri);
-      await enviarImagem(foto.uri);
-    }
+  //   if (!foto.canceled) {
+  //     //segundo um pessoal do github, esse é um problema do VScode
+  //     //https://github.com/expo/expo/issues/6407
+  //     setImagemURI(foto.uri);
+  //     await enviarImagem(foto.uri);
+  //   }
+  // }
+
+  // //método Axios
+  //  const enviarImagem = async(uri: any) => {
+  //   try {
+  //     const formData = new FormData();
+  //     if (Platform.OS === 'web') {
+  //       const response = await fetch(uri);
+  //       const blob = await response.blob();
+  //       formData.append('image', blob, 'photo.jpg');
+
+  //     } else {
+  //       const response = await fetch(uri);
+  //       const blob = await response.blob();
+  //       formData.append('image', blob, 'photo.jpg');
+  //     }
+
+  //     const response = await axios.post('http://127.0.0.1:8000/process_image/process_image', formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data'
+  //       }
+  //     });
+
+  //     console.log('Imagem enviada com sucesso:', response.data);
+  //     Alert.alert('Sucesso', 'Imagem enviada com sucesso!');
+  //   } catch (error) {
+  //     console.error('Erro ao enviar a imagem:', error);
+  //     Alert.alert('Erro', 'Não foi possível enviar a imagem.');
+  //   }
+  // };
+
+  // constantes
+// Tipos para ImagePicker e Axios
+interface ImageInfo {
+  uri: string;
+}
+const [imagemURI, setImagemURI] = useState<string | null>(null);
+
+// Método para tirar foto
+const tirarFoto = async () => {
+  const result = await ImagePicker.launchCameraAsync({
+    quality: 1, // Qualidade da imagem de 0 a 1
+  });
+
+  if (!result.canceled) {
+    const { uri } = result.assets[0];  // Acessa a URI da primeira imagem capturada
+    setImagemURI(uri);
+    await enviarImagem(uri);
   }
+};
 
-  //método Axios
-   const enviarImagem = async(uri: any) => {
-    try {
-      const formData = new FormData();
-      if (Platform.OS === 'web') {
-        const response = await fetch(uri);
-        const blob = await response.blob();
-        formData.append('image', blob, 'photo.jpg');
+// Método para enviar imagem com Axios
+const enviarImagem = async (uri: string) => {
+  try {
+    const formData = new FormData();
+    const userId = await getUserIdFromStorage(); 
 
-      } else {
-        const response = await fetch(uri);
-        const blob = await response.blob();
-        formData.append('image', blob, 'photo.jpg');
-      }
+    if (Platform.OS === 'web') {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      formData.append('image', blob, 'photo.jpg');
+    } else {
+      const nomeArquivo = uri.split('/').pop() || 'photo.jpg';
+      const tipoArquivo = nomeArquivo.split('.').pop() || 'jpg';
 
-      const response = await axios.post('http://127.0.0.1:8000/process_image/process_image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      console.log('Imagem enviada com sucesso:', response.data);
-      Alert.alert('Sucesso', 'Imagem enviada com sucesso!');
-    } catch (error) {
-      console.error('Erro ao enviar a imagem:', error);
-      Alert.alert('Erro', 'Não foi possível enviar a imagem.');
+      formData.append('image', {
+        uri: uri,
+        name: nomeArquivo,
+        type: `image/${tipoArquivo}`,
+      } as any); // Aqui o `as any` é necessário por causa da tipagem de FormData.append no React Native
     }
-  };
+
+    const response = await axios.post(`http://127.0.0.1:8000/process_image/process_image/`, formData, {
+      params: {
+        id_usuario: userId
+      },
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    console.log('Imagem enviada com sucesso:', response.data);
+    Alert.alert('Sucesso', 'Imagem enviada com sucesso!');
+  } catch (error) {
+    console.error('Erro ao enviar a imagem:', error);
+    Alert.alert('Erro', 'Não foi possível enviar a imagem.');
+  }
+};
+
 
   //CODIGO OBJETIVOS
   const [activeObjectives, setActiveObjectives] = useState<Objective[]>([]);
