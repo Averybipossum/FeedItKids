@@ -69,14 +69,13 @@ function Bichinho() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetchStatusAnimal(); // Atualiza o status do animal
-      fetchPontuacao(); // Atualiza a pontuação do usuário
-    }, 60000); // Atualiza a cada 1 minuto (60000 milissegundos)
+      fetchStatusAnimal();
+      fetchPontuacao();
+    }, 30000); // Atualiza a cada 30 segundos (30000 milissegundos)
   
     // Limpa o intervalo quando o componente é desmontado
     return () => clearInterval(interval);
   }, []);
-
 
   //CÓDIGO SIDEBAR
   const [sidebarAnimation] = useState(new Animated.Value(-300));
