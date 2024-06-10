@@ -29,6 +29,6 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     token = repository.create_acess_token(user.email, user.id_usuario, timedelta(minutes=20))
     return {"acess_token": token, "token_type": "bearer"}
 
-@router.get("/me", response_model=schemas.UsuarioResponse)
-async def read_users_me(current_user: Annotated[schemas.UsuarioResponse, Depends(repository.get_current_user)]):
+@router.get("/me", response_model=schemas.TokenData)
+async def read_users_me(current_user: schemas.TokenData = Depends(repository.get_current_user)):
     return current_user

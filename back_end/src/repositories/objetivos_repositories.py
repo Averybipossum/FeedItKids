@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from psycopg2 import OperationalError
 from sqlalchemy.orm import Session
 from src.models import Objetivo_model as models
 from src.schemas import objetivos_schema as schemas
@@ -38,3 +39,26 @@ def delete_objetivos(db: Session, id_objetivo: int):
         return {"message":"Objetivo deleted successfully"}
     else:
         raise HTTPException(status_code=404, detail="Objetivo  not found")
+    
+# Funções baseadas no objetivo
+
+def get_objetivos_status_false(db:Session):
+    try:
+        return db.query(models.Objetivos).filter(models.Objetivos.status == False).all()
+    except OperationalError as e:
+        raise Exception(f"Database error: {str(e)}") from e   
+    
+def update_objetivo_status(db: Session, id_objetivo: int, status: bool):
+    try:
+        objetivo = db.query(models.Objetivos).filter(models.Objetivos.id_objetivo == id_objetivo).one_or_none()
+        if objetivo:
+            objetivo.status = status
+            db.commit()
+            db.refresh(objetivo)
+            return objetivo
+        else:
+            raise HTTPException(status_code=404, detail="Objetivo não encontrado!")
+    except OperationalError as e:
+        raise Exception(f"Database error: {str(e)}") from e
+    
+

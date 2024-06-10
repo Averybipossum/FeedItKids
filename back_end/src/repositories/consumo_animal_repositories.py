@@ -1,3 +1,5 @@
+import pandas as pd
+from sqlalchemy import extract
 from sqlalchemy.orm import Session
 from src.models import Animal_model as models
 from src.schemas import consumo_animal_schema as schemas
@@ -56,3 +58,25 @@ def create_consumo_by_id_status(db: Session, consumo_animal: schemas.ConsumoRequ
     db.commit()
     db.refresh(db_consumo_animal)
     return db_consumo_animal
+
+# Gráfico médico
+
+def get_consumo_animal_dataframe(db: Session, ano: int, mes: int):
+    # Filtrar os registros da tabela consumo_animal pelo ano e mês
+    consumos = db.query(models.ConsumoAnimal).filter(
+        extract('year', models.ConsumoAnimal.created_at) == ano,
+        extract('month', models.ConsumoAnimal.created_at) == mes
+    ).all()
+
+    # Criar uma lista de dicionários com os atributos desejados
+    dados = [{
+        "alimento": consumo.alimento,
+        "qtd": consumo.qtd,
+        "created_at": consumo.created_at,
+        "updated_at": consumo.updated_at
+    } for consumo in consumos]
+
+    # Criar o DataFrame a partir da lista de dicionários
+    df = pd.DataFrame(dados)
+
+    return df

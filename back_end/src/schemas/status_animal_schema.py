@@ -7,7 +7,6 @@ class StatusAnimalBase(BaseModel):
     alimentacao_saudavel:float
     energia :float
     forca:float
-    resistencia :float
     felicidade :float
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
@@ -16,7 +15,6 @@ class StatusAnimalUpdate(StatusAnimalBase):
     alimentacao_saudavel:Optional[float]
     energia :Optional[float]
     forca:Optional[float]
-    resistencia :Optional[float]
     felicidade :Optional[float]
     
 

@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { styles } from './styles';
 import * as ImagePicker from 'expo-image-picker';
-import {View, Text,Image, ImageBackground, Modal, Pressable, Animated, FlatList,} from 'react-native';
+import {View, Text,Image, ImageBackground, Modal, Pressable, Animated, FlatList, Alert, Platform,} from 'react-native';
 import * as Progress from 'react-native-progress';
 import { useState,useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Checkbox from 'expo-checkbox';
 import { objectives, Objective } from './objectives';
-import {router} from "expo-router";
+import * as FileSystem from 'expo-file-system';
+import axios from 'axios';
 
 //assets
 import Empty from "../../assets/Empty.png"
@@ -20,7 +21,6 @@ import slimeIcon from "../../assets/SlimeLogo.png"
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-
 
 function Bichinho() {
   //variáveis
@@ -118,18 +118,47 @@ function Bichinho() {
   //método
   const tirarFoto = async() => {
     const foto = await ImagePicker.launchCameraAsync({
-      base64: true,
       quality: 1, // Qualidade da imagem de 0 a 1
     });
     
     if (!foto.canceled) {
       //segundo um pessoal do github, esse é um problema do VScode
       //https://github.com/expo/expo/issues/6407
-      setImagemURI(foto.base64);
+      setImagemURI(foto.uri);
+      await enviarImagem(foto.uri);
     }
   }
 
-  //CODIGO OBJETIVOS?
+  //método Axios
+   const enviarImagem = async(uri: any) => {
+    try {
+      const formData = new FormData();
+      if (Platform.OS === 'web') {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        formData.append('image', blob, 'photo.jpg');
+
+      } else {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        formData.append('image', blob, 'photo.jpg');
+      }
+
+      const response = await axios.post('http://127.0.0.1:8000/process_image/process_image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      console.log('Imagem enviada com sucesso:', response.data);
+      Alert.alert('Sucesso', 'Imagem enviada com sucesso!');
+    } catch (error) {
+      console.error('Erro ao enviar a imagem:', error);
+      Alert.alert('Erro', 'Não foi possível enviar a imagem.');
+    }
+  };
+
+  //CODIGO OBJETIVOS
   const [activeObjectives, setActiveObjectives] = useState<Objective[]>([]);
 
   useEffect(() => {
@@ -175,6 +204,7 @@ function Bichinho() {
                 <AntDesign name="caretleft" size={24} color="white" />
               </Pressable>
             </View>
+            {/* Onjetivos */}
             <View style={styles.objectivesContainer}>
               <Text style={styles.objectivesHeader}>Meus Objetivos</Text>
               <FlatList

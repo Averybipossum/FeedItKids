@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
+
 class ObjetivosBase(BaseModel):
     id_objetivo: Optional[int] = None
     descricao: str

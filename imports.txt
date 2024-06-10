@@ -7,6 +7,7 @@ npx expo install expo-font @expo-google-fonts/pacifico
 npx expo install expo-image-picker
 npm i react-native-progress
 npx expo install react-native-web
+npx expo install expo-file-system
 
 
 //instalações para cameraAntiga

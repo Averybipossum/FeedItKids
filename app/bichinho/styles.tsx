@@ -50,15 +50,16 @@ export const styles = StyleSheet.create({
     },
     objectiveText: {
       marginLeft: 10,
-      fontSize:25,
+      fontSize:20,
     },
     objectivesContainer: {
       marginTop: 2,
       flex:5,
-      justifyContent:'center',
-      alignItems:'center',
+      justifyContent:'flex-start',
+      alignItems:'flex-start',
     },
     objectivesHeader:{
+      marginBottom:20,
       fontSize:30,
     },
     containerBottom: {

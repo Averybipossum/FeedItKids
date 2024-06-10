@@ -42,6 +42,21 @@ def create_usuario(db: Session, usuario: schemas.UsuarioCreate):
         raise Exception(f"Error creating user: {str(e)}") from e
     except OperationalError as e:
         raise Exception(f"Database error: {str(e)}") from e
+    
+def update_usuario_pontuacao(db: Session, id_usuario: int, pontuacao: int):
+    try:
+        usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == id_usuario).one_or_none()
+        if usuario:
+            usuario.pontuacao_total += pontuacao
+            db.commit()
+            db.refresh(usuario)
+            return usuario
+        else:
+            raise HTTPException(status_code=404, detail="Usuário não encontrado!")
+    except OperationalError as e:
+        raise Exception(f"Database error: {str(e)}") from e
+
+    
 def delete_usuario(db: Session, id_usuario: int):
     db_usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == id_usuario).first()
     if db_usuario:
@@ -64,7 +79,7 @@ def create_acess_token(email: str, id_usuario: int, expires_delta: timedelta):
     encode.update({'exp': expires})
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
+async def get_current_user(token: str = Depends(oauth2_bearer)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get('sub')
