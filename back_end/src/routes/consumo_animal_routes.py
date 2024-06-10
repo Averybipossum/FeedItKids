@@ -1,3 +1,4 @@
+from io import StringIO
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from psycopg2 import IntegrityError, OperationalError
@@ -38,11 +39,20 @@ def delete_consumo(id_consumo: int, db: Session = Depends(get_db)):
     return crud.delete_consumo_animal(db=db, id_consumo=id_consumo)
 
 
-# @router.post("/consumo/{id_alimento}", response_model=schemas.ConsumoRequest)
-# def create_consumo_by_alimento(consumo: schemas.ConsumoAnimalBase, db: Session = Depends(get_db)):
-#     try:
-#         db_alimento = def get_status_by_grupo_alimento(db:Session, grupo_alimento: str):
-#             return db.query(models.StatusAlimento).filter_by(grupo_alimento = grupo_alimento)
-#         return crud.create_consumo_by_id_status(db=db, consumo_animal=consumo, id_status=)
-#     except ValueError as e:
-#         raise HTTPException(status_code=400, detail=str(e))
+@router.get("/consumo_animal/")
+async def get_consumo_animal(ano: int, mes: int, db: Session = Depends(get_db)):
+    try:
+        # Obter o DataFrame filtrado pelo ano e mês
+        df = crud.get_consumo_animal_dataframe(db, ano, mes)
+
+        if df.empty:
+            raise HTTPException(status_code=404, detail="Nenhum dado encontrado para o ano e mês especificados.")
+
+        # Converter o DataFrame para CSV para enviar como resposta
+        csv_buffer = StringIO()
+        df.to_csv(csv_buffer, index=False)
+        csv_str = csv_buffer.getvalue()
+
+        return csv_str
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

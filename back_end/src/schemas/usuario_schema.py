@@ -19,14 +19,16 @@ class TokenData(BaseModel):
         orm: True
 
 class UsuarioBase(BaseModel):
-    email: str
-    pontuacao_total: int
+    email: Optional[str] = None
+    pontuacao_total: Optional[int] = None
+
 
 class UsuarioCreate(UsuarioBase):
     senha: str
 
 class UsuarioResponse(UsuarioBase):
     id_usuario: int
+
 
 
     class Config:
