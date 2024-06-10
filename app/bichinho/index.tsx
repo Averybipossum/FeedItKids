@@ -24,12 +24,59 @@ import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 function Bichinho() {
-  //variáveis
-  let pontos = 2000;
-  let varAlimentacao = 0.5;
-  let varEnergia = 0.6;
-  let varFelicidade = 1;
-  let varResistencia = 0.9;
+
+  const [status, setStatus] = useState({
+    varAlimentacao: 0,
+    varEnergia: 0,
+    varFelicidade: 0,
+    varForca: 0,
+  });
+
+  const [pontos, setPontos] = useState(0);
+
+
+  const fetchStatusAnimal = async () => {
+    try {
+
+      const userId = await getUserIdFromStorage(); // Obtém o ID do usuário
+      const response = await axios.get(`http://127.0.0.1:8000/status_animal/status_animal/${userId}`);
+
+      const status = response.data;
+      // Atualizar o estado com os valores recebidos do back-end
+      setStatus({
+        varAlimentacao: status.alimentacao_saudavel,
+        varEnergia: status.energia,
+        varFelicidade: status.felicidade,
+        varForca: status.forca,
+      });
+    } catch (error) {
+      console.error('Erro ao buscar status animal:', error);
+    }
+  };
+
+  const fetchPontuacao = async () => {
+    try {
+      const userId = await getUserIdFromStorage(); // Obtém o ID do usuário
+      const response = await axios.get(`http://127.0.0.1:8000/usuarios/usuarios/${userId}`);
+      const usuario = response.data;
+
+      // Atualizar o estado com a pontuação recebida do back-end
+      setPontos(usuario.pontuacao_total);
+    } catch (error) {
+      console.error('Erro ao buscar pontuação do usuário:', error);
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchStatusAnimal(); // Atualiza o status do animal
+      fetchPontuacao(); // Atualiza a pontuação do usuário
+    }, 60000); // Atualiza a cada 1 minuto (60000 milissegundos)
+  
+    // Limpa o intervalo quando o componente é desmontado
+    return () => clearInterval(interval);
+  }, []);
+
 
   //CÓDIGO SIDEBAR
   const [sidebarAnimation] = useState(new Animated.Value(-300));
@@ -114,51 +161,6 @@ function Bichinho() {
   }, []);
 
   // //CÓDIGO CAMERA
-  // //constantes
-  // const [imagemURI, setImagemURI] = useState();
-  // //método
-  // const tirarFoto = async() => {
-  //   const foto = await ImagePicker.launchCameraAsync({
-  //     quality: 1, // Qualidade da imagem de 0 a 1
-  //   });
-    
-  //   if (!foto.canceled) {
-  //     //segundo um pessoal do github, esse é um problema do VScode
-  //     //https://github.com/expo/expo/issues/6407
-  //     setImagemURI(foto.uri);
-  //     await enviarImagem(foto.uri);
-  //   }
-  // }
-
-  // //método Axios
-  //  const enviarImagem = async(uri: any) => {
-  //   try {
-  //     const formData = new FormData();
-  //     if (Platform.OS === 'web') {
-  //       const response = await fetch(uri);
-  //       const blob = await response.blob();
-  //       formData.append('image', blob, 'photo.jpg');
-
-  //     } else {
-  //       const response = await fetch(uri);
-  //       const blob = await response.blob();
-  //       formData.append('image', blob, 'photo.jpg');
-  //     }
-
-  //     const response = await axios.post('http://127.0.0.1:8000/process_image/process_image', formData, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data'
-  //       }
-  //     });
-
-  //     console.log('Imagem enviada com sucesso:', response.data);
-  //     Alert.alert('Sucesso', 'Imagem enviada com sucesso!');
-  //   } catch (error) {
-  //     console.error('Erro ao enviar a imagem:', error);
-  //     Alert.alert('Erro', 'Não foi possível enviar a imagem.');
-  //   }
-  // };
-
   // constantes
 // Tipos para ImagePicker e Axios
 interface ImageInfo {
@@ -317,13 +319,13 @@ const enviarImagem = async (uri: string) => {
               {/* BARRA DE STATUS */}
               <View style={styles.conteudoBottomStatus}>
                 <Text style={styles.textBarra}> Alimentação Saudável</Text>
-                  <Progress.Bar progress={varAlimentacao} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
+                  <Progress.Bar progress={status.varAlimentacao} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
                 <Text style={styles.textBarra}> Energia</Text>
-                  <Progress.Bar progress={varEnergia} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
+                  <Progress.Bar progress={status.varEnergia} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
                 <Text style={styles.textBarra}> Felicidade</Text>
-                  <Progress.Bar progress={varFelicidade} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
+                  <Progress.Bar progress={status.varFelicidade} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
                 <Text style={styles.textBarra}> Resistência</Text>
-                  <Progress.Bar progress={varResistencia} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
+                  <Progress.Bar progress={status.varForca} color='green' width={250} unfilledColor='red' borderColor='#053C5E' height={15}/>
               </View>
               {/* CÂMERA */}
               <View style={styles.conteudoBottomCamera}>
