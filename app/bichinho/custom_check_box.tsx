@@ -30,8 +30,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     alignItems: 'center',
-    justifyContent: 'center',
-  },
+    justifyContent: 'center' },
 });
 
 export default CustomCheckbox;

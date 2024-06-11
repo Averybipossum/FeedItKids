@@ -119,8 +119,10 @@ def update_status_animal_attributes(db: Session):
     # Iterar sobre cada registro e atualizar os valores
     for status_animal in status_animais:
         # Atualizar os valores de acordo com a lógica desejada
-        status_animal.alimentacao_saudavel = formatar_valor(round(min(status_animal.alimentacao_saudavel + (0.1 if status_animal.alimentacao_saudavel < 0 else -0.1), 10), 2))
+        status_animal.alimentacao_saudavel = formatar_valor(round(min(status_animal.alimentacao_saudavel + (0.1 if status_animal.alimentacao_saudavel < 0 else -0.1), 10.0), 2))
+
         status_animal.energia = formatar_valor(round(min(status_animal.energia + (0.1 if status_animal.energia < 0 else -0.1), 10.0), 2))
+
         status_animal.forca = formatar_valor(round(min(status_animal.forca + (0.1 if status_animal.forca < 0 else -0.1), 10.0), 2))
         status_animal.felicidade = formatar_valor(round(min(status_animal.felicidade + (0.1 if status_animal.felicidade < 0 else -0.1), 10.0), 2))
 

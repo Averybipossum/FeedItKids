@@ -49,7 +49,11 @@ export const styles = StyleSheet.create({
     },
     objectiveText: {
       marginLeft: 10,
-      fontSize:20,
+      marginTop: 20,
+      fontSize: 24,
+      fontWeight: 'bold',
+      textTransform: 'capitalize', 
+      lineHeight: 30,
     },
     objectivesContainer: {
       marginTop: 2,
