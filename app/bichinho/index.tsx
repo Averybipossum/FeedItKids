@@ -282,8 +282,8 @@ const renderObjective = ({ item }: { item: Objective }) => (
     <CustomCheckbox
       value={checkedObjectives.includes(item.id_objetivo)}
       onValueChange={() => completeObjective(item.id_objetivo)}
-      color={checkedObjectives.includes(item.id_objetivo) ? 'green' : undefined}
-      style={{ width: 30, height: 30 }} // Ajuste o estilo conforme necessário
+      color={checkedObjectives.includes(item.id_objetivo) ? '#055f0e' : undefined}
+      style={{ }} // Ajuste o estilo conforme necessário
     />
     <Text style={styles.objectiveText}>{item.descricao}</Text>
   </View>

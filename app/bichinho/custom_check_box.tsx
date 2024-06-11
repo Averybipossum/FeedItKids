@@ -1,25 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { View, Animated, Pressable } from 'react-native';
-import Checkbox from 'expo-checkbox';
+import React, { useState } from 'react';
+import { View, Pressable, StyleSheet } from 'react-native';
+import { AntDesign } from '@expo/vector-icons'; // Importe os ícones do AntDesign
 
 interface CustomCheckboxProps {
   value: boolean;
   onValueChange: () => void;
   color?: string;
-  style?: any; // Você pode especificar um tipo mais específico para estilo, como ViewStyle, se desejar
+  style?: any;
 }
 
 const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ value, onValueChange, color, style }) => {
   const [checked, setChecked] = useState(value);
-  const animation = new Animated.Value(checked ? 1 : 0);
-
-  useEffect(() => {
-    Animated.timing(animation, {
-      toValue: checked ? 1 : 0,
-      duration: 100, // Duration of the animation
-      useNativeDriver: true,
-    }).start();
-  }, [checked]);
 
   const toggleCheckbox = () => {
     setChecked(!checked);
@@ -27,16 +18,20 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ value, onValueChange, c
   };
 
   return (
-    <Pressable onPress={toggleCheckbox}>
-      <Animated.View style={[style, { opacity: animation }]}>
-        <Checkbox
-          value={checked}
-          color={color}
-          style={{ width: 30, height: 30 }}
-        />
-      </Animated.View>
+    <Pressable onPress={toggleCheckbox} style={[styles.checkbox, style]}>
+      <AntDesign name={checked ? 'checkcircle' : 'checkcircleo'} size={40} color={color || '#07ce1b'} />
     </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  checkbox: {
+    borderRadius: 100, // Define a borda do checkbox como circular
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default CustomCheckbox;

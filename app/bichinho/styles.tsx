@@ -190,11 +190,11 @@ export const styles = StyleSheet.create({
     },
 
   'box-check': {
-    width: 24,
-    height: 24,
-    borderRadius: 5,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     backgroundColor: '#FFF',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#333',
     alignItems: 'center',
     justifyContent: 'center',
