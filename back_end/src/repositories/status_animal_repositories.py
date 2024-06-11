@@ -119,10 +119,10 @@ def update_status_animal_attributes(db: Session):
     # Iterar sobre cada registro e atualizar os valores
     for status_animal in status_animais:
         # Atualizar os valores de acordo com a lógica desejada
-        status_animal.alimentacao_saudavel = formatar_valor(round(max(status_animal.alimentacao_saudavel + (5 if status_animal.alimentacao_saudavel < 0 else -5), 10), 2))
-        status_animal.energia = formatar_valor(round(min(status_animal.energia + (0.5 if status_animal.energia < 0 else -0.5), 10.0), 2))
-        status_animal.forca = formatar_valor(round(min(status_animal.forca + (0.5 if status_animal.forca < 0 else -0.5), 10.0), 2))
-        status_animal.felicidade = formatar_valor(round(min(status_animal.felicidade + (0.5 if status_animal.felicidade < 0 else -0.5), 10.0), 2))
+        status_animal.alimentacao_saudavel = formatar_valor(round(min(status_animal.alimentacao_saudavel + (0.1 if status_animal.alimentacao_saudavel < 0 else -0.1), 10), 2))
+        status_animal.energia = formatar_valor(round(min(status_animal.energia + (0.1 if status_animal.energia < 0 else -0.1), 10.0), 2))
+        status_animal.forca = formatar_valor(round(min(status_animal.forca + (0.1 if status_animal.forca < 0 else -0.1), 10.0), 2))
+        status_animal.felicidade = formatar_valor(round(min(status_animal.felicidade + (0.1 if status_animal.felicidade < 0 else -0.1), 10.0), 2))
 
     print("tarefa agendada atualização status")
     # Confirmar as alterações no banco de dados
@@ -136,7 +136,7 @@ def update_status_animal_attributes(db: Session):
 # Agendar a função de atualização
 def agendar_atualizacao(db: Session = Depends(get_db)):
     # Agendar a função para ser executada a cada 1 minuto
-    schedule.every(1).hour.do(update_status_animal_attributes, db)
+    schedule.every(1).minutes.do(update_status_animal_attributes, db)
 
 # Função de background para executar as tarefas agendadas
 def executar_tarefas_agendadas(db:Session = Depends(get_db)):

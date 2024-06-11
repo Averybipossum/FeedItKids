@@ -6,9 +6,9 @@ import * as Progress from 'react-native-progress';
 import { useState,useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Checkbox from 'expo-checkbox';
-import { objectives, Objective } from './objectives';
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
+import CustomCheckbox from './custom_check_box';
 import { getUserIdFromStorage } from '../login/auth_user_data'
 
 //assets
@@ -23,6 +23,14 @@ import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
+
+export type Objective = {
+  id_objetivo: number;
+  descricao: string;
+  pontuacao: number;
+  status: boolean;
+};
+
 function Bichinho() {
 
   const [status, setStatus] = useState({
@@ -33,6 +41,9 @@ function Bichinho() {
   });
 
   const [pontos, setPontos] = useState(0);
+
+  const [activeObjectives, setActiveObjectives] = useState<Objective[]>([]);
+  const [checkedObjectives, setCheckedObjectives] = useState<number[]>([]); 
 
 
   const fetchStatusAnimal = async () => {
@@ -219,37 +230,65 @@ const enviarImagem = async (uri: string) => {
 };
 
 
-  //CODIGO OBJETIVOS
-  const [activeObjectives, setActiveObjectives] = useState<Objective[]>([]);
+const fetchObjectives = async () => {
+  try {
+    const limit = 5; // Defina o limite desejado aqui
+    const response = await axios.get(`http://127.0.0.1:8000/fila_objetivos/objetivos_limit/?limit=${limit}`);
+    setActiveObjectives(response.data);
+  } catch (error) {
+    console.error('Erro ao buscar objetivos:', error);
+  }
+};
 
-  useEffect(() => {
-    // Carrega os três primeiros objetivos ao iniciar
-    setActiveObjectives(objectives.slice(0, 3));
-  }, []);
+const removeObjective = async () => {
+  try {
+    const userId = await getUserIdFromStorage();
+    await axios.delete('http://127.0.0.1:8000/fila_objetivos/objetivos/', {
+      params: {
+        id_usuario: userId
+      }
+    });
+    fetchObjectives();
+  } catch (error) {
+    console.error('Erro ao remover objetivo:', error);
+  }
+};
 
-  const completeObjective = (id: number) => {
-    const newObjectives = activeObjectives.filter(obj => obj.id !== id);
-    const nextObjective = objectives.find(obj => 
-      !newObjectives.includes(obj) && 
-      !activeObjectives.includes(obj)
-    );
-    
-    if (nextObjective) {
-      newObjectives.push(nextObjective);
-    }
+const completeObjective = async (id: number) => {
+  try {
+    await removeObjective();
+    setCheckedObjectives([...checkedObjectives, id]); // Adiciona o ID do objetivo marcado ao array
+  } catch (error) {
+    console.error('Erro ao completar objetivo:', error);
+  }
+};
 
-    setActiveObjectives(newObjectives);
-  };
+useEffect(() => {
+  fetchStatusAnimal();
+  fetchPontuacao();
+  fetchObjectives();
 
-    const renderObjective = ({ item }: { item: Objective }) => (
-    <View style={styles.objectiveContainer}>
-      <Checkbox
-        value={false}
-        onValueChange={() => completeObjective(item.id)}
-      />
-      <Text style={styles.objectiveText}>{item.name}</Text>
-    </View>
-  );
+  const interval = setInterval(() => {
+    fetchStatusAnimal();
+    fetchPontuacao();
+    fetchObjectives();
+  }, 60000); // Atualiza a cada 1 minuto (60000 milissegundos)
+
+  return () => clearInterval(interval);
+}, []);
+
+const renderObjective = ({ item }: { item: Objective }) => (
+  <View style={styles.objectiveContainer}>
+    <CustomCheckbox
+      value={checkedObjectives.includes(item.id_objetivo)}
+      onValueChange={() => completeObjective(item.id_objetivo)}
+      color={checkedObjectives.includes(item.id_objetivo) ? 'green' : undefined}
+      style={{ width: 30, height: 30 }} // Ajuste o estilo conforme necessário
+    />
+    <Text style={styles.objectiveText}>{item.descricao}</Text>
+  </View>
+);
+
 
   //PÁGINA
   return (
@@ -271,7 +310,7 @@ const enviarImagem = async (uri: string) => {
               <FlatList
                 data={activeObjectives}
                 renderItem={renderObjective}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item.toString()}
               />
             </View>   
       </Animated.View>
@@ -419,3 +458,7 @@ const enviarImagem = async (uri: string) => {
 
 
   export default Bichinho;
+
+function onPress() {
+  throw new Error('Function not implemented.');
+}

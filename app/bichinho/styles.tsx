@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { objectives } from './objectives';
 
 export const styles = StyleSheet.create({
     container: {
@@ -189,5 +188,19 @@ export const styles = StyleSheet.create({
       borderRadius:20,
       padding:10,
     },
+
+  'box-check': {
+    width: 24,
+    height: 24,
+    borderRadius: 5,
+    backgroundColor: '#FFF',
+    borderWidth: 1,
+    borderColor: '#333',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  check: {
+    position: 'absolute',
+  },
   }
 );
