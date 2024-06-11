@@ -310,7 +310,7 @@ const renderObjective = ({ item }: { item: Objective }) => (
               <FlatList
                 data={activeObjectives}
                 renderItem={renderObjective}
-                keyExtractor={(item) => item.toString()}
+                keyExtractor={(item) => item.id_objetivo.toString()}
               />
             </View>   
       </Animated.View>
