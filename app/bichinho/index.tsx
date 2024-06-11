@@ -13,15 +13,15 @@ import { getUserIdFromStorage } from '../login/auth_user_data'
 
 //assets
 import Empty from "../../assets/Empty.png"
-import MagmaSlime from "../../assets/MagmaSlime.png";
+import MagmaSlime from "../../assets/MagmaSlime.png"
 import IceSlime from "../../assets/IceSlime.png"
 import ElectricSlime from "../../assets/EletricSlime.png"
 import PlantSlime from "../../assets/PlantSlime.png"
 import BGimage from "../../assets/BGbichinho.png"
 import slimeIcon from "../../assets/SlimeLogo.png"
-import { Entypo } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
 
 
 export type Objective = {
@@ -304,8 +304,9 @@ const renderObjective = ({ item }: { item: Objective }) => (
                 <AntDesign name="caretleft" size={24} color="white" />
               </Pressable>
             </View>
-            {/* Onjetivos */}
+            {/* Objetivos */}
             <View style={styles.objectivesContainer}>
+            <Text style={styles.objectivesHeader}>Pontos: {pontos}</Text>
               <Text style={styles.objectivesHeader}>Meus Objetivos</Text>
               <FlatList
                 data={activeObjectives}

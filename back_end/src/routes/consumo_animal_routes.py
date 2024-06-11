@@ -40,19 +40,15 @@ def delete_consumo(id_consumo: int, db: Session = Depends(get_db)):
 
 
 @router.get("/consumo_animal/")
-async def get_consumo_animal(ano: int, mes: int, db: Session = Depends(get_db)):
+async def get_consumo_animal(ano: int, db: Session = Depends(get_db)):
     try:
         # Obter o DataFrame filtrado pelo ano e mês
-        df = crud.get_consumo_animal_dataframe(db, ano, mes)
+        df = crud.get_consumo_animal_dataframe(db, ano)
 
         if df.empty:
-            raise HTTPException(status_code=404, detail="Nenhum dado encontrado para o ano e mês especificados.")
-
-        # Converter o DataFrame para CSV para enviar como resposta
-        csv_buffer = StringIO()
-        df.to_csv(csv_buffer, index=False)
-        csv_str = csv_buffer.getvalue()
-
-        return csv_str
+            raise HTTPException(status_code=404, detail="Nenhum dado encontrado para o ano especificado.")
+        
+        # antes estava apenas return df
+        return df.to_dict(orient='records')
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

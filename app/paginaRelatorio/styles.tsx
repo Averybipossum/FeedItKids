@@ -1,18 +1,22 @@
 import { StyleSheet } from 'react-native';
 
-
 export const styles = StyleSheet.create({
-    
+
     titulotexto:{
         fontFamily: "Pacifico_400Regular",
         fontSize: 35,
         color: '#053C5E',
-        marginBottom: 20
+        marginHorizontal:20,
+        marginVertical:20
     },
-
     texto:{
-        marginTop:50,
-        color: 'blue'
+        marginTop:10,
+        fontSize:13,
+        color: 'black',
+        textAlign: 'center',
+        marginBottom:10,
+        paddingLeft:50,
+        paddingRight:50,
     },
     containerconfig:{
         backgroundColor:"aliceblue",
@@ -60,5 +64,25 @@ export const styles = StyleSheet.create({
         height: '100%',
         resizeMode: "cover",
         justifyContent: 'center',
+    },
+    reportTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#053C5E',
+        marginTop: 20,
+        marginBottom: 10,
+    },
+    containerRelatorio:{
+        backgroundColor:"aliceblue",
+        alignSelf: 'center',
+        height: '90%',
+        width: '90%',
+        borderRadius:20,
+        alignItems: 'center',
+    },
+    chartImage: {
+        width: 300,
+        height: 300,
+        resizeMode: 'contain',
     },
   });

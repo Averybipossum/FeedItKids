@@ -61,11 +61,10 @@ def create_consumo_by_id_status(db: Session, consumo_animal: schemas.ConsumoRequ
 
 # Gráfico médico
 
-def get_consumo_animal_dataframe(db: Session, ano: int, mes: int):
+def get_consumo_animal_dataframe(db: Session, ano: int):
     # Filtrar os registros da tabela consumo_animal pelo ano e mês
     consumos = db.query(models.ConsumoAnimal).filter(
         extract('year', models.ConsumoAnimal.created_at) == ano,
-        extract('month', models.ConsumoAnimal.created_at) == mes
     ).all()
 
     # Criar uma lista de dicionários com os atributos desejados

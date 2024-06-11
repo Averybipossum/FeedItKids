@@ -108,12 +108,7 @@ const Home = () =>{
 
                     <Text style={styles.texto} onPress={()=>router.replace("/cadastro")}>
                         Fazer Cadastro
-                    </Text>
-                    {/* Botão provisório para acessar o bichinho pelo celular*/}
-                    <Text style={styles.texto} onPress={()=>router.replace("/bichinho")}>
-                        Bichinho
-                    </Text>
-                
+                    </Text>             
                 </View>
             </ImageBackground>
         </View>

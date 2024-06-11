@@ -69,22 +69,3 @@ export const getUserIdFromStorage = async (): Promise<number | null> => {
       throw error;
     }
   };
-
-//   import { getUserIdFromStorage } from './authStorage';
-
-// const getUserIdAndUseAsVariable = async () => {
-//     try {
-//       const userId = await getUserIdFromStorage();
-//       if (userId) {
-//         console.log('ID do usuário:', userId);
-
-//       } else {
-//         console.log('ID do usuário não encontrado.');
-//       }
-//     } catch (error) {
-//       console.error('Erro ao obter o ID do usuário:', error);
-//     }
-//   };
-  
-//   // Call the function to get the id_usuario and use it as a variable
-//   getUserIdAndUseAsVariable();
