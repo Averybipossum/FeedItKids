@@ -19,3 +19,6 @@ npx expo install expo-media-library
 //atualizar o expo (pra quem precisa)
 npm install expo@51
 npx expo install --fix
+
+//para testes
+npm install --save-dev jest @testing-library/react-native @testing-library/jest-native axios-mock-adapter
