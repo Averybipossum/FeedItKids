@@ -1,0 +1,12 @@
+{
+    "python.testing.pytestArgs": [
+        "back_end"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.analysis.extraPaths": [
+        "./back_end/src",
+        "./back_end",
+        "./back_end"
+    ]
+}

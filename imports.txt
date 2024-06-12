@@ -2,4 +2,18 @@ npm install expo
 npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar
 npx expo install expo-image
 npx expo install expo-font
+npx expo install @react-native-async-storage/async-storage
+npx expo install expo-font @expo-google-fonts/pacifico
+npx expo install expo-image-picker
+npm i react-native-progress
+npx expo install react-native-web
+
+
+//instalações para cameraAntiga
 npx expo install expo-camera
+npx expo install expo-sharing
+npx expo install expo-media-library
+
+//atualizar o expo (pra quem precisa)
+npm install expo@51
+npx expo install --fix

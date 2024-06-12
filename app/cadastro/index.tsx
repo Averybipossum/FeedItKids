@@ -1,44 +1,60 @@
-import { StyleSheet,Text,View,Pressable } from "react-native";
-import React from "react";
-import { router } from "expo-router";
+import { ImageBackground, Pressable,Text,View,TextInput} from "react-native";
+import { styles } from './styles';
+import React, { useState } from "react";
+import {router } from "expo-router";
 
-const Cadastro = () =>{
-    return(    
-        <Pressable
-            onPress={()=>router.replace("/home")}
-            style={({ pressed }) => [
-            pressed ? {backgroundColor:'black'} : {},
-            styles.button
-        ]}
-        >
-            <View>
-                <Text>
-                Pressable a simple opacity
+import BGimage from "../../assets/BGlogin.png"
+
+const Home = () =>{
+    //constantes
+    const [nometext, setNomeText] = useState('');
+    const [senhatext, setSenhaText] = useState('');
+
+    //página
+    return(
+        <View style={styles.container}>
+            <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
+                <View style={styles.containerconfig}>
+
+                <Text style={styles.titulotexto}>
+                    Cadastro
                 </Text>
-            </View>
-        </Pressable>
+                
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    onChangeText={newText => setNomeText(newText)}
+                    defaultValue={nometext}
+                />
+                
+                <TextInput
+                    secureTextEntry={true}
+                    style={styles.input}
+                    placeholder="Senha"
+                    onChangeText={newText => setSenhaText(newText)}
+                    defaultValue={senhatext}
+                />
+                
+                <TextInput
+                    secureTextEntry={true}
+                    style={styles.input}
+                    placeholder="Confirme a senha"
+                    onChangeText={newText => setSenhaText(newText)}
+                    defaultValue={senhatext}
+                />
+
+                <Pressable 
+                    onPress={()=>router.replace("/bichinho")}
+                    style={({pressed}) => [
+                        pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
+                        styles.button]}>
+                    <Text style={styles.buttontext}>Entrar</Text>
+                </Pressable>
+
+                </View>
+            </ImageBackground>
+        </View>
     )
 }
 
-export default Cadastro
-
-const styles = StyleSheet.create({
-    button:{
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop:10,
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: 'turquoise',
-        minWidth:300,
-    },
-    buttontext: {
-        fontSize: 16,
-        lineHeight: 21,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
-      },
-})
+export default Home

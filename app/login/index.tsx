@@ -1,48 +1,68 @@
-import * as React from 'react';
-import { Button,StyleSheet, View, Text, Pressable } from 'react-native';
-import { Link, router } from "expo-router";
-import { Camera, CameraType } from 'expo-camera';
+import { ImageBackground, Pressable, StyleSheet,Text,View,TextInput} from "react-native";
+import { styles } from './styles';
+import React, { useState } from "react";
+import {router } from "expo-router";
+import { FontAwesome6 } from '@expo/vector-icons';
 
-function LoginScreen() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Login Screen</Text>
-        <Button
-                title="ir para Home"
-                onPress={()=>router.replace("/home")}
-                color="#841584"
-        />
-        <Pressable 
-                onPress={()=>router.replace("/camera")}
-                style={({pressed}) => [
-                    pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
-                    styles.button
-                ]}
-            >
-                <Text style={styles.buttontext}>Câmera</Text>
-            </Pressable>
-      </View>
-    );
-  }
+import BGimage from "../../assets/BGlogin.png"
 
-  export default LoginScreen;
+const Home = () =>{
+    //constantes
+    const [nometext, setNomeText] = useState('');
+    const [senhatext, setSenhaText] = useState('');
 
-  const styles = StyleSheet.create({
-    button:{
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop:10,
-      paddingVertical: 8,
-      paddingHorizontal: 32,
-      borderRadius: 4,
-      elevation: 3,
-      minWidth:300,
-  },
-  buttontext: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'white',
-},
-  })
+    //página
+    return(
+        <View style={styles.container}>
+            <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
+                <View style={styles.wrapMedico}>
+                    <View style={styles.iconMedico}>
+                        <Pressable
+                        onPress={()=>router.replace("/loginMedico")}
+                        style={({pressed})=>[
+                            pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
+                            {marginLeft:10,marginRight:0},styles.pressableIcon]}>
+                            <FontAwesome6 name="user-doctor" size={24} color="#053C5E" />
+                        </Pressable>
+                    </View>
+                </View>
+                <View style={styles.containerconfig}>
+
+                    <Text style={styles.titulotexto}>
+                        Feed it!
+                    </Text>
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        onChangeText={newText => setNomeText(newText)}
+                        defaultValue={nometext}
+                    />
+
+                    <TextInput
+                        secureTextEntry={true}
+                        style={styles.input}
+                        placeholder="Senha"
+                        onChangeText={newText => setSenhaText(newText)}
+                        defaultValue={senhatext}
+                    />
+
+                    <Pressable 
+                        onPress={()=>router.replace("/bichinho")}
+                        style={({pressed}) => [
+                            pressed ? {backgroundColor:'#0F118C'}:{backgroundColor: '#2A2CDF',},
+                            styles.button]}>
+                        <Text style={styles.buttontext}>Entrar</Text>
+                    </Pressable>
+
+                    <Text style={styles.texto} onPress={()=>router.replace("/cadastro")}>
+                        Fazer Cadastro
+                    </Text>
+                
+                </View>
+            </ImageBackground>
+        </View>
+    )
+}
+
+export default Home
