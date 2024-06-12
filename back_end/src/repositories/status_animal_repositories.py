@@ -138,7 +138,7 @@ def update_status_animal_attributes(db: Session):
 # Agendar a função de atualização
 def agendar_atualizacao(db: Session = Depends(get_db)):
     # Agendar a função para ser executada a cada 1 minuto
-    schedule.every(1).minutes.do(update_status_animal_attributes, db)
+    schedule.every(30).minutes.do(update_status_animal_attributes, db)
 
 # Função de background para executar as tarefas agendadas
 def executar_tarefas_agendadas(db:Session = Depends(get_db)):
