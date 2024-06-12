@@ -1,67 +1,68 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Pressable, ImageBackground, Alert, Image, StyleSheet } from "react-native";
-import axios from "axios";
-import BGimage from "../../assets/BGmedico.png";
-import { FontAwesome6 } from '@expo/vector-icons';
-import { styles } from "./styles";
+import React, { useState, useEffect } from 'react';
+import { View, Image, Text, ScrollView } from 'react-native';
+import axios from 'axios';
 
-const Home = () => {
-    const [anoSelect, setAnoSelect] = useState('');
-    const [chartUri, setChartUri] = useState<string | null>(null);
+interface ConsumptionData {
+  consumo_plot: string;
+  media_plot: string;
+  moda_plot: string;
+}
 
-    const gerarRelatorio = async () => {
-        try {
-            const response = await axios.get(`http://127.0.0.1:5000/generate_chart?ano=${anoSelect}`, { responseType: 'blob' });
-            const reader = new FileReader();
-            reader.onload = () => {
-                setChartUri(reader.result as string);
-            };
-            reader.readAsDataURL(response.data);
-        } catch (error) {
-            console.error('Erro ao gerar relatório:', error);
-            Alert.alert('Erro', 'Não foi possível gerar o relatório. Verifique o ano e tente novamente.');
-        }
+const ConsumptionDataComponent: React.FC = () => {
+  const [data, setData] = useState<ConsumptionData | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/consumo/consumo_animal/?ano=2024');
+        setData(response.data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+        setError('An error occurred while fetching data.');
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    return (
-        <View style={styles.container}>
-            <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
-                {chartUri ? (
-                    <View style={styles.containerRelatorio}>
-                        <Text style={styles.titulotexto}>
-                            Relatório {anoSelect}
-                        </Text>
-                        <Image source={{ uri: chartUri }} style={styles.chartImage} />
-                    </View>
-                ) : (
-                    <View style={styles.containerconfig}>
-                        <FontAwesome6 name="user-doctor" size={90} color="#053C5E" />
-                        <Text style={styles.titulotexto}>Área do Médico</Text>
-                        <Text style={styles.texto}>
-                            Insira o ano (XXXX) no qual deseja acessar o relatório obtido.
-                        </Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Ano"
-                            onChangeText={newText => setAnoSelect(newText)}
-                            defaultValue={anoSelect}
-                            maxLength={4}
-                            keyboardType="numeric"
-                        />
-                        <Pressable
-                            onPress={gerarRelatorio}
-                            style={({ pressed }) => [
-                                { backgroundColor: pressed ? '#0F118C' : '#2A2CDF' },
-                                styles.button
-                            ]}
-                        >
-                            <Text style={styles.buttontext}>Gerar Relatório</Text>
-                        </Pressable>
-                    </View>
-                )}
-            </ImageBackground>
-        </View>
-    );
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return <Text>Loading consumption data...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error: {error}</Text>;
+  }
+
+  if (!data) {
+    return <Text>No data found for the specified year.</Text>;
+  }
+
+  return (
+    <ScrollView>
+      <View>
+        <Text>Consumo de Alimentos por Grupo</Text>
+        <Image
+          source={{ uri: `data:image/png;base64,${data.consumo_plot}` }}
+          style={{ width: '100%', height: 200 }}
+        />
+        <Text>Média de Consumo de Alimentos por Grupo</Text>
+        <Image
+          source={{ uri: `data:image/png;base64,${data.media_plot}` }}
+          style={{ width: '100%', height: 200 }}
+        />
+        <Text>Grupo de Alimento Mais Consumido por Mês</Text>
+        <Image
+          source={{ uri: `data:image/png;base64,${data.moda_plot}` }}
+          style={{ width: '100%', height: 200 }}
+        />
+      </View>
+    </ScrollView>
+  );
 };
 
-export default Home;
+export default ConsumptionDataComponent;
