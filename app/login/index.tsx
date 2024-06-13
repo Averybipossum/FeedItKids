@@ -48,7 +48,7 @@ const Home = () =>{
 
     const fetchUserData = async (token:string) => {
         try {
-            const response = await axios.get('http://3.135.200.39:8000/auth/me', {
+            const response = await axios.get('http://127.0.0.1:8000/auth/me', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -74,7 +74,7 @@ const Home = () =>{
                         style={({pressed})=>[
                             pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
                             {marginLeft:10,marginRight:0},styles.pressableIcon]}>
-                            <FontAwesome6 name="user-doctor" size={30} color="#053C5E" />
+                            <FontAwesome6 name="user-doctor" size={24} color="#053C5E" />
                         </Pressable>
                     </View>
                 </View>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Pressable, ImageBackground, Alert, Button } from "react-native";
 import BGimage from "../../assets/BGmedico.png"; 
 import { styles } from './styles';
-import { Entypo } from '@expo/vector-icons';
+
 import { FontAwesome6 } from '@expo/vector-icons';
 import axios from "axios";
 import { router } from "expo-router";
@@ -48,17 +48,6 @@ const Home = () => {
     return (
         <View style={styles.container}>
             <ImageBackground source={BGimage} resizeMode="cover" style={styles.imagem}>
-            <View style={styles.wrapMedico}>
-                    <View style={styles.iconMedico}>
-                        <Pressable
-                        onPress={()=>router.replace("/login")}
-                        style={({pressed})=>[
-                            pressed?{backgroundColor:'#053C5E'}:{backgroundColor:'#5AA9E6'},
-                            {marginLeft:10,marginRight:0},styles.pressableIcon]}>
-                            <Entypo name="home" size={30} color="#053C5E" />
-                        </Pressable>
-                    </View>
-                </View>
                     <View style={styles.containerconfig}>
                         <FontAwesome6 name="user-doctor" size={90} color="#053C5E" />
                         <Text style={styles.titulotexto}>Área do Médico</Text>

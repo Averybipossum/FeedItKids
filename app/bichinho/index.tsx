@@ -50,7 +50,7 @@ function Bichinho() {
     try {
 
       const userId = await getUserIdFromStorage(); // Obtém o ID do usuário
-      const response = await axios.get(`http://3.135.200.39:8000/status_animal/status_animal/${userId}`);
+      const response = await axios.get(`http://127.0.0.1:8000/status_animal/status_animal/${userId}`);
 
       const status = response.data;
       // Atualizar o estado com os valores recebidos do back-end
@@ -68,7 +68,7 @@ function Bichinho() {
   const fetchPontuacao = async () => {
     try {
       const userId = await getUserIdFromStorage(); // Obtém o ID do usuário
-      const response = await axios.get(`http://3.135.200.39:8000/usuarios/usuarios/${userId}`);
+      const response = await axios.get(`http://127.0.0.1:8000/usuarios/usuarios/${userId}`);
       const usuario = response.data;
 
       // Atualizar o estado com a pontuação recebida do back-end
@@ -82,7 +82,7 @@ function Bichinho() {
     const interval = setInterval(() => {
       fetchStatusAnimal();
       fetchPontuacao();
-    }, 1000); // Atualiza a cada 30 segundos (30000 milissegundos)
+    }, 30000); // Atualiza a cada 30 segundos (30000 milissegundos)
   
     // Limpa o intervalo quando o componente é desmontado
     return () => clearInterval(interval);
@@ -272,7 +272,7 @@ useEffect(() => {
     fetchStatusAnimal();
     fetchPontuacao();
     fetchObjectives();
-  }, 1000); // Atualiza a cada 1 minuto (60000 milissegundos)
+  }, 60000); // Atualiza a cada 1 minuto (60000 milissegundos)
 
   return () => clearInterval(interval);
 }, []);
