@@ -21,7 +21,7 @@ const Home = () =>{
             return;
         }
         try {
-            const response = await axios.post('http://127.0.0.1:8000/usuarios/usuarios/',{
+            const response = await axios.post('http://3.135.200.39:8000/usuarios/usuarios/',{
                 email: nometext,
                 senha: senhatext,
                 pontuacao_total: 0

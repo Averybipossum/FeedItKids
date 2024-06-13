@@ -17,7 +17,7 @@ const ConsumptionDataComponent: React.FC = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get('http://127.0.0.1:8000/consumo/consumo_animal/?ano=2024');
+        const response = await axios.get('http://3.135.200.39:8000/consumo/consumo_animal/?ano=2024');
         setData(response.data);
       } catch (error) {
         console.error("Failed to fetch data:", error);

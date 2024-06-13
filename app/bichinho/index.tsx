@@ -212,7 +212,7 @@ const enviarImagem = async (uri: string) => {
       } as any); // Aqui o `as any` é necessário por causa da tipagem de FormData.append no React Native
     }
 
-    const response = await axios.post(`http://127.0.0.1:8000/process_image/process_image/`, formData, {
+    const response = await axios.post(`http://3.135.200.39:8000/process_image/process_image/`, formData, {
       params: {
         id_usuario: userId
       },
@@ -233,7 +233,7 @@ const enviarImagem = async (uri: string) => {
 const fetchObjectives = async () => {
   try {
     const limit = 5; // Defina o limite desejado aqui
-    const response = await axios.get(`http://127.0.0.1:8000/fila_objetivos/objetivos_limit/?limit=${limit}`);
+    const response = await axios.get(`http://3.135.200.39:8000/fila_objetivos/objetivos_limit/?limit=${limit}`);
     setActiveObjectives(response.data);
   } catch (error) {
     console.error('Erro ao buscar objetivos:', error);
@@ -243,7 +243,7 @@ const fetchObjectives = async () => {
 const removeObjective = async () => {
   try {
     const userId = await getUserIdFromStorage();
-    await axios.delete('http://127.0.0.1:8000/fila_objetivos/objetivos/', {
+    await axios.delete('http://3.135.200.39:8000/fila_objetivos/objetivos/', {
       params: {
         id_usuario: userId
       }
