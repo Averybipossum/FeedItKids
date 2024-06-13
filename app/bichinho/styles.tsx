@@ -62,8 +62,28 @@ export const styles = StyleSheet.create({
       alignItems:'flex-start',
     },
     objectivesHeader:{
+      alignSelf:'center',
       marginBottom:20,
       fontSize:30,
+    },
+    pointsContainer:{
+      justifyContent:'center',
+      alignItems:'center',
+      backgroundColor:'#053C5E',
+      borderRadius:15,
+      marginBottom:10,
+    },
+    pointsHeader:{
+      margin:5,
+      fontSize:30,
+      color:'gold',
+    },
+    pointsIcon:{
+      alignSelf:'center',
+      justifyContent:'center',
+    },
+    pointsRow:{
+      flexDirection: 'row',
     },
     containerBottom: {
       flex: 1,
@@ -139,7 +159,7 @@ export const styles = StyleSheet.create({
     },
     imagemBichinho: {
       flex: 1,
-      width: '90%',
+      width: '110%',
       objectFit: 'contain',
     },
     imagem: {

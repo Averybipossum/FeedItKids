@@ -60,5 +60,25 @@ export const styles = StyleSheet.create({
         height: '100%',
         resizeMode: "cover",
         justifyContent: 'center',
+
     },
+    wrapMedico:{
+        flex:1,
+        alignContent:'flex-start',
+        justifyContent:'flex-start',
+        
+    },
+    iconMedico:{
+        marginTop:10,
+        minHeight:100,
+    },
+    pressableIcon:{
+        marginTop:20,
+        marginRight:10,
+        width:60,
+        height:60,
+        borderRadius:90,
+        alignItems:'center',
+        justifyContent:'center',
+      },
   });
